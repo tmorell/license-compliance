@@ -19,7 +19,7 @@
             "ts-node/register"
         ],
         "tap": false,
-        "timeout": "5000",
+        "timeout": "10000",
         "verbose": true
     },
     "nyc": {
@@ -41,7 +41,7 @@
         "coverage": "nyc report --reporter=html && xdg-open ./coverage/index.html",
         "coverage:ci": "nyc report --reporter=lcov",
         "debug:watch": "DEBUG=license-checker:* DEBUG_COLORS=true tsc-watch --onSuccess 'node lib/index.js'",
-        "nyc": "nyc time ava",
+        "nyc": "nyc ava",
         "test": "npm run build && npm run nyc",
         "test:watch": "ava --watch",
         "tslint": "tslint -t stylish -c tslint.json -p tsconfig.json --force"
@@ -65,17 +65,20 @@
         "chalk": "2.4.2",
         "commander": "3.0.2",
         "debug": "4.1.1",
-        "spdx-expression-parse": "^3.0.0",
-        "spdx-satisfies": "^5.0.0"
+        "spdx-expression-parse": "3.0.0",
+        "spdx-satisfies": "5.0.0"
     },
     "devDependencies": {
         "@types/debug": "4.1.5",
         "@types/node": "12.7.11",
-        "ava": "^2.4.0",
-        "nyc": "^14.1.1",
-        "ts-node": "^8.4.1",
+        "ava": "2.4.0",
+        "nyc": "14.1.1",
+        "ts-node": "8.4.1",
         "tsc-watch": "4.0.0",
         "tslint": "5.20.0",
         "typescript": "3.6.3"
+    },
+    "engines": {
+        "node": ">=8.12.0"
     }
 }

@@ -1,3 +1,10 @@
+![Travis (.com)](https://img.shields.io/travis/com/tmorell/license-compliance)
+![David](https://img.shields.io/david/tmorell/license-compliance)
+![Snyk Vulnerabilities for npm scoped package](https://img.shields.io/snyk/vulnerabilities/npm/license-compliance)
+![NPM](https://img.shields.io/npm/l/license-compliance)
+![npm](https://img.shields.io/npm/v/license-compliance)
+![node](https://img.shields.io/node/v/license-compliance)
+
 # License Compliance
 Analyzes installed packages allowing to verify compliance with allowed licenses.
 
