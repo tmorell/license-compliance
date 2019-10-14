@@ -6,10 +6,9 @@ import chalk from "chalk";
 import * as Debug from "debug";
 import * as path from "path";
 
-import { Report, LicenseStatus } from "./enumerations";
+import { LicenseStatus } from "./enumerations";
 import { NpmPackage, OldLicenseFormat, Package, License } from "./interfaces";
 import { args } from "./program";
-import { Factory as FactoryReport } from "./reports";
 import * as util from "./util";
 
 const debug = Debug("license-compliance:license");
@@ -19,50 +18,6 @@ const SEE_LICENSE_IN = "SEE LICENSE IN";
 
 export const UNKNOWN = "UNKNOWN";
 export const CUSTOM = "CUSTOM";
-
-/**
- * Verifies if all installed packages have allowed licenses.
- * It terminates process if not allowed licenses are installed.
- * Enforced if arg --allowed was provided.
- *
- * @export
- * @param {Array<Package>} packages
- * @returns {void}
- */
-export function onlyAllow(packages: Array<Package>): void {
-    if (!args.allow) {
-        return;
-    }
-
-    const invalid = areLicensesAllowed(packages, args.allow);
-    if (invalid.length === 0) {
-        return;
-    }
-
-    FactoryReport.getInstance(Report.invalid).process(invalid);
-    process.exit(1);
-}
-
-/**
- * Verifies if it is a valid SPDX license.
- *
- * @export
- * @param {string} license
- * @returns {boolean} true if valid; otherwise, false.
- */
-export function isLicenseValid(license: string): boolean {
-    if (license === UNKNOWN || license === CUSTOM) {
-        // Not really a valid license, but no need to run it by SPDX
-        return true;
-    }
-    try {
-        // tslint:disable-next-line: no-unsafe-any
-        parse(license);
-        return true;
-    } catch {
-        return false;
-    }
-}
 
 /**
  * Gets the package's license based on the information provided in package.json.
@@ -81,10 +36,47 @@ export async function getLicense(pack: NpmPackage, packPath: string): Promise<Li
     return license;
 }
 
-// TODO: Must not be exported once unit testing gets fixed.
-export function areLicensesAllowed(packages: Array<Package>, licenses: Array<string>): Array<Package> {
+/**
+ * Verifies if it is a valid SPDX license.
+ *
+ * @export
+ * @param {string} license
+ * @returns {boolean} true if valid; otherwise, false.
+ */
+export function isLicenseValid(license: string): boolean {
+    if (license === CUSTOM) {
+        // Not really a valid license, but no need to run it by SPDX
+        return true;
+    }
+    if (license === UNKNOWN) {
+        return false;
+    }
+
+    try {
+        // tslint:disable-next-line: no-unsafe-any
+        parse(license);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * Verifies if all installed packages have allowed licenses.
+ * It terminates process if not allowed licenses are installed.
+ * Enforced if arg --allowed was provided.
+ *
+ * @export
+ * @param {Array<Package>} packages
+ * @returns {void}
+ */
+export function onlyAllow(packages: Array<Package>): Array<Package> {
+    if (!args.allow) {
+        return [];
+    }
+
     const invalidPackages = new Array<Package>();
-    const spdxLicense = argsToSpdxLicense(licenses);
+    const spdxLicense = argsToSpdxLicense(args.allow);
     for (const pack of packages) {
         // tslint:disable-next-line: no-unsafe-any
         const matches = pack.license !== UNKNOWN && satisfies(spdxLicense, pack.license);
@@ -155,7 +147,7 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
 
 async function getCustomLicensePath(packPath: string, license: string): Promise<string | undefined> {
     const licPath = path.join(packPath, license.substring(SEE_LICENSE_IN.length).trim());
-    if (util.fileExists(licPath)) {
+    if (await util.fileExists(licPath)) {
         return licPath;
     }
     return undefined;

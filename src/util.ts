@@ -21,7 +21,13 @@ export async function readdir(path: string): Promise<Array<string>> {
  * @param {string} packagePath Path for the package.json file.
  * @returns {Promise<NpmPackage>} Promise with an instance of the package.json
  */
-export async function readPackageJson(packagePath: string): Promise<NpmPackage> {
+export async function readPackageJson(packagePath: string): Promise<NpmPackage | undefined> {
+    if (!await fileExists(packagePath)) {
+        return undefined;
+    }
     const data = await util.promisify(fs.readFile)(packagePath, "utf8");
-    return JSON.parse(data) as NpmPackage;
+    if (data) {
+        return JSON.parse(data) as NpmPackage;
+    }
+    return undefined;
 }

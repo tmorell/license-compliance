@@ -12,15 +12,16 @@ export class Summary implements Reporter {
 
     public process(packages: Array<Package>): void {
         for (const pack of packages) {
-            if (pack.license === undefined) {
-                console.log(pack.name);
-            }
             this.increase(pack.license);
         }
         this.licenses.sort((a, b) => {
             return b.count - a.count;
         });
         this.formatter.summary(this.licenses);
+    }
+
+    public get summary(): Array<{ name: string, count: number }> {
+        return this.licenses;
     }
 
     private increase(name: string): void {

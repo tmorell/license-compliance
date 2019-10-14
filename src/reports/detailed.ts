@@ -4,16 +4,22 @@ import { Package } from "../interfaces";
 
 export class Detailed implements Reporter {
 
+    private sorted!: Array<Package>;
+
     constructor(
         private readonly formatter: Formatter
     ) { }
 
     public process(packages: Array<Package>): void {
-        packages.sort((a, b) => {
+        this.sorted = packages;
+        this.sorted.sort((a, b) => {
             return a.name > b.name ? 1 : -1;
         });
 
         this.formatter.detail(packages);
     }
 
+    public get packages(): Array<Package> {
+        return this.sorted;
+    }
 }

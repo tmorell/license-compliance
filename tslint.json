@@ -27,6 +27,7 @@
         "no-console": false,
         "no-construct": true,
         "no-debugger": true,
+        "no-default-export": true,
         "no-duplicate-super": true,
         "no-empty": false,
         "no-empty-interface": true,

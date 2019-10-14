@@ -12,6 +12,19 @@
             "outFiles": [
                 "${workspaceFolder}/lib/**/*.js"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run AVA test",
+            "program": "${workspaceFolder}/node_modules/ava/profile.js",
+            "args": [
+                "${file}",
+                "--serial"
+            ],
+            "skipFiles": [
+                "<node_internals>/**/*.js"
+            ]
         }
     ]
 }

@@ -8,9 +8,11 @@ import { args } from "./program";
 import * as util from "./util";
 
 const debug = Debug("license-compliance:npm");
-const packages = new Array<Package>();
-const packageJson = "package.json";
-const rootNodeModulesPath = "node_modules";
+const PACKAGE_JSON = "package.json";
+const NODE_MODULES = "node_modules";
+
+let rootNodeModulesPath: string;
+let packages: Array<Package>;
 
 /**
  * Gets an array of all installed packages, regardless of license being valid.
@@ -18,15 +20,24 @@ const rootNodeModulesPath = "node_modules";
  * @export
  * @returns {Promise<Array<Package>>}
  */
-export async function getInstalledPackages(): Promise<Array<Package>> {
-    const pack = await util.readPackageJson(packageJson);
+export async function getInstalledPackages(rootPath = ""): Promise<Array<Package>> {
+    packages = new Array<Package>();
+
+    // Paths
+    rootNodeModulesPath = path.join(rootPath, NODE_MODULES);
+    const packPath = path.join(rootPath, PACKAGE_JSON);
+
+    const pack = await util.readPackageJson(packPath);
+    if (!pack) {
+        return new Array<Package>();
+    }
 
     if (pack.dependencies && !args.development) {
-        debug("Analyzing production dependencies");
+        debug("Analyzing production dependencies at", rootNodeModulesPath);
         await readPackages(pack.dependencies, 0, rootNodeModulesPath);
     }
     if (pack.devDependencies && !args.production) {
-        debug("Analyzing development dependencies");
+        debug("Analyzing development dependencies at", rootNodeModulesPath);
         await readPackages(pack.devDependencies, 0, rootNodeModulesPath);
     }
 
@@ -89,7 +100,11 @@ async function readPackages(dependencies: Array<[string, string]>, depth: number
             console.error(chalk.red(`Package "${dependency}" was not found. Confirm that all modules are installed.`));
             continue;
         }
-        const file = await util.readPackageJson(path.join(packagePath, packageJson));
+        const file = await util.readPackageJson(path.join(packagePath, PACKAGE_JSON));
+        if (!file) {
+            console.error(chalk.red(`Package "${dependency}" is empty and cannot be analyzed.`));
+            continue;
+        }
         const pack: Package = {
             name: dependency,
             path: packagePath,
@@ -103,7 +118,7 @@ async function readPackages(dependencies: Array<[string, string]>, depth: number
         packages.push(pack);
 
         if (file.dependencies) {
-            await readPackages(file.dependencies, ++depth, path.join(packagePath, rootNodeModulesPath));
+            await readPackages(file.dependencies, ++depth, path.join(packagePath, NODE_MODULES));
         }
     }
 }

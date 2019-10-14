@@ -20,7 +20,6 @@ install:
 - npm install
 script:
 - npm run tslint
-- npm run build
 - npm run test
 - npm run coverage:ci
 - sonar-scanner

@@ -3,7 +3,7 @@ import { Formatter, Report, LicenseStatus } from "./enumerations";
 export interface Arguments {
     allow: Array<string>;
     development: boolean;
-    direct: number;
+    direct: boolean;
     exclude: Array<string | RegExp>;
     format: Formatter;
     production: boolean;

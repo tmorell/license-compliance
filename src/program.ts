@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import * as program from "commander";
+import * as commander from "commander";
 import * as Debug from "debug";
 
 import { Arguments } from "./interfaces";
@@ -10,10 +10,14 @@ const formats = ["text", "json"];
 const reports = ["summary", "detailed"];
 
 let args: Arguments;
+let argsAreValid: boolean;
+let program: commander.Command;
 
 export { args };
 
-export function processArgs(): void {
+export function processArgs(): boolean {
+    argsAreValid = true;
+    program = new commander.Command();
     program
         .name("license-compliance")
         .description("Analyzes licenses of installed NPM packages, assisting with compliance.")
@@ -26,14 +30,20 @@ export function processArgs(): void {
         .option("-e, --exclude <packages>", "Semicolon separated list of packages to be excluded from analysis. Supports Regex.", verifyExclude)
         .parse(process.argv);
 
+    // Process production by default if not specified
+    verifyProductionDevelopment();
+
+    if (!argsAreValid) {
+        return false;
+    }
+
     formatClassNameCasing();
 
     // tslint:disable-next-line: no-any
-    args = (program as any);
+    args = program.opts() as any;
     debug("Program options %o", program.opts());
 
-    // Process production by default if not specified
-    verifyProductionDevelopment();
+    return true;
 }
 
 function formatClassNameCasing(): void {
@@ -46,10 +56,9 @@ function formatClassNameCasing(): void {
 }
 
 function help(errorMessage: string): void {
-    console.error(chalk.red("Error:"), errorMessage);
-    console.log();
+    console.log(chalk.red("Error:"), errorMessage);
     console.log(program.help());
-    process.exit(1);
+    argsAreValid = false;
 }
 
 function verifyAllow(value: string, previous: string): Array<string> {
@@ -87,7 +96,7 @@ function verifyFormat(value: string, previous: string): string {
 }
 
 function verifyProductionDevelopment(): void {
-    if (args.production && args.development) {
+    if (program.production && program.development) {
         help("Options \"--production\" and \"--development\" cannot be used together");
     }
 }
