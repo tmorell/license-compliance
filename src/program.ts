@@ -2,12 +2,11 @@ import chalk from "chalk";
 import * as commander from "commander";
 import * as Debug from "debug";
 
+import { Formatter, Report } from "./enumerations";
 import { Arguments } from "./interfaces";
 import { isLicenseValid } from "./license";
 
 const debug = Debug("license-compliance:processArgs");
-const formats = ["text", "json"];
-const reports = ["summary", "detailed"];
 
 let args: Arguments;
 let argsAreValid: boolean;
@@ -24,7 +23,7 @@ export function processArgs(): boolean {
         .option("-p, --production", "Analyzes only production dependencies.")
         .option("-d, --development", "Analyzes only development dependencies.")
         .option("-t, --direct", "Analyzes only direct dependencies.")
-        .option("-f, --format <format>", "Report format, text or json.", verifyFormat, "text")
+        .option("-f, --format <format>", "Report format, csv, text, or json.", verifyFormat, "text")
         .option("-r, --report <report>", "Report type, summary or detailed.", verifyReport, "summary")
         .option("-a, --allow <licenses>", "Semicolon separated list of allowed licenses. Must conform to SPDX identifiers.", verifyAllow)
         .option("-e, --exclude <packages>", "Semicolon separated list of packages to be excluded from analysis. Supports Regex.", verifyExclude)
@@ -88,7 +87,7 @@ function verifyExclude(value: string, previous: string): Array<string | RegExp> 
 }
 
 function verifyFormat(value: string, previous: string): string {
-    if (formats.includes(value)) {
+    if (Object.keys(Formatter).includes(value)) {
         return value;
     }
     help(`Invalid --format option "${value}"`);
@@ -102,7 +101,7 @@ function verifyProductionDevelopment(): void {
 }
 
 function verifyReport(value: string, previous: string): string {
-    if (reports.includes(value)) {
+    if (Object.keys(Report).includes(value)) {
         return value;
     }
     help(`Invalid --report option "${value}"`);

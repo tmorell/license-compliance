@@ -65,7 +65,7 @@ Note: Exits with status 0.
 * ```-p, --production``` Analyzes only production dependencies.
 * ```-d, --development``` Analyzes only development dependencies.
 * ```-t, --direct``` Analyzes only direct dependencies.
-* ```-f, --format <format>``` Report format, text or json. (default: "text")
+* ```-f, --format <format>``` Report format, csv, text, or json. (default: "text")
 * ```-r, --report <report>``` Report type, summary or detailed. (default: "summary")
 * ```-a, --allow <licenses>``` Semicolon separated list of allowed licenses. Must conform to [SPDX specifications](https://spdx.org/licenses).
 * ```-e, --exclude <packages>``` Semicolon separated list of package names to be excluded from the analysis. Regex are supported.
