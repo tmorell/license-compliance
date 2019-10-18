@@ -11,7 +11,6 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    stub.reset();
     sinon.restore();
 });
 
