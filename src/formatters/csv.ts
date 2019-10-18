@@ -14,14 +14,14 @@ export class Csv implements Formatter {
     public summary(licenses: Array<{ name: string, count: number }>): void {
         console.log(`"license","count"`);
         for (const license of licenses) {
-            console.log(`"${license.name}",${license.count}`);
+            console.log(`"${license.name}","${license.count}"`);
         }
     }
 
     private formatPackages(packages: Array<Package>): void {
         console.log(`"package name","version","license"`);
         for (const pack of packages) {
-            console.log(`"${pack.name}","${pack.version || ""}","${pack.license}"`);
+            console.log(`"${pack.name}","${pack.version}","${pack.license}"`);
         }
     }
 

@@ -10,9 +10,9 @@ after(() => {
 
 test("No licenses to check", (t) => {
     const packages: Array<Package> = [
-        { name: "test-01", license: "MIT" },
-        { name: "test-02", license: "Apache-2.0" },
-        { name: "test-03", license: "ISC" }
+        { name: "test-01", version: "1.0.0", license: "MIT" },
+        { name: "test-02", version: "2.0.0", license: "Apache-2.0" },
+        { name: "test-03", version: "3.0.0", license: "ISC" }
     ];
 
     // Arguments
@@ -25,9 +25,9 @@ test("No licenses to check", (t) => {
 
 test("All packages allowed, single check", (t) => {
     const packages: Array<Package> = [
-        { name: "test-01", license: "MIT" },
-        { name: "test-02", license: "MIT" },
-        { name: "test-03", license: "MIT" }
+        { name: "test-01", version: "1.0.0", license: "MIT" },
+        { name: "test-02", version: "2.0.0", license: "MIT" },
+        { name: "test-03", version: "3.0.0", license: "MIT" }
     ];
 
     // Arguments
@@ -40,9 +40,9 @@ test("All packages allowed, single check", (t) => {
 
 test("All packages allowed, multiple checks", (t) => {
     const packages: Array<Package> = [
-        { name: "test-01", license: "MIT" },
-        { name: "test-02", license: "Apache-2.0" },
-        { name: "test-03", license: "ISC" }
+        { name: "test-01", version: "1.0.0", license: "MIT" },
+        { name: "test-02", version: "2.0.0", license: "Apache-2.0" },
+        { name: "test-03", version: "3.0.0", license: "ISC" }
     ];
 
     // Arguments
@@ -55,10 +55,10 @@ test("All packages allowed, multiple checks", (t) => {
 
 test("Some packages not allowed, single check", (t) => {
     const packages: Array<Package> = [
-        { name: "test-01", license: "MIT" },
-        { name: "test-02", license: "Apache-2.0" },
-        { name: "test-03", license: "ISC" },
-        { name: "test-04", license: "BSD-2-Clause" }
+        { name: "test-01", version: "1.0.0", license: "MIT" },
+        { name: "test-02", version: "2.0.0", license: "Apache-2.0" },
+        { name: "test-03", version: "3.0.0", license: "ISC" },
+        { name: "test-04", version: "4.0.0", license: "BSD-2-Clause" }
     ];
 
     // Arguments
@@ -74,10 +74,10 @@ test("Some packages not allowed, single check", (t) => {
 
 test("Some packages not allowed, multiple checks", (t) => {
     const packages: Array<Package> = [
-        { name: "test-01", license: "MIT" },
-        { name: "test-02", license: "Apache-2.0" },
-        { name: "test-03", license: "ISC" },
-        { name: "test-04", license: "BSD-2-Clause" }
+        { name: "test-01", version: "1.0.0", license: "MIT" },
+        { name: "test-02", version: "2.0.0", license: "Apache-2.0" },
+        { name: "test-03", version: "3.0.0", license: "ISC" },
+        { name: "test-04", version: "4.0.0", license: "BSD-2-Clause" }
     ];
 
     // Arguments
@@ -92,10 +92,10 @@ test("Some packages not allowed, multiple checks", (t) => {
 
 test("All packages allowed, OR licenses", (t) => {
     const packages: Array<Package> = [
-        { name: "test-01", license: "(MIT OR Apache-2.0)" },
-        { name: "test-02", license: "(BSD-2-Clause OR MIT)" },
-        { name: "test-03", license: "(MIT OR BSD-2-Clause OR Apache-2.0)" },
-        { name: "test-04", license: "ISC" },
+        { name: "test-01", version: "1.0.0", license: "(MIT OR Apache-2.0)" },
+        { name: "test-02", version: "2.0.0", license: "(BSD-2-Clause OR MIT)" },
+        { name: "test-03", version: "3.0.0", license: "(MIT OR BSD-2-Clause OR Apache-2.0)" },
+        { name: "test-04", version: "4.0.0", license: "ISC" },
     ];
 
     // Arguments
@@ -108,10 +108,10 @@ test("All packages allowed, OR licenses", (t) => {
 
 test("Some packages not allowed, OR licenses", (t) => {
     const packages: Array<Package> = [
-        { name: "test-01", license: "(MIT OR Apache-2.0)" },
-        { name: "test-02", license: "(BSD-2-Clause OR MIT)" },
-        { name: "test-03", license: "(MIT OR BSD-2-Clause OR Apache-2.0)" },
-        { name: "test-04", license: "ISC" },
+        { name: "test-01", version: "1.0.0", license: "(MIT OR Apache-2.0)" },
+        { name: "test-02", version: "2.0.0", license: "(BSD-2-Clause OR MIT)" },
+        { name: "test-03", version: "3.0.0", license: "(MIT OR BSD-2-Clause OR Apache-2.0)" },
+        { name: "test-04", version: "4.0.0", license: "ISC" },
     ];
 
     // Arguments
