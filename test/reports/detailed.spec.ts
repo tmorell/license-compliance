@@ -11,9 +11,9 @@ before(() => {
 
 test("Summary", (t) => {
     const packages: Array<Package> = [
-        { name: "pack-mno", license: "ISC" },
-        { name: "pack-abc", license: "MIT" },
-        { name: "pack-xyz", license: "MIT" },
+        { name: "pack-mno", version: "1.0.0", license: "ISC" },
+        { name: "pack-abc", version: "2.0.0", license: "MIT" },
+        { name: "pack-xyz", version: "3.0.0", license: "MIT" },
     ];
 
     const report = new Detailed(new Text());

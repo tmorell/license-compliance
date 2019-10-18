@@ -1,4 +1,4 @@
-import test, { after } from "ava";
+import test from "ava";
 import * as sinon from "sinon";
 
 import { Factory } from "../../src/formatters/factory";

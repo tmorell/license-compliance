@@ -1,4 +1,5 @@
 export enum Formatter {
+    csv = "Csv",
     json = "Json",
     text = "Text"
 }

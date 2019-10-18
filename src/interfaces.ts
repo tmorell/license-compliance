@@ -22,7 +22,7 @@ export interface NpmPackage {
     license: string | OldLicenseFormat;
     licenses: Array<OldLicenseFormat>;
     name: string;
-    version?: string;
+    version: string;
 }
 
 export interface OldLicenseFormat {
@@ -34,5 +34,5 @@ export interface Package {
     license: string;
     name: string;
     path?: string;
-    version?: string;
+    version: string;
 }
