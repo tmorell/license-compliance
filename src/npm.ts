@@ -34,11 +34,11 @@ export async function getInstalledPackages(rootPath = ""): Promise<Array<Package
 
     if (pack.dependencies && !args.development) {
         debug("Analyzing production dependencies at", rootNodeModulesPath);
-        await readPackages(pack.dependencies, 0, rootNodeModulesPath);
+        await readPackages(pack.name, pack.dependencies, 0, rootNodeModulesPath);
     }
     if (pack.devDependencies && !args.production) {
         debug("Analyzing development dependencies at", rootNodeModulesPath);
-        await readPackages(pack.devDependencies, 0, rootNodeModulesPath);
+        await readPackages(pack.name, pack.devDependencies, 0, rootNodeModulesPath);
     }
 
     return packages;
@@ -60,13 +60,25 @@ function alreadyAnalyzed(pack: Package): boolean {
  * First, it verifies if there is a specific package version installed within the parent's node_module folder.
  * If not found, then it verifies if the package is installed in the root node_modules folder.
  *
+ * @param {string} parentName Name of the parent package. Required to analyze packages with sub-folders.
  * @param {string} packageName Name of the package.
  * @param {(string | undefined)} parentNodeModulesPath Path of the parent package.
  * @returns {(Promise<string | undefined>)} Promise with the path where the package was found; undefined if not found.
  */
-async function getInstalledPath(packageName: string, parentNodeModulesPath: string): Promise<string | undefined> {
+async function getInstalledPath(parentName: string, packageName: string, parentNodeModulesPath: string): Promise<string | undefined> {
     // Verify if present in parent's node_modules
     let packagePath = path.join(parentNodeModulesPath, packageName);
+    if (await util.fileExists(packagePath)) {
+        return packagePath;
+    }
+
+    // Verify if present in sibling node_modules
+    const pathComposite = [parentNodeModulesPath, "..", ".."];
+    for (let i = 0; i < parentName.split("/").length - 1; i++) {
+        pathComposite.push("..");
+    }
+    pathComposite.push(packageName);
+    packagePath = path.join(...pathComposite);
     if (await util.fileExists(packagePath)) {
         return packagePath;
     }
@@ -89,13 +101,13 @@ async function getInstalledPath(packageName: string, parentNodeModulesPath: stri
  * @param {string} parentNodeModulesPath Parent package's node_module path.
  * @returns {Promise<void>}
  */
-async function readPackages(dependencies: Array<[string, string]>, depth: number, parentNodeModulesPath: string): Promise<void> {
+async function readPackages(parentName: string, dependencies: Array<[string, string]>, depth: number, parentNodeModulesPath: string): Promise<void> {
     if (depth > 0 && args.direct) {
         return;
     }
 
     for (const dependency of Object.keys(dependencies)) {
-        const packagePath = await getInstalledPath(dependency, parentNodeModulesPath);
+        const packagePath = await getInstalledPath(parentName, dependency, parentNodeModulesPath);
         if (packagePath === undefined) {
             console.error(chalk.red(`Package "${dependency}" was not found. Confirm that all modules are installed.`));
             continue;
@@ -118,7 +130,7 @@ async function readPackages(dependencies: Array<[string, string]>, depth: number
         packages.push(pack);
 
         if (file.dependencies) {
-            await readPackages(file.dependencies, ++depth, path.join(packagePath, NODE_MODULES));
+            await readPackages(dependency, file.dependencies, ++depth, path.join(packagePath, NODE_MODULES));
         }
     }
 }
