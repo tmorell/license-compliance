@@ -13,7 +13,7 @@ export class Text implements Formatter {
     }
 
     public invalid(packages: Array<Package>): void {
-        console.log(chalk.red("Error:"), `The following ${packages.length === 1 ? "package does" : "packages do"} not meet the allowed license criteria`);
+        console.log(`${chalk.red("Error:")} The following ${packages.length === 1 ? "package does" : "packages do"} not meet the allowed license criteria`);
         this.formatPackages(packages);
     }
 
@@ -30,12 +30,11 @@ export class Text implements Formatter {
     }
 
     private formatPackages(packages: Array<Package>): void {
-        // TODO: Provide license status, path, author, and package repo
         for (let i = 0; i < packages.length; i++) {
             const pack = packages[i];
-            console.log(`${i === packages.length - 1 ? "└─" : "├─"} ${chalk.blue(pack.name)}@${chalk.green(pack.version || "")}`);
-            console.log(`${i === packages.length - 1 ? "   ├─" : "│  ├─"} Licenses: ${pack.license}`);
-            console.log(`${i === packages.length - 1 ? "   └─" : "│  └─"} Path: ${pack.path}`);
+            console.log(`${i === packages.length - 1 ? "└─" : "├─"} ${chalk.blue(pack.name)}@${chalk.green(pack.version)}
+${i === packages.length - 1 ? "   ├─" : "│  ├─"} Licenses: ${pack.license}
+${i === packages.length - 1 ? "   └─" : "│  └─"} Path: ${pack.path}`);
         }
     }
 }
