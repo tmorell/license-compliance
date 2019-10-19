@@ -1,9 +1,9 @@
 import test, { afterEach, beforeEach } from "ava";
 import * as sinon from "sinon";
 
+import { Literals } from "../../src/enumerations";
 import { Text } from "../../src/formatters/text";
 import { Package } from "../../src/interfaces";
-import { UNKNOWN } from "../../src/license";
 
 let stubLog: sinon.SinonStub;
 
@@ -17,9 +17,9 @@ afterEach(() => {
 
 test.serial("Detail", (t) => {
     const packages: Array<Package> = [
-        { name: "pack-01", version: "1.1.0", license: "MIT" },
-        { name: "pack-02", version: "2.0.0", license: "ISC" },
-        { name: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)" }
+        { name: "pack-01", path: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project", licenseFile: "node_modules/pack-01/LICENSE" },
+        { name: "pack-02", path: "pack-02", version: "2.0.0", license: "ISC", repository: "company/project" },
+        { name: "pack-03", path: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" }
     ];
 
     const csv = new Text();
@@ -30,7 +30,7 @@ test.serial("Detail", (t) => {
 
 test.serial("Invalid, single package", (t) => {
     const packages: Array<Package> = [
-        { name: "pack-01", version: "1.1.0", license: "MIT" }
+        { name: "pack-01", path: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" }
     ];
 
     const csv = new Text();
@@ -41,9 +41,9 @@ test.serial("Invalid, single package", (t) => {
 
 test.serial("Invalid, multiple packages", (t) => {
     const packages: Array<Package> = [
-        { name: "pack-01", version: "1.1.0", license: "MIT" },
-        { name: "pack-02", version: "2.0.0", license: "ISC" },
-        { name: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)" }
+        { name: "pack-01", path: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" },
+        { name: "pack-02", path: "pack-02", version: "2.0.0", license: "ISC", repository: "company/project" },
+        { name: "pack-03", path: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" }
     ];
 
     const csv = new Text();
@@ -55,7 +55,7 @@ test.serial("Invalid, multiple packages", (t) => {
 test.serial("Summary", (t) => {
     const licenses: Array<{ name: string, count: number }> = [
         { name: "MIT", count: 15 },
-        { name: UNKNOWN, count: 5 },
+        { name: Literals.UNKNOWN, count: 5 },
         { name: "ISC", count: 1 }
     ];
 

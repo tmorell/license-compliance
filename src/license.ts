@@ -6,7 +6,7 @@ import chalk from "chalk";
 import * as Debug from "debug";
 import * as path from "path";
 
-import { LicenseStatus } from "./enumerations";
+import { LicenseStatus, Literals } from "./enumerations";
 import { NpmPackage, OldLicenseFormat, Package, License } from "./interfaces";
 import { args } from "./program";
 import * as util from "./util";
@@ -15,9 +15,7 @@ const debug = Debug("license-compliance:license");
 const parse = require("spdx-expression-parse");
 const satisfies = require("spdx-satisfies");
 const SEE_LICENSE_IN = "SEE LICENSE IN";
-
-export const UNKNOWN = "UNKNOWN";
-export const CUSTOM = "CUSTOM";
+const LICENSE_FILE = "license";
 
 /**
  * Gets the package's license based on the information provided in package.json.
@@ -30,7 +28,7 @@ export async function getLicense(pack: NpmPackage, packPath: string): Promise<Li
     // TODO: Implement license properties
     const license = await extractLicense(pack, packPath);
     if (!isLicenseValid(license.name)) {
-        license.name = UNKNOWN;
+        license.name = Literals.UNKNOWN;
         license.status = LicenseStatus.unknown;
     }
     return license;
@@ -44,11 +42,11 @@ export async function getLicense(pack: NpmPackage, packPath: string): Promise<Li
  * @returns {boolean} true if valid; otherwise, false.
  */
 export function isLicenseValid(license: string): boolean {
-    if (license === CUSTOM) {
+    if (license === Literals.CUSTOM) {
         // Not really a valid license, but no need to run it by SPDX
         return true;
     }
-    if (license === UNKNOWN) {
+    if (license === Literals.UNKNOWN) {
         return false;
     }
 
@@ -79,7 +77,7 @@ export function onlyAllow(packages: Array<Package>): Array<Package> {
     const spdxLicense = argsToSpdxLicense(args.allow);
     for (const pack of packages) {
         // tslint:disable-next-line: no-unsafe-any
-        const matches = pack.license !== UNKNOWN && satisfies(spdxLicense, pack.license);
+        const matches = pack.license !== Literals.UNKNOWN && satisfies(spdxLicense, pack.license);
         debug(chalk.blue(pack.name), "/", pack.license, "=>", matches ? chalk.green(spdxLicense) : chalk.red(spdxLicense));
         if (!matches) {
             invalidPackages.push(pack);
@@ -108,7 +106,7 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
     if (typeof pack.license === "string") {
         if (pack.license.startsWith(SEE_LICENSE_IN)) {
             return {
-                name: CUSTOM,
+                name: Literals.CUSTOM,
                 path: await getCustomLicensePath(packPath, pack.license),
                 status: LicenseStatus.custom,
             };
@@ -139,7 +137,7 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
 
     // Could not determinate the license
     return {
-        name: UNKNOWN,
+        name: Literals.UNKNOWN,
         path: undefined,
         status: LicenseStatus.unknown
     };
@@ -155,7 +153,7 @@ async function getCustomLicensePath(packPath: string, license: string): Promise<
 
 function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
     if (licenses.length === 0) {
-        return UNKNOWN;
+        return Literals.UNKNOWN;
     }
     if (licenses.length === 1) {
         return licenses[0].type;
@@ -166,7 +164,7 @@ function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
 async function getLicencePath(packPath: string): Promise<string | undefined> {
     const data = await util.readdir(packPath);
     for (const fileName of data) {
-        if (fileName.toLowerCase().startsWith("license")) {
+        if (fileName.toLowerCase().startsWith(LICENSE_FILE)) {
             return path.join(packPath, fileName);
         }
     }

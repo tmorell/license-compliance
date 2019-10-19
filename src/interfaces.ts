@@ -22,6 +22,7 @@ export interface NpmPackage {
     license: string | OldLicenseFormat;
     licenses: Array<OldLicenseFormat>;
     name: string;
+    repository?: Repository;
     version: string;
 }
 
@@ -32,7 +33,14 @@ export interface OldLicenseFormat {
 
 export interface Package {
     license: string;
+    licenseFile?: string;
     name: string;
-    path?: string;
+    path: string;
+    repository: string;
     version: string;
+}
+
+export interface Repository {
+    type: string;
+    url: string;
 }

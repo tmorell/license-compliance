@@ -1,5 +1,6 @@
 import { Formatter } from "./index";
 import { Package } from "../interfaces";
+import { Literals } from "../enumerations";
 
 export class Csv implements Formatter {
 
@@ -19,9 +20,9 @@ export class Csv implements Formatter {
     }
 
     private formatPackages(packages: Array<Package>): void {
-        console.log(`"package name","version","license"`);
+        console.log(`"package name","version","license","license file","repository"`);
         for (const pack of packages) {
-            console.log(`"${pack.name}","${pack.version}","${pack.license}"`);
+            console.log(`"${pack.name}","${pack.version}","${pack.license}","${pack.licenseFile ? pack.licenseFile : Literals.UNKNOWN }","${pack.repository}"`);
         }
     }
 

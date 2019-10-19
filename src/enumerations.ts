@@ -10,6 +10,11 @@ export enum LicenseStatus {
     unknown = "unknown"
 }
 
+export enum Literals {
+    UNKNOWN = "UNKNOWN",
+    CUSTOM = "CUSTOM"
+}
+
 export enum Report {
     detailed = "Detailed",
     invalid = "Invalid",

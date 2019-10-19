@@ -5,6 +5,7 @@ import * as path from "path";
 import { Package } from "./interfaces";
 import { getLicense } from "./license";
 import { args } from "./program";
+import { getRepository } from "./repository";
 import * as util from "./util";
 
 const debug = Debug("license-compliance:npm");
@@ -117,10 +118,13 @@ async function readPackages(parentName: string, dependencies: Array<[string, str
             console.error(chalk.red(`Package "${dependency}" is empty and cannot be analyzed.`));
             continue;
         }
+        const license = (await getLicense(file, packagePath));
         const pack: Package = {
+            license: license.name,
+            licenseFile: license.path,
             name: dependency,
             path: packagePath,
-            license: (await getLicense(file, packagePath)).name,
+            repository: getRepository(file.repository),
             version: file.version
         };
         if (alreadyAnalyzed(pack)) {

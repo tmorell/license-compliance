@@ -3,6 +3,7 @@ import * as path from "path";
 import * as sinon from "sinon";
 
 import { getInstalledPackages } from "../../src/npm";
+import { Literals } from "../../src/enumerations";
 
 before(() => {
     sinon.stub(console, "log");
@@ -31,8 +32,10 @@ test.serial("Get all packages, full installation", async (t) => {
     t.is(packages.length, 11);
     t.is(packages[0].name, "prod-01");
     t.is(packages[0].version, "1.0.0");
+    t.is(packages[0].repository, "https://github.com/user/project");
     t.is(packages[1].name, "prod-02");
     t.is(packages[1].version, "2.0.0");
+    t.is(packages[1].repository, Literals.UNKNOWN);
     t.is(packages[2].name, "prod-02-02");
     t.is(packages[2].version, "2.0.0");
     t.is(packages[3].name, "prod-03");

@@ -2,8 +2,8 @@ import test from "ava";
 import * as path from "path";
 
 import * as util from "../util";
-import { getLicense, UNKNOWN } from "../../src/license";
-import { LicenseStatus } from "../../src/enumerations";
+import { LicenseStatus, Literals } from "../../src/enumerations";
+import { getLicense } from "../../src/license";
 import { NpmPackage } from "../../src/interfaces";
 
 [
@@ -36,7 +36,7 @@ test("In-line single license with CUSTOM LICENSE", async (t) => {
     const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
 
     const license = await getLicense(pack, packPath);
-    t.is(license.name, "CUSTOM");
+    t.is(license.name, Literals.CUSTOM);
     t.is(license.status, LicenseStatus.custom);
     t.is(license.path, path.join(packPath, "MY-CUSTOM-LICENSE"));
 });
@@ -46,7 +46,7 @@ test("In-line single license with CUSTOM LICENSE not found", async (t) => {
     const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
 
     const license = await getLicense(pack, packPath);
-    t.is(license.name, "CUSTOM");
+    t.is(license.name, Literals.CUSTOM);
     t.is(license.status, LicenseStatus.custom);
     t.is(license.path, undefined);
 });
@@ -66,7 +66,7 @@ test("Array invalid licenses", async (t) => {
     const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
 
     const license = await getLicense(pack, packPath);
-    t.is(license.name, UNKNOWN);
+    t.is(license.name, Literals.UNKNOWN);
     t.is(license.status, LicenseStatus.unknown);
     t.is(license.path, undefined);
 });
@@ -76,7 +76,7 @@ test("Array is empty", async (t) => {
     const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
 
     const license = await getLicense(pack, packPath);
-    t.is(license.name, UNKNOWN);
+    t.is(license.name, Literals.UNKNOWN);
     t.is(license.status, LicenseStatus.unknown);
     t.is(license.path, undefined);
 });
@@ -96,7 +96,7 @@ test("No license", async (t) => {
     const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
 
     const license = await getLicense(pack, packPath);
-    t.is(license.name, UNKNOWN);
+    t.is(license.name, Literals.UNKNOWN);
     t.is(license.status, LicenseStatus.unknown);
     t.is(license.path, undefined);
 });
