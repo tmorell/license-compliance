@@ -16,34 +16,34 @@ afterEach(() => {
 
 test.serial("Detailed", (t) => {
     const packages: Array<Package> = [
-        { name: "pack-01", version: "1.1.0", license: "MIT" },
-        { name: "pack-02", version: "2.0.0", license: "ISC" },
-        { name: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)" }
+        { name: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" },
+        { name: "pack-02", version: "2.0.0", license: "ISC", repository: "company/project" },
+        { name: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" }
     ];
 
     const csv = new Csv();
     csv.detail(packages);
 
-    t.true(stub.calledWithExactly(`"package name","version","license"`));
-    t.true(stub.calledWithExactly(`"pack-01","1.1.0","MIT"`));
-    t.true(stub.calledWithExactly(`"pack-02","2.0.0","ISC"`));
-    t.true(stub.calledWithExactly(`"pack-03","2.0.0","(MIT OR Apache-2.0)"`));
+    t.true(stub.calledWithExactly(`"package name","version","license","repository"`));
+    t.true(stub.calledWithExactly(`"pack-01","1.1.0","MIT","company/project"`));
+    t.true(stub.calledWithExactly(`"pack-02","2.0.0","ISC","company/project"`));
+    t.true(stub.calledWithExactly(`"pack-03","2.0.0","(MIT OR Apache-2.0)","company/project"`));
 });
 
 test.serial("Invalid", (t) => {
     const packages: Array<Package> = [
-        { name: "pack-01", version: "1.1.0", license: "MIT" },
-        { name: "pack-02", version: "2.0.0", license: "ISC" },
-        { name: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)" }
+        { name: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" },
+        { name: "pack-02", version: "2.0.0", license: "ISC", repository: "company/project" },
+        { name: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" }
     ];
 
     const csv = new Csv();
     csv.invalid(packages);
 
-    t.true(stub.calledWithExactly(`"package name","version","license"`));
-    t.true(stub.calledWithExactly(`"pack-01","1.1.0","MIT"`));
-    t.true(stub.calledWithExactly(`"pack-02","2.0.0","ISC"`));
-    t.true(stub.calledWithExactly(`"pack-03","2.0.0","(MIT OR Apache-2.0)"`));
+    t.true(stub.calledWithExactly(`"package name","version","license","repository"`));
+    t.true(stub.calledWithExactly(`"pack-01","1.1.0","MIT","company/project"`));
+    t.true(stub.calledWithExactly(`"pack-02","2.0.0","ISC","company/project"`));
+    t.true(stub.calledWithExactly(`"pack-03","2.0.0","(MIT OR Apache-2.0)","company/project"`));
 });
 
 test.serial("Summary", (t) => {

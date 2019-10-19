@@ -44,7 +44,7 @@ test.serial("No packages installed", async (t) => {
 
 test.serial("Not allowed licenses", async (t) => {
     const packages = new Array<Package>();
-    packages.push({ name: "package-01", version: "1.0.0", license: "MIT" });
+    packages.push({ name: "package-01", version: "1.0.0", license: "MIT", repository: "company/project" });
     sinon.stub(program, "processArgs").returns(true);
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
@@ -59,7 +59,7 @@ test.serial("Not allowed licenses", async (t) => {
 
 test.serial("Success", async (t) => {
     const packages = new Array<Package>();
-    packages.push({ name: "package-01", version: "1.0.0", license: "MIT" });
+    packages.push({ name: "package-01", version: "1.0.0", license: "MIT", repository: "company/project" });
 
     sinon.stub(program, "processArgs").returns(true);
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));

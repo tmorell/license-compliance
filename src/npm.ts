@@ -5,6 +5,7 @@ import * as path from "path";
 import { Package } from "./interfaces";
 import { getLicense } from "./license";
 import { args } from "./program";
+import { getRepository } from "./repository";
 import * as util from "./util";
 
 const debug = Debug("license-compliance:npm");
@@ -121,7 +122,8 @@ async function readPackages(parentName: string, dependencies: Array<[string, str
             name: dependency,
             path: packagePath,
             license: (await getLicense(file, packagePath)).name,
-            version: file.version
+            version: file.version,
+            repository: getRepository(file.repository)
         };
         if (alreadyAnalyzed(pack)) {
             continue;

@@ -10,11 +10,11 @@ after(() => {
 
 test("No filters", (t) => {
     const packages: Array<Package> = [
-        { name: "@company/test-01", version: "1.0.0", license: "MIT" },
-        { name: "@company/test-02", version: "2.0.0", license: "Apache-2.0" },
-        { name: "test-01", version: "1.1.0", license: "ISC" },
-        { name: "test-02", version: "1.2.0", license: "MIT" },
-        { name: "test-03", version: "1.3.0", license: "ISC" }
+        { name: "@company/test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
+        { name: "@company/test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
+        { name: "test-01", version: "1.1.0", license: "ISC", repository: "company/project" },
+        { name: "test-02", version: "1.2.0", license: "MIT", repository: "company/project" },
+        { name: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" }
     ];
 
     // Arguments
@@ -27,11 +27,11 @@ test("No filters", (t) => {
 
 test("By package names", (t) => {
     const packages: Array<Package> = [
-        { name: "@company/test-01", version: "1.0.0", license: "MIT" },
-        { name: "@company/test-02", version: "1.0.0", license: "Apache-2.0" },
-        { name: "test-01", version: "1.1.0", license: "ISC" },
-        { name: "test-02", version: "1.2.0", license: "MIT" },
-        { name: "test-03", version: "1.3.0", license: "ISC" }
+        { name: "@company/test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
+        { name: "@company/test-02", version: "1.0.0", license: "Apache-2.0", repository: "company/project" },
+        { name: "test-01", version: "1.1.0", license: "ISC", repository: "company/project" },
+        { name: "test-02", version: "1.2.0", license: "MIT", repository: "company/project" },
+        { name: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" }
     ];
 
     // Arguments
@@ -47,11 +47,11 @@ test("By package names", (t) => {
 
 test("Regex", (t) => {
     const packages: Array<Package> = [
-        { name: "@company/test-01", version: "1.0.0", license: "MIT" },
-        { name: "@company/test-02", version: "2.0.0", license: "Apache-2.0" },
-        { name: "test-01", version: "1.1.0", license: "ISC" },
-        { name: "test-02", version: "1.2.0", license: "MIT" },
-        { name: "test-03", version: "1.3.0", license: "ISC" }
+        { name: "@company/test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
+        { name: "@company/test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
+        { name: "test-01", version: "1.1.0", license: "ISC", repository: "company/project" },
+        { name: "test-02", version: "1.2.0", license: "MIT", repository: "company/project" },
+        { name: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" }
     ];
 
     // Arguments
@@ -67,11 +67,11 @@ test("Regex", (t) => {
 
 test("Regex and string", (t) => {
     const packages: Array<Package> = [
-        { name: "@company/test-01", version: "1.0.0", license: "MIT" },
-        { name: "@company/test-02", version: "2.0.0", license: "Apache-2.0" },
-        { name: "test-01", version: "1.1.0", license: "ISC" },
-        { name: "test-02", version: "1.2.0", license: "MIT" },
-        { name: "test-03", version: "1.3.0", license: "ISC" }
+        { name: "@company/test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
+        { name: "@company/test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
+        { name: "test-01", version: "1.1.0", license: "ISC", repository: "company/project" },
+        { name: "test-02", version: "1.2.0", license: "MIT", repository: "company/project" },
+        { name: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" }
     ];
 
     // Arguments

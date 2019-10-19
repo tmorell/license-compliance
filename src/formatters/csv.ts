@@ -19,9 +19,9 @@ export class Csv implements Formatter {
     }
 
     private formatPackages(packages: Array<Package>): void {
-        console.log(`"package name","version","license"`);
+        console.log(`"package name","version","license","repository"`);
         for (const pack of packages) {
-            console.log(`"${pack.name}","${pack.version}","${pack.license}"`);
+            console.log(`"${pack.name}","${pack.version}","${pack.license}","${pack.repository}"`);
         }
     }
 
