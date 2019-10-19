@@ -18,7 +18,7 @@ afterEach(() => {
 
 test.serial("Detailed", (t) => {
     const packages: Array<Package> = [
-        { name: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" }
+        { name: "pack-01", path: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" }
     ];
 
     const json = new Json();
@@ -30,7 +30,7 @@ test.serial("Detailed", (t) => {
 
 test.serial("Invalid", (t) => {
     const packages: Array<Package> = [
-        { name: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" }
+        { name: "pack-01", path: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" }
     ];
 
     const json = new Json();

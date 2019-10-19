@@ -34,7 +34,7 @@ export interface OldLicenseFormat {
 export interface Package {
     license: string;
     name: string;
-    path?: string;      // TODO: Not optional
+    path: string;
     repository: string;
     version: string;
 }
