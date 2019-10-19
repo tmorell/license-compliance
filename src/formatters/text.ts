@@ -34,6 +34,7 @@ export class Text implements Formatter {
             const pack = packages[i];
             console.log(`${i === packages.length - 1 ? "└─" : "├─"} ${chalk.blue(pack.name)}@${chalk.green(pack.version)}
 ${i === packages.length - 1 ? "   ├─" : "│  ├─"} Licenses: ${pack.license}
+${i === packages.length - 1 ? "   ├─" : "│  ├─"} License file: ${pack.licenseFile ? pack.licenseFile : Literals.UNKNOWN}
 ${i === packages.length - 1 ? "   ├─" : "│  ├─"} Path: ${pack.path}
 ${i === packages.length - 1 ? "   └─" : "│  └─"} Repository: ${pack.repository}`);
         }

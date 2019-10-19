@@ -33,6 +33,7 @@ export interface OldLicenseFormat {
 
 export interface Package {
     license: string;
+    licenseFile?: string;
     name: string;
     path: string;
     repository: string;

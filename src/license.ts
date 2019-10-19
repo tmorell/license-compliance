@@ -15,6 +15,7 @@ const debug = Debug("license-compliance:license");
 const parse = require("spdx-expression-parse");
 const satisfies = require("spdx-satisfies");
 const SEE_LICENSE_IN = "SEE LICENSE IN";
+const LICENSE_FILE = "license";
 
 /**
  * Gets the package's license based on the information provided in package.json.
@@ -163,7 +164,7 @@ function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
 async function getLicencePath(packPath: string): Promise<string | undefined> {
     const data = await util.readdir(packPath);
     for (const fileName of data) {
-        if (fileName.toLowerCase().startsWith("license")) {
+        if (fileName.toLowerCase().startsWith(LICENSE_FILE)) {
             return path.join(packPath, fileName);
         }
     }

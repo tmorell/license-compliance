@@ -118,12 +118,14 @@ async function readPackages(parentName: string, dependencies: Array<[string, str
             console.error(chalk.red(`Package "${dependency}" is empty and cannot be analyzed.`));
             continue;
         }
+        const license = (await getLicense(file, packagePath));
         const pack: Package = {
+            license: license.name,
+            licenseFile: license.path,
             name: dependency,
             path: packagePath,
-            license: (await getLicense(file, packagePath)).name,
-            version: file.version,
-            repository: getRepository(file.repository)
+            repository: getRepository(file.repository),
+            version: file.version
         };
         if (alreadyAnalyzed(pack)) {
             continue;
