@@ -1,12 +1,5 @@
 {
-    "name": "license-compliance",
-    "version": "0.1.0",
-    "description": "License compliance checker",
-    "main": "lib/index.js",
-    "types": "lib/index.d.ts",
-    "files": [
-        "lib/**/*"
-    ],
+    "author": "Teo Morell <teomorell@gmail.com>",
     "ava": {
         "compileEnhancements": false,
         "extensions": [
@@ -22,45 +15,9 @@
         "timeout": "10000",
         "verbose": true
     },
-    "nyc": {
-        "exclude": [
-            "**/*.d.ts",
-            "**/*.spec.ts",
-            "coverage",
-            "baseline",
-            "test/util.ts"
-        ],
-        "extension": [
-            ".ts"
-        ],
-        "cache": false,
-        "all": true
-    },
-    "scripts": {
-        "build": "rm -rf ./lib ./.nyc_output ./coverage && tsc",
-        "coverage": "nyc report --reporter=html && xdg-open ./coverage/index.html",
-        "coverage:ci": "nyc report --reporter=lcov",
-        "debug:watch": "DEBUG=license-checker:* DEBUG_COLORS=true tsc-watch --onSuccess 'node lib/index.js'",
-        "nyc": "nyc ava",
-        "test": "npm run build && npm run nyc",
-        "test:watch": "ava --watch",
-        "tslint": "tslint -t stylish -c tslint.json -p tsconfig.json --force"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/tmorell/license-compliance.git"
-    },
-    "keywords": [
-        "license",
-        "compliance",
-        "checker"
-    ],
-    "author": "Teo Morell",
-    "license": "MIT",
     "bugs": {
         "url": "https://github.com/tmorell/license-compliance/issues"
     },
-    "homepage": "https://github.com/tmorell/license-compliance#readme",
     "dependencies": {
         "chalk": "2.4.2",
         "commander": "3.0.2",
@@ -68,6 +25,7 @@
         "spdx-expression-parse": "3.0.0",
         "spdx-satisfies": "5.0.0"
     },
+    "description": "License compliance checker",
     "devDependencies": {
         "@types/debug": "4.1.5",
         "@types/node": "12.11.1",
@@ -81,6 +39,49 @@
         "typescript": "3.6.4"
     },
     "engines": {
-        "node": ">=8.12.0"
-    }
+        "node": ">=8.16.2"
+    },
+    "files": [
+        "lib/**/*"
+    ],
+    "homepage": "https://github.com/tmorell/license-compliance#readme",
+    "keywords": [
+        "checker",
+        "cli",
+        "compliance",
+        "license"
+    ],
+    "license": "MIT",
+    "main": "lib/index.js",
+    "name": "license-compliance",
+    "nyc": {
+        "all": true,
+        "cache": false,
+        "exclude": [
+            "**/*.d.ts",
+            "**/*.spec.ts",
+            "coverage",
+            "baseline",
+            "test/util.ts"
+        ],
+        "extension": [
+            ".ts"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tmorell/license-compliance.git"
+    },
+    "scripts": {
+        "build": "rm -rf ./lib ./.nyc_output ./coverage && tsc",
+        "coverage": "nyc report --reporter=html && xdg-open ./coverage/index.html",
+        "coverage:ci": "nyc report --reporter=lcov",
+        "debug:watch": "DEBUG=license-checker:* DEBUG_COLORS=true tsc-watch --onSuccess 'node lib/index.js'",
+        "nyc": "nyc ava",
+        "test": "npm run build && npm run nyc",
+        "test:watch": "ava --watch",
+        "tslint": "tslint -t stylish -c tslint.json -p tsconfig.json --force"
+    },
+    "types": "lib/index.d.ts",
+    "version": "0.1.0"
 }
