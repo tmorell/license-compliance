@@ -83,5 +83,5 @@
         "tslint": "tslint -t stylish -c tslint.json -p tsconfig.json --force"
     },
     "types": "lib/index.d.ts",
-    "version": "0.1.0"
+    "version": "1.0.0"
 }
