@@ -5,11 +5,11 @@ import { Json } from "../../src/formatters/json";
 import { Package } from "../../src/interfaces";
 
 let stubConsole: sinon.SinonStub;
-let stubJson: sinon.SinonStub;
+let spyJson: sinon.SinonSpy;
 
 beforeEach(() => {
     stubConsole = sinon.stub(console, "log");
-    stubJson = sinon.stub(JSON, "stringify");
+    spyJson = sinon.spy(JSON, "stringify");
 });
 
 afterEach(() => {
@@ -24,7 +24,7 @@ test.serial("Detailed", (t) => {
     const json = new Json();
     json.detail(packages);
 
-    t.true(stubJson.calledWithExactly(packages, null, 2));
+    t.true(spyJson.calledWithExactly(packages, null, 2));
     t.true(stubConsole.calledWithExactly(JSON.stringify(packages, null, 2)));
 });
 
@@ -36,7 +36,7 @@ test.serial("Invalid", (t) => {
     const json = new Json();
     json.invalid(packages);
 
-    t.true(stubJson.calledWithExactly(packages, null, 2));
+    t.true(spyJson.calledWithExactly(packages, null, 2));
     t.true(stubConsole.calledWithExactly(JSON.stringify(packages, null, 2)));
 });
 
@@ -49,6 +49,6 @@ test.serial("Summary", (t) => {
     const json = new Json();
     json.summary(licenses);
 
-    t.true(stubJson.calledWithExactly(licenses, null, 2));
+    t.true(spyJson.calledWithExactly(licenses, null, 2));
     t.true(stubConsole.calledWithExactly(JSON.stringify(licenses, null, 2)));
 });
