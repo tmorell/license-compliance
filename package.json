@@ -47,7 +47,7 @@
     },
     "files": [
         "/lib/**/*",
-        "/bin"
+        "/bin/**/*"
     ],
     "homepage": "https://github.com/tmorell/license-compliance#readme",
     "keywords": [
