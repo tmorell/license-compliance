@@ -18,7 +18,7 @@ Analyzes installed packages allowing to verify compliance with allowed licenses.
 
 ## Installation
 ```bash
-npm install -D license-compliance
+npm install --save-dev license-compliance
 ```
 
 ## Examples
@@ -102,3 +102,6 @@ Add it the CI configuration
     script: / run: / etc
     npm run license-compliance
 ```
+
+# License
+MIT
