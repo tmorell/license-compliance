@@ -46,7 +46,8 @@
         "node": ">=8.16.2"
     },
     "files": [
-        "./lib/**/*"
+        "/lib/**/*",
+        "/bin"
     ],
     "homepage": "https://github.com/tmorell/license-compliance#readme",
     "keywords": [
@@ -86,6 +87,5 @@
         "test:watch": "ava --watch",
         "tslint": "tslint -t stylish -c tslint.json -p tsconfig.spec.json --force"
     },
-    "types": "./lib/index.d.ts",
     "version": "1.0.0"
 }
