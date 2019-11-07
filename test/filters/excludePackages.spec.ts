@@ -6,7 +6,7 @@ import { Package } from "../../src/interfaces";
 
 after(() => {
     sinon.restore();
-})
+});
 
 test("No filters", (t) => {
     const packages: Array<Package> = [

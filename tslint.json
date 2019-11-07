@@ -32,6 +32,13 @@
         "no-empty": false,
         "no-empty-interface": true,
         "no-eval": true,
+        "no-focused-tests": [
+            true,
+            {
+                "runner": "ava",
+                "suffix": ".spec.ts"
+            }
+        ],
         "no-inferrable-types": true,
         "no-misused-new": true,
         "no-non-null-assertion": true,
@@ -62,5 +69,7 @@
         "unified-signatures": true,
         "variable-name": true
     },
-    "rulesDirectory": []
+    "rulesDirectory": [
+        "node_modules/tslint-checks"
+    ]
 }
