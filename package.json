@@ -36,6 +36,7 @@
         "ts-node": "8.4.1",
         "tsc-watch": "4.0.0",
         "tslint": "5.20.0",
+        "tslint-checks": "1.0.0",
         "typescript": "3.6.4"
     },
     "engines": {
@@ -80,7 +81,7 @@
         "nyc": "nyc ava",
         "test": "npm run build && npm run nyc",
         "test:watch": "ava --watch",
-        "tslint": "tslint -t stylish -c tslint.json -p tsconfig.json --force"
+        "tslint": "tslint -t stylish -c tslint.json -p tsconfig.spec.json --force"
     },
     "types": "lib/index.d.ts",
     "version": "1.0.0"
