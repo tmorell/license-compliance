@@ -40,7 +40,7 @@
         "tsc-watch": "4.0.0",
         "tslint": "5.20.1",
         "tslint-checks": "1.0.0",
-        "typescript": "3.6.4"
+        "typescript": "3.8.3"
     },
     "engines": {
         "node": ">=8.16.2"
