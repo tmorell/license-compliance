@@ -37,7 +37,7 @@
         "nyc": "14.1.1",
         "sinon": "7.5.0",
         "ts-node": "8.4.1",
-        "tsc-watch": "4.0.0",
+        "tsc-watch": "4.2.3",
         "tslint": "5.20.1",
         "tslint-checks": "1.0.0",
         "typescript": "3.6.4"
