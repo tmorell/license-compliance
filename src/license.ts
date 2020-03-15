@@ -2,7 +2,7 @@
 // SPDX: https://spdx.org/sites/cpstandard/files/pages/files/using_spdx_license_list_short_identifiers.pdf
 // NPM: https://docs.npmjs.com/files/package.json#license
 
-import chalk from "chalk";
+import * as chalk from "chalk";
 import * as Debug from "debug";
 import * as path from "path";
 

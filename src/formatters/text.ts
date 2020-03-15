@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import * as chalk from "chalk";
 
 import { Literals } from "../enumerations";
 import { Formatter } from "./index";

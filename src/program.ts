@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import * as chalk from "chalk";
 import * as commander from "commander";
 import * as Debug from "debug";
 
@@ -25,8 +25,8 @@ export function processArgs(): boolean {
         .option("-t, --direct", "Analyzes only direct dependencies.")
         .option("-f, --format <format>", "Report format, csv, text, or json.", verifyFormat, "text")
         .option("-r, --report <report>", "Report type, summary or detailed.", verifyReport, "summary")
-        .option("-a, --allow <licenses>", "Semicolon separated list of allowed licenses. Must conform to SPDX identifiers.", verifyAllow)
-        .option("-e, --exclude <packages>", "Semicolon separated list of packages to be excluded from analysis. Supports Regex.", verifyExclude)
+        .option<Array<string>>("-a, --allow <licenses>", "Semicolon separated list of allowed licenses. Must conform to SPDX identifiers.", verifyAllow)
+        .option<Array<string | RegExp>>("-e, --exclude <packages>", "Semicolon separated list of packages to be excluded from analysis. Supports Regex.", verifyExclude)
         .parse(process.argv);
 
     // Process production by default if not specified
@@ -60,7 +60,7 @@ function help(errorMessage: string): void {
     argsAreValid = false;
 }
 
-function verifyAllow(value: string, previous: string): Array<string> {
+function verifyAllow(value: string, previous: Array<string>): Array<string> {
     return value
         .split(";")
         .map((license) => license.trim())
@@ -73,7 +73,7 @@ function verifyAllow(value: string, previous: string): Array<string> {
         });
 }
 
-function verifyExclude(value: string, previous: string): Array<string | RegExp> {
+function verifyExclude(value: string, previous: Array<string | RegExp>): Array<string | RegExp> {
     return value
         .split(";")
         .map((exclude) => exclude.trim())

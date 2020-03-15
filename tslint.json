@@ -20,7 +20,7 @@
         "interface-name": false,
         "max-line-length": [
             true,
-            150
+            180
         ],
         "no-any": true,
         "no-consecutive-blank-lines": false,
