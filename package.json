@@ -86,5 +86,5 @@
         "test:watch": "ava --watch",
         "tslint": "tslint -t stylish -c tslint.json -p tsconfig.spec.json --force"
     },
-    "version": "1.0.1"
+    "version": "1.0.2"
 }
