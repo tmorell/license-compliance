@@ -24,7 +24,7 @@
         "chalk": "4.1.0",
         "commander": "5.1.0",
         "debug": "4.1.1",
-        "spdx-expression-parse": "3.0.0",
+        "spdx-expression-parse": "3.0.1",
         "spdx-satisfies": "5.0.0"
     },
     "description": "License compliance checker",
