@@ -22,7 +22,7 @@
     },
     "dependencies": {
         "chalk": "4.1.0",
-        "commander": "6.1.0",
+        "commander": "6.2.1",
         "debug": "4.2.0",
         "spdx-expression-parse": "3.0.1",
         "spdx-satisfies": "5.0.0"
