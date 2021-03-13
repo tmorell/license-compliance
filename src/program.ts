@@ -47,11 +47,13 @@ export function processArgs(): boolean {
 
 function formatClassNameCasing(): void {
     // Report and format casing must match class name => Pascal notation
-    let name = program.report + "";
-    program.report = name[0].toUpperCase() + name.substr(1);
+    const options = program.opts();
 
-    name = program.format + "";
-    program.format = name[0].toUpperCase() + name.substr(1);
+    let name = options.report + "";
+    options.report = name[0].toUpperCase() + name.substr(1);
+
+    name = options.format + "";
+    options.format = name[0].toUpperCase() + name.substr(1);
 }
 
 function help(errorMessage: string): void {
@@ -95,7 +97,8 @@ function verifyFormat(value: string, previous: string): string {
 }
 
 function verifyProductionDevelopment(): void {
-    if (program.production && program.development) {
+    const options = program.opts();
+    if (options.production && options.development ) {
         help("Options \"--production\" and \"--development\" cannot be used together");
     }
 }
