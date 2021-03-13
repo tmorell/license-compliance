@@ -5,18 +5,16 @@ import { getInstalledPackages } from "./npm";
 import { processArgs } from "./program";
 import { Factory as FactoryReport } from "./reports";
 
-export async function main(): Promise<void> {
+export async function main(): Promise<boolean> {
     // Process arguments
     if (!processArgs()) {
-        process.exit(1);
-        return;
+        return false;
     }
 
     // Get all installed packages
     let packages = await getInstalledPackages();
     if (packages.length === 0) {
-        process.exit(1);
-        return;
+        return false;
     }
 
     // Filter packages
@@ -26,11 +24,10 @@ export async function main(): Promise<void> {
     const invalidPackages = onlyAllow(packages);
     if (invalidPackages.length > 0) {
         FactoryReport.getInstance(Report.invalid).process(invalidPackages);
-        process.exit(1);
-        return;
+        return false;
     }
 
     // Requested report
     FactoryReport.getInstance().process(packages);
-    process.exit(0);
+    return true;
 }

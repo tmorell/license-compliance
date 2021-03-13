@@ -13,10 +13,7 @@ import * as reports from "../src/reports";
 import { Invalid } from "../src/reports/invalid";
 import { Summary } from "../src/reports/summary";
 
-let stubExit: sinon.SinonStub;
-
 beforeEach(() => {
-    stubExit = sinon.stub(process, "exit");
     sinon.stub(process.stdout, "write");
 });
 
@@ -27,9 +24,9 @@ afterEach(() => {
 test.serial("Invalid arguments", async (t) => {
     sinon.stub(program, "processArgs").returns(false);  // Invalid arguments were provided
 
-    await main();
+    const r = await main();
 
-    t.true(stubExit.calledOnceWith(1));
+    t.false(r);
 });
 
 test.serial("No packages installed", async (t) => {
@@ -37,9 +34,9 @@ test.serial("No packages installed", async (t) => {
     sinon.stub(program, "processArgs").returns(true);
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages)); // No packages were found
 
-    await main();
+    const r = await main();
 
-    t.true(stubExit.calledOnceWith(1));
+    t.false(r);
 });
 
 test.serial("Not allowed licenses", async (t) => {
@@ -51,10 +48,10 @@ test.serial("Not allowed licenses", async (t) => {
     sinon.stub(license, "onlyAllow").returns(packages);  // Packages with not allowed licenses found
     const stubReport = sinon.stub(reports.Factory, "getInstance").returns(new Invalid(new Text()));
 
-    await main();
+    const r = await main();
 
     t.true(stubReport.calledOnceWith(Report.invalid));
-    t.true(stubExit.calledOnceWith(1));
+    t.false(r);
 });
 
 test.serial("Success", async (t) => {
@@ -67,8 +64,8 @@ test.serial("Success", async (t) => {
     sinon.stub(license, "onlyAllow").returns(new Array<Package>());
     const stubReport = sinon.stub(reports.Factory, "getInstance").returns(new Summary(new Text()));
 
-    await main();
+    const r = await main();
 
     t.true(stubReport.calledOnceWith());
-    t.true(stubExit.calledOnceWith(0));
+    t.true(r);
 });
