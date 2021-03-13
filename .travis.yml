@@ -20,7 +20,7 @@ addons:
 install:
 - npm install
 script:
-- npm run tslint
+- npm run lint
 - npm run test
 - npm run coverage:ci
 - sonar-scanner
