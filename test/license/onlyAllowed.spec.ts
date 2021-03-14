@@ -16,7 +16,7 @@ test("No licenses to check", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: undefined });
+    sinon.stub(require("../../src/main"), "configuration").value({ allow: undefined });
 
     const invalid = onlyAllow(packages);
 
@@ -31,7 +31,7 @@ test("All packages allowed, single check", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["MIT"] });
+    sinon.stub(require("../../src/main"), "configuration").value({ allow: ["MIT"] });
 
     const invalid = onlyAllow(packages);
 
@@ -46,7 +46,7 @@ test("All packages allowed, multiple checks", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["Apache-2.0", "ISC", "MIT"] });
+    sinon.stub(require("../../src/main"), "configuration").value({ allow: ["Apache-2.0", "ISC", "MIT"] });
 
     const invalid = onlyAllow(packages);
 
@@ -62,7 +62,7 @@ test("Some packages not allowed, single check", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["ISC"] });
+    sinon.stub(require("../../src/main"), "configuration").value({ allow: ["ISC"] });
 
     const invalid = onlyAllow(packages);
 
@@ -81,7 +81,7 @@ test("Some packages not allowed, multiple checks", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["MIT", "ISC"] });
+    sinon.stub(require("../../src/main"), "configuration").value({ allow: ["MIT", "ISC"] });
 
     const invalid = onlyAllow(packages);
 
@@ -99,7 +99,7 @@ test("All packages allowed, OR licenses", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["MIT", "ISC"] });
+    sinon.stub(require("../../src/main"), "configuration").value({ allow: ["MIT", "ISC"] });
 
     const invalid = onlyAllow(packages);
 
@@ -115,7 +115,7 @@ test("Some packages not allowed, OR licenses", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["MIT", "BSD-3-Clause"] });
+    sinon.stub(require("../../src/main"), "configuration").value({ allow: ["MIT", "BSD-3-Clause"] });
 
     const invalid = onlyAllow(packages);
 

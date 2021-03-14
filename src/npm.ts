@@ -4,7 +4,7 @@ import * as path from "path";
 
 import { Package } from "./interfaces";
 import { getLicense } from "./license";
-import { args } from "./program";
+import { configuration } from "./main";
 import { getRepository } from "./repository";
 import * as util from "./util";
 
@@ -33,11 +33,11 @@ export async function getInstalledPackages(rootPath = ""): Promise<Array<Package
         return new Array<Package>();
     }
 
-    if (pack.dependencies && !args.development) {
+    if (pack.dependencies && !configuration.development) {
         debug("Analyzing production dependencies at", rootNodeModulesPath);
         await readPackages(pack.name, pack.dependencies, 0, rootNodeModulesPath);
     }
-    if (pack.devDependencies && !args.production) {
+    if (pack.devDependencies && !configuration.production) {
         debug("Analyzing development dependencies at", rootNodeModulesPath);
         await readPackages(pack.name, pack.devDependencies, 0, rootNodeModulesPath);
     }
@@ -103,7 +103,7 @@ async function getInstalledPath(parentName: string, packageName: string, parentN
  * @returns {Promise<void>}
  */
 async function readPackages(parentName: string, dependencies: Array<[string, string]>, depth: number, parentNodeModulesPath: string): Promise<void> {
-    if (depth > 0 && args.direct) {
+    if (depth > 0 && configuration.direct) {
         return;
     }
 

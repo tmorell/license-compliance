@@ -7,7 +7,7 @@ import { Invalid } from "../../src/reports/invalid";
 import { Summary } from "../../src/reports/summary";
 
 test("Detail", (t) => {
-    sinon.stub(require("../../src/program"), "args").value({ format: "Text", report: "Detailed" });
+    sinon.stub(require("../../src/main"), "configuration").value({ format: "Text", report: "Detailed" });
 
     const report = Factory.getInstance();
 
@@ -15,7 +15,7 @@ test("Detail", (t) => {
 });
 
 test("Invalid", (t) => {
-    sinon.stub(require("../../src/program"), "args").value({ format: "Text", report: "Invalid" });
+    sinon.stub(require("../../src/main"), "configuration").value({ format: "Text", report: "Invalid" });
 
     const report = Factory.getInstance();
 
@@ -23,7 +23,7 @@ test("Invalid", (t) => {
 });
 
 test("Summary", (t) => {
-    sinon.stub(require("../../src/program"), "args").value({ format: "Text", report: "Summary" });
+    sinon.stub(require("../../src/main"), "configuration").value({ format: "Text", report: "Summary" });
 
     const report = Factory.getInstance();
 

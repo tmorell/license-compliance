@@ -8,7 +8,7 @@ import * as path from "path";
 
 import { LicenseStatus, Literals } from "./enumerations";
 import { NpmPackage, OldLicenseFormat, Package, License } from "./interfaces";
-import { args } from "./program";
+import { configuration } from "./main";
 import * as util from "./util";
 
 const debug = Debug("license-compliance:license");
@@ -69,12 +69,12 @@ export function isLicenseValid(license: string): boolean {
  * @returns {void}
  */
 export function onlyAllow(packages: Array<Package>): Array<Package> {
-    if (!args.allow) {
+    if (!configuration.allow) {
         return [];
     }
 
     const invalidPackages = new Array<Package>();
-    const spdxLicense = argsToSpdxLicense(args.allow);
+    const spdxLicense = argsToSpdxLicense(configuration.allow);
     for (const pack of packages) {
         // tslint:disable-next-line: no-unsafe-any
         const matches = pack.license !== Literals.UNKNOWN && satisfies(spdxLicense, pack.license);

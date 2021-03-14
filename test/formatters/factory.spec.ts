@@ -7,7 +7,7 @@ import { Json } from "../../src/formatters/json";
 import { Text } from "../../src/formatters/text";
 
 test("Csv", (t) => {
-    sinon.stub(require("../../src/program"), "args").value({ format: "Csv" });
+    sinon.stub(require("../../src/main"), "configuration").value({ format: "Csv" });
 
     const formatter = Factory.getInstance();
 
@@ -15,7 +15,7 @@ test("Csv", (t) => {
 });
 
 test("Json", (t) => {
-    sinon.stub(require("../../src/program"), "args").value({ format: "Json" });
+    sinon.stub(require("../../src/main"), "configuration").value({ format: "Json" });
 
     const formatter = Factory.getInstance();
 
@@ -23,7 +23,7 @@ test("Json", (t) => {
 });
 
 test("Text", (t) => {
-    sinon.stub(require("../../src/program"), "args").value({ format: "Text" });
+    sinon.stub(require("../../src/main"), "configuration").value({ format: "Text" });
 
     const formatter = Factory.getInstance();
 

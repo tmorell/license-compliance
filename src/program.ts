@@ -3,17 +3,17 @@ import * as commander from "commander";
 import * as Debug from "debug";
 
 import { Formatter, Report } from "./enumerations";
-import { Arguments } from "./interfaces";
+import { Configuration } from "./interfaces";
 import { isLicenseValid } from "./license";
 
 const debug = Debug("license-compliance:processArgs");
 
-let args: Arguments;
+// let args: Arguments;
 let program: commander.Command;
 
-export { args };
+// export { args };
 
-export function processArgs(): boolean {
+export function processArgs(): Configuration | null {
     program = new commander.Command();
     try {
         program
@@ -31,16 +31,16 @@ export function processArgs(): boolean {
 
         verifyProductionDevelopment();
     } catch {
-        return false;
+        return null;
     }
 
     formatClassNameCasing();
 
     // tslint:disable-next-line: no-any
-    args = program.opts() as Arguments;
-    debug("Program options %o", program.opts());
+    // args = program.opts() as Arguments;
+    // debug("Program options %o", program.opts());
 
-    return true;
+    return program.opts() as Configuration;
 }
 
 function formatClassNameCasing(): void {

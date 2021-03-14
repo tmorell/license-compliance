@@ -18,7 +18,7 @@ test("No filters", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ exclude: undefined });
+    sinon.stub(require("../../src/main"), "configuration").value({ exclude: undefined });
 
     const filtered = excludePackages(packages);
 
@@ -35,7 +35,7 @@ test("By package names", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ exclude: ["test-01", "@company/test-02"] });
+    sinon.stub(require("../../src/main"), "configuration").value({ exclude: ["test-01", "@company/test-02"] });
 
     const filtered = excludePackages(packages);
 
@@ -55,7 +55,7 @@ test("Regex", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ exclude: [/^@company/] });
+    sinon.stub(require("../../src/main"), "configuration").value({ exclude: [/^@company/] });
 
     const filtered = excludePackages(packages);
 
@@ -75,7 +75,7 @@ test("Regex and string", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ exclude: [/^@company/, "test-02"] });
+    sinon.stub(require("../../src/main"), "configuration").value({ exclude: [/^@company/, "test-02"] });
 
     const filtered = excludePackages(packages);
 

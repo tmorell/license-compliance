@@ -16,7 +16,7 @@ after(() => {
 
 test.serial("Get packages, empty package.json", async (t) => {
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ production: undefined, development: undefined });
+    sinon.stub(require("../../src/main"), "configuration").value({ production: undefined, development: undefined });
 
     const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-empty"));
 
@@ -25,7 +25,7 @@ test.serial("Get packages, empty package.json", async (t) => {
 
 test.serial("Get all packages, full installation", async (t) => {
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ production: undefined, development: undefined });
+    sinon.stub(require("../../src/main"), "configuration").value({ production: undefined, development: undefined });
 
     const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-full"));
 
@@ -58,7 +58,7 @@ test.serial("Get all packages, full installation", async (t) => {
 
 test.serial("Only production, full installation", async (t) => {
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ production: true, development: undefined });
+    sinon.stub(require("../../src/main"), "configuration").value({ production: true, development: undefined });
 
     const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-full"));
 
@@ -85,7 +85,7 @@ test.serial("Only production, full installation", async (t) => {
 
 test.serial("Only development, full installation", async (t) => {
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ production: undefined, development: true });
+    sinon.stub(require("../../src/main"), "configuration").value({ production: undefined, development: true });
 
     const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-full"));
 
@@ -100,7 +100,7 @@ test.serial("Only development, full installation", async (t) => {
 
 test.serial("Get all packages, full installation, only direct", async (t) => {
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ production: undefined, development: undefined, direct: true });
+    sinon.stub(require("../../src/main"), "configuration").value({ production: undefined, development: undefined, direct: true });
 
     const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-full"));
 

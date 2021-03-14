@@ -1,15 +1,21 @@
+import { getConfiguration } from "./configuration";
 import { Report } from "./enumerations";
 import { excludePackages } from "./filters";
+import { Configuration } from "./interfaces";
 import { onlyAllow } from "./license";
 import { getInstalledPackages } from "./npm";
-import { processArgs } from "./program";
 import { Factory as FactoryReport } from "./reports";
 
+let configuration: Configuration;
+export { configuration };
+
 export async function main(): Promise<boolean> {
-    // Process arguments
-    if (!processArgs()) {
+    // Get configuration
+    const config = await getConfiguration();
+    if (!config) {
         return false;
     }
+    configuration = config;
 
     // Get all installed packages
     let packages = await getInstalledPackages();
