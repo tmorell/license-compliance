@@ -7,8 +7,7 @@ import * as Debug from "debug";
 import * as path from "path";
 
 import { LicenseStatus, Literals } from "./enumerations";
-import { NpmPackage, OldLicenseFormat, Package, License } from "./interfaces";
-import { configuration } from "./main";
+import { NpmPackage, OldLicenseFormat, Package, License, Configuration } from "./interfaces";
 import * as util from "./util";
 
 const debug = Debug("license-compliance:license");
@@ -68,7 +67,7 @@ export function isLicenseValid(license: string): boolean {
  * @param {Array<Package>} packages
  * @returns {void}
  */
-export function onlyAllow(packages: Array<Package>): Array<Package> {
+export function onlyAllow(packages: Array<Package>, configuration: Pick<Configuration, 'allow'>): Array<Package> {
     if (!configuration.allow) {
         return [];
     }
