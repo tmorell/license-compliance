@@ -2,9 +2,8 @@ import * as chalk from "chalk";
 import * as Debug from "debug";
 import * as path from "path";
 
-import { Package } from "./interfaces";
+import { Configuration, Package } from "./interfaces";
 import { getLicense } from "./license";
-import { configuration } from "./main";
 import { getRepository } from "./repository";
 import * as util from "./util";
 
@@ -21,7 +20,7 @@ let packages: Array<Package>;
  * @export
  * @returns {Promise<Array<Package>>}
  */
-export async function getInstalledPackages(rootPath = ""): Promise<Array<Package>> {
+export async function getInstalledPackages(rootPath = "", configuration: Pick<Configuration, 'direct' | 'development' | 'production'>): Promise<Array<Package>> {
     packages = new Array<Package>();
 
     // Paths
@@ -35,11 +34,11 @@ export async function getInstalledPackages(rootPath = ""): Promise<Array<Package
 
     if (pack.dependencies && !configuration.development) {
         debug("Analyzing production dependencies at", rootNodeModulesPath);
-        await readPackages(pack.name, pack.dependencies, 0, rootNodeModulesPath);
+        await readPackages(pack.name, pack.dependencies, 0, rootNodeModulesPath, configuration);
     }
     if (pack.devDependencies && !configuration.production) {
         debug("Analyzing development dependencies at", rootNodeModulesPath);
-        await readPackages(pack.name, pack.devDependencies, 0, rootNodeModulesPath);
+        await readPackages(pack.name, pack.devDependencies, 0, rootNodeModulesPath, configuration);
     }
 
     return packages;
@@ -102,7 +101,7 @@ async function getInstalledPath(parentName: string, packageName: string, parentN
  * @param {string} parentNodeModulesPath Parent package's node_module path.
  * @returns {Promise<void>}
  */
-async function readPackages(parentName: string, dependencies: Array<[string, string]>, depth: number, parentNodeModulesPath: string): Promise<void> {
+async function readPackages(parentName: string, dependencies: Array<[string, string]>, depth: number, parentNodeModulesPath: string, configuration: Pick<Configuration, 'direct' |'development' | 'production'>): Promise<void> {
     if (depth > 0 && configuration.direct) {
         return;
     }
@@ -134,7 +133,7 @@ async function readPackages(parentName: string, dependencies: Array<[string, str
         packages.push(pack);
 
         if (file.dependencies) {
-            await readPackages(dependency, file.dependencies, ++depth, path.join(packagePath, NODE_MODULES));
+            await readPackages(dependency, file.dependencies, ++depth, path.join(packagePath, NODE_MODULES), configuration);
         }
     }
 }
