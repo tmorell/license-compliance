@@ -1,6 +1,6 @@
 module.exports = {
-    extends: '@morell/license-policy',
-    // format: "Text",
+    // extends: '@morell/license-policy',
+    format: "json",
     // report: "Summary",
     // direct: false,
     // production: true,

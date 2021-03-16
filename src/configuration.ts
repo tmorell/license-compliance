@@ -22,8 +22,8 @@ export async function getConfiguration(): Promise<Configuration> {
     if (extendsPath) {
         const c = await explorer.load(`node_modules/${extendsPath}/index.js`);
         configExtended = c?.config as Partial<Configuration>;
+        delete configInline.extends;
     }
-    delete configInline.extends;
 
     // Get command configuration
     const configArgs = processArgs();
@@ -33,16 +33,22 @@ export async function getConfiguration(): Promise<Configuration> {
 
     // Merge configurations: command overrides extended and extended overrides inline.
     const configuration = Object.assign(configExtended, configInline as Partial<Configuration>, configCommand);
-    console.log("configuration", configuration);
 
     // Return default values for undefined keys
     return {
-        allow: configuration.allow || [],
-        development: !!configuration.development || false,
-        direct: configuration.direct || false,
-        exclude: configuration.exclude || [],
-        production: !!configuration.production || false,
-        format: configuration.format || Formatter.text,
-        report: configuration.report || Report.summary
+        ...configuration.allow && { allow: configuration.allow },
+        ...configuration.development && { development: configuration.development },
+        ...configuration.direct && { direct: configuration.direct },
+        ...configuration.exclude && { exclude: configuration.exclude },
+        ...configuration.production && { production: configuration.production },
+        format: toPascal(configuration.format) as Formatter || Formatter.text,
+        report: toPascal(configuration.report) as Report || Report.summary
     };
+}
+
+function toPascal(value: string | undefined): string | undefined {
+    if (!value || value.length < 2) {
+        return value;
+    }
+    return value[0].toUpperCase() + value.substr(1);
 }

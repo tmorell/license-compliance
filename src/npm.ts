@@ -20,7 +20,7 @@ let packages: Array<Package>;
  * @export
  * @returns {Promise<Array<Package>>}
  */
-export async function getInstalledPackages(rootPath = "", configuration: Pick<Configuration, 'direct' | 'development' | 'production'>): Promise<Array<Package>> {
+export async function getInstalledPackages(rootPath = "", configuration: Pick<Configuration, "direct" | "development" | "production">): Promise<Array<Package>> {
     packages = new Array<Package>();
 
     // Paths
@@ -101,7 +101,7 @@ async function getInstalledPath(parentName: string, packageName: string, parentN
  * @param {string} parentNodeModulesPath Parent package's node_module path.
  * @returns {Promise<void>}
  */
-async function readPackages(parentName: string, dependencies: Array<[string, string]>, depth: number, parentNodeModulesPath: string, configuration: Pick<Configuration, 'direct' |'development' | 'production'>): Promise<void> {
+async function readPackages(parentName: string, dependencies: Array<[string, string]>, depth: number, parentNodeModulesPath: string, configuration: Pick<Configuration, "direct" |"development" | "production">): Promise<void> {
     if (depth > 0 && configuration.direct) {
         return;
     }

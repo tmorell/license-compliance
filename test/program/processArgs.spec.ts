@@ -5,7 +5,6 @@ import { Formatter, Report } from "../../src/enumerations";
 import { processArgs } from "../../src/program";
 
 before(() => {
-    sinon.stub(process, "exit");
     sinon.stub(process.stdout, "write");
 });
 
@@ -19,14 +18,13 @@ test("No arguments", (t) => {
 
     const configuration = processArgs();
 
-    // t.true(r);
-    t.is(configuration?.allow, undefined);
-    t.is(configuration?.development, undefined);
-    t.is(configuration?.direct, undefined);
-    t.is(configuration?.exclude, undefined);
-    t.is(configuration?.format, Formatter.text);
-    t.is(configuration?.production, undefined);
-    t.is(configuration?.report, Report.summary);
+    t.is(configuration.allow, undefined);
+    t.is(configuration.development, undefined);
+    t.is(configuration.direct, undefined);
+    t.is(configuration.exclude, undefined);
+    t.is(configuration.format, undefined);
+    t.is(configuration.production, undefined);
+    t.is(configuration.report, undefined);
 });
 
 test("Allow, valid licenses", (t) => {
@@ -35,19 +33,21 @@ test("Allow, valid licenses", (t) => {
 
     const configuration = processArgs();
 
-    t.is(configuration?.allow?.length, 3);
-    t.is(configuration?.allow?.[0], "MIT");
-    t.is(configuration?.allow?.[1], "ISC");
-    t.is(configuration?.allow?.[2], "Apache-2.0");
+    t.is(configuration.allow?.length, 3);
+    t.is(configuration.allow?.[0], "MIT");
+    t.is(configuration.allow?.[1], "ISC");
+    t.is(configuration.allow?.[2], "Apache-2.0");
 });
 
 test("Allow, invalid licenses", (t) => {
     // tslint:disable-next-line: no-unsafe-any
     sinon.stub(process, "argv").value(["", "", "--allow", "MIT;ISC;Apache 2.0"]);
+    const stubProcess = sinon.stub(process, "exit");
 
-    const configuration = processArgs();
+    processArgs();
 
-    t.is(configuration, null);
+    t.true(stubProcess.calledTwice);
+    stubProcess.restore();
 });
 
 test("Development", (t) => {
@@ -56,14 +56,13 @@ test("Development", (t) => {
 
     const configuration = processArgs();
 
-    // t.true(r);
-    t.is(configuration?.allow, undefined);
-    t.is(configuration?.development, true);
-    t.is(configuration?.direct, undefined);
-    t.is(configuration?.exclude, undefined);
-    t.is(configuration?.format, Formatter.text);
-    t.is(configuration?.production, undefined);
-    t.is(configuration?.report, Report.summary);
+    t.is(configuration.allow, undefined);
+    t.is(configuration.development, true);
+    t.is(configuration.direct, undefined);
+    t.is(configuration.exclude, undefined);
+    t.is(configuration.format, undefined);
+    t.is(configuration.production, undefined);
+    t.is(configuration.report, undefined);
 });
 
 test("Direct", (t) => {
@@ -72,14 +71,13 @@ test("Direct", (t) => {
 
     const configuration = processArgs();
 
-    // t.true(r);
-    t.is(configuration?.allow, undefined);
-    t.is(configuration?.development, undefined);
-    t.is(configuration?.direct, true);
-    t.is(configuration?.exclude, undefined);
-    t.is(configuration?.format, Formatter.text);
-    t.is(configuration?.production, undefined);
-    t.is(configuration?.report, Report.summary);
+    t.is(configuration.allow, undefined);
+    t.is(configuration.development, undefined);
+    t.is(configuration.direct, true);
+    t.is(configuration.exclude, undefined);
+    t.is(configuration.format, undefined);
+    t.is(configuration.production, undefined);
+    t.is(configuration.report, undefined);
 });
 
 test("Exclude", (t) => {
@@ -88,11 +86,10 @@ test("Exclude", (t) => {
 
     const configuration = processArgs();
 
-    // t.true(r);
-    t.is(configuration?.exclude?.length, 3);
-    t.is(configuration?.exclude?.[0], "pack-01");
-    t.deepEqual(configuration?.exclude?.[1], /^@company/);
-    t.is(configuration?.exclude?.[2], "pack-02");
+    t.is(configuration.exclude?.length, 3);
+    t.is(configuration.exclude?.[0], "pack-01");
+    t.deepEqual(configuration.exclude?.[1], /^@company/);
+    t.is(configuration.exclude?.[2], "pack-02");
 });
 
 test("Format", (t) => {
@@ -101,23 +98,24 @@ test("Format", (t) => {
 
     const configuration = processArgs();
 
-    // t.true(r);
-    t.is(configuration?.allow, undefined);
-    t.is(configuration?.development, undefined);
-    t.is(configuration?.direct, undefined);
-    t.is(configuration?.exclude, undefined);
-    t.is(configuration?.format, Formatter.json);
-    t.is(configuration?.production, undefined);
-    t.is(configuration?.report, Report.summary);
+    t.is(configuration.allow, undefined);
+    t.is(configuration.development, undefined);
+    t.is(configuration.direct, undefined);
+    t.is(configuration.exclude, undefined);
+    t.is(configuration.format, Formatter.json.toLowerCase());
+    t.is(configuration.production, undefined);
+    t.is(configuration.report, undefined);
 });
 
 test("Format, bad param", (t) => {
     // tslint:disable-next-line: no-unsafe-any
     sinon.stub(process, "argv").value(["", "", "--format", "bad-param"]);
+    const stubProcess = sinon.stub(process, "exit");
 
-    const configuration = processArgs();
+    processArgs();
 
-    t.is(configuration, null);
+    t.true(stubProcess.calledTwice);
+    stubProcess.restore();
 });
 
 test("Production", (t) => {
@@ -126,23 +124,24 @@ test("Production", (t) => {
 
     const configuration = processArgs();
 
-    // t.true(r);
-    t.is(configuration?.allow, undefined);
-    t.is(configuration?.development, undefined);
-    t.is(configuration?.direct, undefined);
-    t.is(configuration?.exclude, undefined);
-    t.is(configuration?.format, Formatter.text);
-    t.is(configuration?.production, true);
-    t.is(configuration?.report, Report.summary);
+    t.is(configuration.allow, undefined);
+    t.is(configuration.development, undefined);
+    t.is(configuration.direct, undefined);
+    t.is(configuration.exclude, undefined);
+    t.is(configuration.format, undefined);
+    t.is(configuration.production, true);
+    t.is(configuration.report, undefined);
 });
 
 test("Production or development", (t) => {
     // tslint:disable-next-line: no-unsafe-any
     sinon.stub(process, "argv").value(["", "", "--production", "--development"]);
+    const stubProcess = sinon.stub(process, "exit");
 
-    const r = processArgs();
+    processArgs();
 
-    t.is(r, null);
+    t.true(stubProcess.calledTwice);
+    stubProcess.restore();
 });
 
 test("Report", (t) => {
@@ -151,21 +150,22 @@ test("Report", (t) => {
 
     const configuration = processArgs();
 
-    // t.true(r);
-    t.is(configuration?.allow, undefined);
-    t.is(configuration?.development, undefined);
-    t.is(configuration?.direct, undefined);
-    t.is(configuration?.exclude, undefined);
-    t.is(configuration?.format, Formatter.text);
-    t.is(configuration?.production, undefined);
-    t.is(configuration?.report, Report.detailed);
+    t.is(configuration.allow, undefined);
+    t.is(configuration.development, undefined);
+    t.is(configuration.direct, undefined);
+    t.is(configuration.exclude, undefined);
+    t.is(configuration.format, undefined);
+    t.is(configuration.production, undefined);
+    t.is(configuration.report, (Report.detailed as string).toLowerCase());
 });
 
 test("Report, bad param", (t) => {
     // tslint:disable-next-line: no-unsafe-any
     sinon.stub(process, "argv").value(["", "", "--report", "bad-param"]);
+    const stubProcess = sinon.stub(process, "exit");
 
-    const configuration = processArgs();
+    processArgs();
 
-    t.is(configuration, null);
+    t.true(stubProcess.calledTwice);
+    stubProcess.restore();
 });

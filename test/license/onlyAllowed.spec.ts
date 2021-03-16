@@ -56,7 +56,7 @@ test("Some packages not allowed, single check", (t) => {
     ];
 
     // Arguments
-    const invalid = onlyAllow(packages, { allow: ['ISC' ]});
+    const invalid = onlyAllow(packages, { allow: ["ISC" ]});
 
     t.is(invalid.length, 3);
     t.is(invalid[0].name, "test-01");
