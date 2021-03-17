@@ -70,7 +70,8 @@
             "baseline",
             "test/util.ts",
             "bin/cli.js",
-            "src/index.ts"
+            "src/index.ts",
+            ".license-compliancerc.js"
         ],
         "extension": [
             ".ts"

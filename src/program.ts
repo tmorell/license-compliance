@@ -36,14 +36,12 @@ function help(errorMessage: string): void {
 }
 
 function verifyAllow(value: string, previous: Array<string>): Array<string> {
-    console.log("verifyAllow");
     return value
         .split(";")
         .map((license) => license.trim())
         .filter((license) => !!license)
         .map((license) => {
             if (!isLicenseValid(license)) {
-                console.log("INVALID");
                 help(`Invalid --allow option "${license}"`);
             }
             return license;

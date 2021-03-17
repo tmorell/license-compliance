@@ -1,8 +1,11 @@
+import * as chalk from "chalk";
 import { cosmiconfig } from "cosmiconfig";
-import { Formatter, Report } from "./enumerations";
+import * as path from "path";
 
+import { Formatter, Report } from "./enumerations";
 import { Configuration, ExtendableConfiguration } from "./interfaces";
 import { processArgs } from "./program";
+import { toPascal } from "./util";
 
 const packageName = "license-compliance";
 
@@ -10,7 +13,6 @@ export async function getConfiguration(): Promise<Configuration> {
 
     let configExtended: Partial<Configuration> = {};
     let configInline: ExtendableConfiguration = {};
-    let configCommand: Partial<Configuration> = {};
 
     // Get inline configuration
     const explorer = cosmiconfig(packageName);
@@ -20,35 +22,27 @@ export async function getConfiguration(): Promise<Configuration> {
     // Get extended configuration
     const extendsPath = configInline?.extends;
     if (extendsPath) {
-        const c = await explorer.load(`node_modules/${extendsPath}/index.js`);
-        configExtended = c?.config as Partial<Configuration>;
-        delete configInline.extends;
+        try {
+            const c = await explorer.load(path.join("node_modules", extendsPath, "index.js"));
+            configExtended = c?.config as Partial<Configuration> || {};
+            delete configInline.extends;
+        } catch (error) {
+            console.log(chalk.red("Error:"), error);
+            process.exit(1);
+        }
     }
 
-    // Get command configuration
-    const configArgs = processArgs();
-    if (configArgs) {
-        configCommand = configArgs;
-    }
-
-    // Merge configurations: command overrides extended and extended overrides inline.
-    const configuration = Object.assign(configExtended, configInline as Partial<Configuration>, configCommand);
+    // Merge configurations: CLI overrides extended, extended overrides inline
+    const configuration = Object.assign(configExtended, configInline as Partial<Configuration>, processArgs());
 
     // Return default values for undefined keys
     return {
-        ...configuration.allow && { allow: configuration.allow },
-        ...configuration.development && { development: configuration.development },
-        ...configuration.direct && { direct: configuration.direct },
-        ...configuration.exclude && { exclude: configuration.exclude },
-        ...configuration.production && { production: configuration.production },
+        allow: configuration.allow || [],
+        development: !!configuration.development || false,
+        direct: configuration.direct || false,
+        exclude: configuration.exclude || [],
+        production: !!configuration.production || false,
         format: toPascal(configuration.format) as Formatter || Formatter.text,
         report: toPascal(configuration.report) as Report || Report.summary
     };
-}
-
-function toPascal(value: string | undefined): string | undefined {
-    if (!value || value.length < 2) {
-        return value;
-    }
-    return value[0].toUpperCase() + value.substr(1);
 }

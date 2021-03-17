@@ -18,7 +18,7 @@ test("No filters", (t) => {
     ];
 
     // Arguments
-    const filtered = excludePackages(packages, { exclude: undefined });
+    const filtered = excludePackages(packages, { exclude: [] });
 
     t.is(filtered.length, 5);
 });

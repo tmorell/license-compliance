@@ -16,7 +16,7 @@ test("No licenses to check", (t) => {
     ];
 
     // Arguments
-    const invalid = onlyAllow(packages, { allow: undefined });
+    const invalid = onlyAllow(packages, { allow: [] });
 
     t.is(invalid.length, 0);
 });

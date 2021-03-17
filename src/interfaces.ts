@@ -1,12 +1,12 @@
 import { Formatter, Report, LicenseStatus } from "./enumerations";
 
 export interface Configuration {
-    allow?: Array<string>;
-    development?: boolean;
-    direct?: boolean;
-    exclude?: Array<string | RegExp>;
+    allow: Array<string>;
+    development: boolean;
+    direct: boolean;
+    exclude: Array<string | RegExp>;
     format: Formatter;
-    production?: boolean;
+    production: boolean;
     report: Report;
 }
 

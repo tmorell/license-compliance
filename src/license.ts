@@ -68,7 +68,7 @@ export function isLicenseValid(license: string): boolean {
  * @returns {void}
  */
 export function onlyAllow(packages: Array<Package>, configuration: Pick<Configuration, "allow">): Array<Package> {
-    if (!configuration.allow) {
+    if (configuration.allow?.length === 0) {
         return [];
     }
 
