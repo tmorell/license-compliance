@@ -1,8 +1,10 @@
 module.exports = {
-    // extends: '@acme/license-policy-new',
-    format: "json",
-    report: "detailed",
+    // allow: ['MIT'],
+    // development: false,
     // direct: false,
+    exclude: [/^spdx/, "yaml"],
+    // extends: '@acme/license-policy-new',
+    format: "text",
     // production: true,
-    // allow: ['MIT']
+    report: "summary",
 };

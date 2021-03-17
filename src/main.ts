@@ -8,7 +8,9 @@ import { Factory as FactoryReport } from "./reports";
 export async function main(): Promise<boolean> {
     // Get configuration
     const configuration = await getConfiguration();
-    console.log("configuration", configuration);
+    if (!configuration) {
+        return false;
+    }
 
     // Get all installed packages
     let packages = await getInstalledPackages("", configuration);

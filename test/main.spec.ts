@@ -21,13 +21,13 @@ afterEach(() => {
     sinon.restore();
 });
 
-// test.serial("Invalid arguments", async (t) => {
-//     sinon.stub(configuration, "getConfiguration").returns(null);  // Invalid arguments were provided
+test.serial("Invalid arguments", async (t) => {
+    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(null));
 
-//     const r = await main();
+    const r = await main();
 
-//     t.false(r);
-// });
+    t.false(r);
+});
 
 test.serial("No packages installed", async (t) => {
     const packages = new Array<Package>();

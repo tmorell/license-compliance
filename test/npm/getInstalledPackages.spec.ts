@@ -7,7 +7,6 @@ import { getInstalledPackages } from "../../src/npm";
 import { Literals } from "../../src/enumerations";
 
 before(() => {
-    // sinon.stub(console, "log");
     sinon.stub(console, "error");
 });
 

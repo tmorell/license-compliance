@@ -1,6 +1,7 @@
 import * as chalk from "chalk";
 import { cosmiconfig } from "cosmiconfig";
 import * as path from "path";
+import * as joi from "joi";
 
 import { Formatter, Report } from "./enumerations";
 import { Configuration, ExtendableConfiguration } from "./interfaces";
@@ -9,7 +10,7 @@ import { toPascal } from "./util";
 
 const packageName = "license-compliance";
 
-export async function getConfiguration(): Promise<Configuration> {
+export async function getConfiguration(): Promise<Configuration | null> {
 
     let configExtended: Partial<Configuration> = {};
     let configInline: ExtendableConfiguration = {};
@@ -27,22 +28,37 @@ export async function getConfiguration(): Promise<Configuration> {
             configExtended = c?.config as Partial<Configuration> || {};
             delete configInline.extends;
         } catch (error) {
-            console.log(chalk.red("Error:"), error);
-            process.exit(1);
+            console.log(chalk.red("Extended configuration error:"), error);
+            return null;
         }
     }
 
-    // Merge configurations: CLI overrides extended, extended overrides inline
-    const configuration = Object.assign(configExtended, configInline as Partial<Configuration>, processArgs());
-
-    // Return default values for undefined keys
-    return {
-        allow: configuration.allow || [],
-        development: !!configuration.development || false,
-        direct: configuration.direct || false,
-        exclude: configuration.exclude || [],
-        production: !!configuration.production || false,
-        format: toPascal(configuration.format) as Formatter || Formatter.text,
-        report: toPascal(configuration.report) as Report || Report.summary
+    // Merge configurations: CLI > inline > extended
+    const mergedConfiguration = Object.assign(configExtended, configInline as Partial<Configuration>, processArgs());
+    const configuration = {
+        allow: mergedConfiguration.allow || [],
+        development: !!mergedConfiguration.development || false,
+        direct: mergedConfiguration.direct || false,
+        exclude: mergedConfiguration.exclude || [],
+        format: toPascal(mergedConfiguration.format) as Formatter || Formatter.text,
+        production: !!mergedConfiguration.production || false,
+        report: toPascal(mergedConfiguration.report) as Report || Report.summary
     };
+
+    // Validate configuration
+    const result = joi.object({
+        allow: joi.array().items(joi.string()),
+        development: joi.boolean(),
+        direct: joi.boolean(),
+        exclude: joi.array(),
+        format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text),
+        production: joi.boolean(),
+        report: joi.string().valid(Report.detailed, Report.invalid, Report.summary),
+    }).validate(configuration);
+    if (result.error) {
+        console.log(chalk.red("Configuration error:"), result.error.message);
+        return null;
+    }
+
+    return configuration;
 }
