@@ -16,9 +16,7 @@ test("No licenses to check", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: undefined });
-
-    const invalid = onlyAllow(packages);
+    const invalid = onlyAllow(packages, { allow: [] });
 
     t.is(invalid.length, 0);
 });
@@ -31,9 +29,7 @@ test("All packages allowed, single check", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["MIT"] });
-
-    const invalid = onlyAllow(packages);
+    const invalid = onlyAllow(packages, { allow: ["MIT"] });
 
     t.is(invalid.length, 0);
 });
@@ -46,9 +42,7 @@ test("All packages allowed, multiple checks", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["Apache-2.0", "ISC", "MIT"] });
-
-    const invalid = onlyAllow(packages);
+    const invalid = onlyAllow(packages, { allow: ["Apache-2.0", "ISC", "MIT"] });
 
     t.is(invalid.length, 0);
 });
@@ -62,9 +56,7 @@ test("Some packages not allowed, single check", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["ISC"] });
-
-    const invalid = onlyAllow(packages);
+    const invalid = onlyAllow(packages, { allow: ["ISC" ]});
 
     t.is(invalid.length, 3);
     t.is(invalid[0].name, "test-01");
@@ -81,9 +73,7 @@ test("Some packages not allowed, multiple checks", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["MIT", "ISC"] });
-
-    const invalid = onlyAllow(packages);
+    const invalid = onlyAllow(packages, { allow: ["MIT", "ISC"] });
 
     t.is(invalid.length, 2);
     t.is(invalid[0].name, "test-02");
@@ -99,9 +89,7 @@ test("All packages allowed, OR licenses", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["MIT", "ISC"] });
-
-    const invalid = onlyAllow(packages);
+    const invalid = onlyAllow(packages, { allow: ["MIT", "ISC"] });
 
     t.is(invalid.length, 0);
 });
@@ -115,9 +103,7 @@ test("Some packages not allowed, OR licenses", (t) => {
     ];
 
     // Arguments
-    sinon.stub(require("../../src/program"), "args").value({ allow: ["MIT", "BSD-3-Clause"] });
-
-    const invalid = onlyAllow(packages);
+    const invalid = onlyAllow(packages, { allow: ["MIT", "BSD-3-Clause"] });
 
     t.is(invalid.length, 1);
     t.is(invalid[0].name, "test-04");

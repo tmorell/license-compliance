@@ -103,5 +103,27 @@ Add it the CI configuration
     npm run license-compliance
 ```
 
+# Sharable Configurations
+Sharable configurations allow you to publish your compliance rules and share them across multiple projects. A sharable configuration is an npm package that exports a module.
+1. Create an npm package with an index.js file and export an object containing your settings. For example:
+```javascript
+module.exports = {
+    allow: ['MIT', "ISC"],
+    exclude: [/^@acme/],
+    format: "text",
+    production: true,
+    report: "summary",
+};
+```
+2. Install the npm package in your solution(s).
+2. Add a configuration file `.license-compliancerc.js` to the root of your project.
+```javascript
+module.exports = {
+    extends: "{name of your package with the configuration rules",
+};
+
+```
+> The configuration file `.license-compliancerc.js` can also include other properties besides `extends`, allowing you to override the settings from the installed shared package. The command line in the CI will override any configuration; `CLI` > `Inline` > `Shared configuration package`.
+
 # License
 MIT
