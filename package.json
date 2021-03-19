@@ -93,5 +93,5 @@
         "test": "npm run build && npm run nyc",
         "test:watch": "ava --watch"
     },
-    "version": "1.0.3"
+    "version": "1.1.0"
 }
