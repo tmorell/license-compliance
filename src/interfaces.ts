@@ -1,6 +1,6 @@
 import { Formatter, Report, LicenseStatus } from "./enumerations";
 
-export interface Arguments {
+export interface Configuration {
     allow: Array<string>;
     development: boolean;
     direct: boolean;
@@ -8,6 +8,10 @@ export interface Arguments {
     format: Formatter;
     production: boolean;
     report: Report;
+}
+
+export interface ExtendableConfiguration extends Partial<Configuration> {
+  extends?: string;
 }
 
 export interface License {

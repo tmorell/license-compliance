@@ -1,5 +1,7 @@
 import { main } from "./main";
 
 (async () => {
-    await main();
+    if (!await main()) {
+        process.exitCode = 1;
+    }
 })();
