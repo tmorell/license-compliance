@@ -1,15 +1,16 @@
-import { args } from "./program";
-import { Package } from "./interfaces";
+import { Configuration, Package } from "./interfaces";
 
-export function excludePackages(packages: Array<Package>): Array<Package> {
-    if (!args.exclude) {
+export function excludePackages(packages: Array<Package>, configuration: Pick<Configuration, "exclude">): Array<Package> {
+    const { exclude: excludeFilters } = configuration;
+
+    if (excludeFilters.length === 0) {
         return packages;
     }
 
     const col = new Array<Package>();
     packages.forEach((pack) => {
         let exclude = false;
-        for (const filter of args.exclude) {
+        for (const filter of excludeFilters) {
             if (typeof filter === "string") {
                 if (pack.name === filter) {
                     exclude = true;
