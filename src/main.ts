@@ -1,3 +1,5 @@
+import * as Debug from "debug";
+
 import { getConfiguration } from "./configuration";
 import { Report } from "./enumerations";
 import { excludePackages } from "./filters";
@@ -5,9 +7,12 @@ import { onlyAllow } from "./license";
 import { getInstalledPackages } from "./npm";
 import { Factory as FactoryReport } from "./reports";
 
+const debug = Debug("license-compliance:main");
+
 export async function main(): Promise<boolean> {
     // Get configuration
     const configuration = await getConfiguration();
+    debug("Configuration", configuration);
     if (!configuration) {
         return false;
     }
