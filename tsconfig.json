@@ -4,6 +4,8 @@
         "alwaysStrict": true,
         "baseUrl": "src",
         "declaration": true,
+        "esModuleInterop": true,
+        "importHelpers": true,
         "module": "commonjs",
         "moduleResolution": "node",
         "noFallthroughCasesInSwitch": true,

@@ -2,17 +2,17 @@
 // SPDX: https://spdx.org/sites/cpstandard/files/pages/files/using_spdx_license_list_short_identifiers.pdf
 // NPM: https://docs.npmjs.com/files/package.json#license
 
-import * as chalk from "chalk";
-import * as Debug from "debug";
-import * as path from "path";
+import chalk from "chalk";
+import Debug from "debug";
+import path from "path";
+import parse from "spdx-expression-parse";
+import satisfies from "spdx-satisfies";
 
 import { LicenseStatus, Literals } from "./enumerations";
 import { NpmPackage, OldLicenseFormat, Package, License, Configuration } from "./interfaces";
 import * as util from "./util";
 
 const debug = Debug("license-compliance:license");
-const parse = require("spdx-expression-parse");
-const satisfies = require("spdx-satisfies");
 const SEE_LICENSE_IN = "SEE LICENSE IN";
 const LICENSE_FILE = "license";
 

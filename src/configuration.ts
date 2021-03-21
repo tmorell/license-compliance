@@ -1,7 +1,7 @@
-import * as chalk from "chalk";
+import chalk from "chalk";
 import { cosmiconfig } from "cosmiconfig";
-import * as path from "path";
-import * as joi from "joi";
+import path from "path";
+import joi from "joi";
 
 import { Formatter, Report } from "./enumerations";
 import { Configuration, ExtendableConfiguration } from "./interfaces";

@@ -1,12 +1,9 @@
-import * as chalk from "chalk";
-import * as commander from "commander";
-import * as Debug from "debug";
+import chalk from "chalk";
+import commander from "commander";
 
 import { Formatter, Report } from "./enumerations";
 import { Configuration } from "./interfaces";
 import { isLicenseValid } from "./license";
-
-const debug = Debug("license-compliance:processArgs");
 
 let program: commander.Command;
 

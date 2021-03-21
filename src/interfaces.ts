@@ -1,4 +1,4 @@
-import { Formatter, Report, LicenseStatus } from "./enumerations";
+import { Formatter, LicenseStatus, Report } from "./enumerations";
 
 export interface Configuration {
     allow: Array<string>;

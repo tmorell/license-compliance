@@ -1,6 +1,6 @@
-import * as chalk from "chalk";
-import * as Debug from "debug";
-import * as path from "path";
+import chalk from "chalk";
+import Debug from "debug";
+import path from "path";
 
 import { Configuration, Package } from "./interfaces";
 import { getLicense } from "./license";

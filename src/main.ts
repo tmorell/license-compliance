@@ -1,4 +1,4 @@
-import * as Debug from "debug";
+import Debug from "debug";
 
 import { getConfiguration } from "./configuration";
 import { Report } from "./enumerations";

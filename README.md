@@ -119,7 +119,7 @@ module.exports = {
 2. Add a configuration file `.license-compliancerc.js` to the root of your project.
 ```javascript
 module.exports = {
-    extends: "{name of your package with the configuration rules",
+    extends: "{name of your package with the configuration rules}",
 };
 
 ```
