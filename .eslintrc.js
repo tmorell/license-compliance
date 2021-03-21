@@ -99,7 +99,7 @@ module.exports = {
         "eqeqeq": "error",
         "jest/no-focused-tests": "error",
         "max-classes-per-file": "error",
-        "no-await-in-loop": "error",
+        // "no-await-in-loop": "error",
         "no-console": [
             "error",
             { "allow": ["info", "error"] }
