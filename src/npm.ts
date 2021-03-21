@@ -99,7 +99,7 @@ async function getInstalledPath(parentName: string, packageName: string, parentN
  * @returns {Promise<void>}
  */
 async function readPackages(parentName: string, dependencies: Array<[string, string]>, depth: number,
-    parentNodeModulesPath: string, configuration: Pick<Configuration, "direct" | "development" | "production">, rootNodeModulesPath: string, packages: Array<Package>,
+    parentNodeModulesPath: string, configuration: Pick<Configuration, "direct">, rootNodeModulesPath: string, packages: Array<Package>,
 ): Promise<void> {
     if (depth > 0 && configuration.direct) {
         return;
@@ -113,7 +113,7 @@ async function readPackages(parentName: string, dependencies: Array<[string, str
 }
 
 async function getPackage(parentName: string, dependency: string, parentNodeModulesPath: string,
-    configuration: Pick<Configuration, "direct" | "development" | "production">, depth: number, rootNodeModulesPath: string, packages: Array<Package>
+    configuration: Pick<Configuration, "direct">, depth: number, rootNodeModulesPath: string, packages: Array<Package>
 ): Promise<void> {
     const packagePath = await getInstalledPath(parentName, dependency, parentNodeModulesPath, rootNodeModulesPath);
     if (packagePath === undefined) {
