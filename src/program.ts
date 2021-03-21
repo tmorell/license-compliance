@@ -32,7 +32,7 @@ function help(errorMessage: string): void {
     console.log(program.help());
 }
 
-function verifyAllow(value: string, previous: Array<string>): Array<string> {
+function verifyAllow(value: string): Array<string> {
     return value
         .split(";")
         .map((license) => license.trim())
@@ -45,7 +45,7 @@ function verifyAllow(value: string, previous: Array<string>): Array<string> {
         });
 }
 
-function verifyExclude(value: string, previous: Array<string | RegExp>): Array<string | RegExp> {
+function verifyExclude(value: string): Array<string | RegExp> {
     return value
         .split(";")
         .map((exclude) => exclude.trim())
@@ -58,7 +58,7 @@ function verifyExclude(value: string, previous: Array<string | RegExp>): Array<s
         });
 }
 
-function verifyFormat(value: string, previous: string): string {
+function verifyFormat(value: string): string {
     if (!Object.keys(Formatter).includes(value)) {
         help(`Invalid --format option "${value}"`);
     }
@@ -72,7 +72,7 @@ function verifyProductionDevelopment(): void {
     }
 }
 
-function verifyReport(value: string, previous: string): string {
+function verifyReport(value: string): string {
     if (!Object.keys(Report).includes(value)) {
         help(`Invalid --report option "${value}"`);
     }

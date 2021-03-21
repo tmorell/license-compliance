@@ -15,14 +15,14 @@ after(() => {
 });
 
 test.serial("Get packages, empty package.json", async (t) => {
-    const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-empty"), getDefaultConfiguration());
+    const packages = await getInstalledPackages(getDefaultConfiguration(), path.join(__dirname, "..", "mock-packages", "installation-empty"));
 
     t.is(packages.length, 0);
 });
 
 test.serial("Get all packages, full installation", async (t) => {
     // Arguments
-    const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-full"), getDefaultConfiguration());
+    const packages = await getInstalledPackages(getDefaultConfiguration(), path.join(__dirname, "..", "mock-packages", "installation-full"));
 
     t.is(packages.length, 11);
     t.is(packages[0].name, "prod-01");
@@ -53,8 +53,8 @@ test.serial("Get all packages, full installation", async (t) => {
 
 test.serial("Only production, full installation", async (t) => {
     // Arguments
-    const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-full"),
-        Object.assign(getDefaultConfiguration(), { production: true }));
+    const packages = await getInstalledPackages(Object.assign(getDefaultConfiguration(), { production: true }),
+        path.join(__dirname, "..", "mock-packages", "installation-full"));
 
     t.is(packages.length, 9);
     t.is(packages[0].name, "prod-01");
@@ -79,8 +79,8 @@ test.serial("Only production, full installation", async (t) => {
 
 test.serial("Only development, full installation", async (t) => {
     // Arguments
-    const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-full"),
-        Object.assign(getDefaultConfiguration(), { development: true }));
+    const packages = await getInstalledPackages(Object.assign(getDefaultConfiguration(), { development: true }),
+        path.join(__dirname, "..", "mock-packages", "installation-full"));
 
     t.is(packages.length, 3);
     t.is(packages[0].name, "dev-01");
@@ -93,8 +93,8 @@ test.serial("Only development, full installation", async (t) => {
 
 test.serial("Get all packages, full installation, only direct", async (t) => {
     // Arguments
-    const packages = await getInstalledPackages(path.join(__dirname, "..", "mock-packages", "installation-full"),
-        Object.assign(getDefaultConfiguration(), { direct: true }));
+    const packages = await getInstalledPackages(Object.assign(getDefaultConfiguration(), { direct: true }),
+        path.join(__dirname, "..", "mock-packages", "installation-full"));
 
     t.is(packages.length, 5);
     t.is(packages[0].name, "prod-01");

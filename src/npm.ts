@@ -20,7 +20,7 @@ let packages: Array<Package>;
  * @export
  * @returns {Promise<Array<Package>>}
  */
-export async function getInstalledPackages(rootPath = "", configuration: Pick<Configuration, "direct" | "development" | "production">): Promise<Array<Package>> {
+export async function getInstalledPackages(configuration: Pick<Configuration, "direct" | "development" | "production">, rootPath = ""): Promise<Array<Package>> {
     packages = new Array<Package>();
 
     // Paths

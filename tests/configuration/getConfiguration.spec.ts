@@ -35,10 +35,9 @@ afterEach(() => {
 test.serial("Default configuration", async (t) => {
     // No inline configuration
     const explorer = {
-        search: () => { }
+        search: () => Promise.resolve(null)
     } as Explorer;
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve(null));
 
     // No command line args
     sinon.stub(program, "processArgs").returns({} as Configuration);
@@ -59,16 +58,15 @@ test.serial("Default configuration", async (t) => {
 test.serial("Invalid inline configuration", async (t) => {
     // No inline configuration
     const explorer = {
-        search: () => { }
+        search: () => Promise.resolve({
+            config: {
+                format: "some-format"
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        })
     } as Explorer;
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve({
-        config: {
-            format: "some-format"
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
 
     // No command line args
     sinon.stub(program, "processArgs").returns({} as Configuration);
@@ -82,18 +80,17 @@ test.serial("Invalid inline configuration", async (t) => {
 test.serial("Inline configuration, not extended", async (t) => {
     // No inline configuration
     const explorer = {
-        search: () => { }
+        search: () => Promise.resolve({
+            config: {
+                production: true,
+                allow: ["MIT", "ISC"],
+                format: Formatter.json.toLowerCase()
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        })
     } as Explorer;
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve({
-        config: {
-            production: true,
-            allow: ["MIT", "ISC"],
-            format: Formatter.json.toLowerCase()
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
 
     // No command line args
     sinon.stub(program, "processArgs").returns({} as Configuration);
@@ -116,22 +113,18 @@ test.serial("Inline configuration, not extended", async (t) => {
 test.serial("Inline configuration, invalid extended file", async (t) => {
     // Inline configuration
     const explorer = {
-        search: () => { },
-        load: () => { },
+        search: () => Promise.resolve({
+            config: {
+                allow: ["Apache-2.0"],
+                report: Report.detailed.toLowerCase(),
+                extends: "@acme/some-invalid-file",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+        load: () => { throw new Error("ENOENT: no such file or directory") },
     } as unknown as Explorer;
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve({
-        config: {
-            allow: ["Apache-2.0"],
-            report: Report.detailed.toLowerCase(),
-            extends: "@acme/some-invalid-file",
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
-
-    // Invalid extended configuration
-    sinon.stub(explorer, "load").throws("ENOENT: no such file or directory");
 
     // Get configuration
     const config = await getConfiguration();
@@ -142,30 +135,26 @@ test.serial("Inline configuration, invalid extended file", async (t) => {
 test.serial("Inline configuration, extended", async (t) => {
     // Inline configuration
     const explorer = {
-        search: () => { },
-        load: () => { },
+        search: () => Promise.resolve({
+            config: {
+                allow: ["Apache-2.0"],
+                report: Report.detailed.toLowerCase(),
+                extends: "@acme/license-policy",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+        load: () => Promise.resolve({
+            config: {
+                allow: ["MIT", "ISC"],
+                format: Formatter.json.toLowerCase(),
+                production: true,
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
     } as unknown as Explorer;
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve({
-        config: {
-            allow: ["Apache-2.0"],
-            report: Report.detailed.toLowerCase(),
-            extends: "@acme/license-policy",
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
-
-    // Extended configuration
-    sinon.stub(explorer, "load").returns(Promise.resolve({
-        config: {
-            allow: ["MIT", "ISC"],
-            format: Formatter.json.toLowerCase(),
-            production: true,
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
 
     // No command line args
     sinon.stub(program, "processArgs").returns({ direct: true } as Configuration);
