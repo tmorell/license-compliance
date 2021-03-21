@@ -13,13 +13,12 @@ module.exports = {
         "jest.config.ts",
         "lib",
         "node_modules",
-        "tests",
         "tests/mock-packages/*",
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "project": "./tsconfig.json"
-    },    
+    },
     "plugins": [
         "eslint-plugin-jest",
         "@typescript-eslint"
@@ -40,7 +39,7 @@ module.exports = {
             "error",
             {
                 "assertionStyle": "as",
-                "objectLiteralTypeAssertions": "never"
+                "objectLiteralTypeAssertions": "allow-as-parameter"
             }
         ],
         "@typescript-eslint/default-param-last": "error",
@@ -64,6 +63,10 @@ module.exports = {
         "@typescript-eslint/no-dupe-class-members": "error",
         "@typescript-eslint/no-duplicate-imports": "error",
         "@typescript-eslint/no-dynamic-delete": "error",
+        "@typescript-eslint/no-empty-function": [
+            "error",
+            { "allow": ["protected-constructors", "private-constructors"] },
+        ],
         "@typescript-eslint/no-extra-parens": "error",
         "@typescript-eslint/no-extraneous-class": [
             "error",
@@ -96,7 +99,10 @@ module.exports = {
         "@typescript-eslint/return-await": "error",
         "@typescript-eslint/semi": "error",
         "@typescript-eslint/unified-signatures": "error",
-        "eqeqeq": "error",
+        // "comma-dangle": [
+        //     "error",
+        //     "always"
+        // ],
         "jest/no-focused-tests": "error",
         "max-classes-per-file": "error",
         "no-await-in-loop": "error",
@@ -104,6 +110,7 @@ module.exports = {
             "error",
             { "allow": ["info", "error"] }
         ],
+        "no-empty-function": "off",
         "no-loss-of-precision": "error",
         "no-promise-executor-return": "error",
         "no-template-curly-in-string": "error",

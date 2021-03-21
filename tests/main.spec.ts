@@ -71,5 +71,13 @@ test.serial("Success", async (t) => {
 });
 
 function getMockConfiguration(): Configuration {
-    return { format: "Text", report: "Summary" } as Configuration;
+    return {
+        allow: [],
+        development: false,
+        direct: false,
+        exclude: [],
+        format: Formatter.text,
+        production: false,
+        report: Report.summary
+    };
 }
