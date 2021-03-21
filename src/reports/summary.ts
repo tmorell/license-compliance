@@ -4,13 +4,13 @@ import { Package } from "../interfaces";
 
 export class Summary implements Reporter {
 
-    private readonly licenses = new Array<{name: string, count: number}>();
+    private readonly licenses = new Array<{name: string; count: number}>();
 
     constructor(
         private readonly formatter: Formatter
     ) { }
 
-    public process(packages: Array<Package>): void {
+    process(packages: Array<Package>): void {
         for (const pack of packages) {
             this.increase(pack.license);
         }
@@ -20,7 +20,7 @@ export class Summary implements Reporter {
         this.formatter.summary(this.licenses);
     }
 
-    public get summary(): Array<{ name: string, count: number }> {
+    get summary(): Array<{ name: string; count: number }> {
         return this.licenses;
     }
 

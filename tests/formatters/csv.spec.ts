@@ -7,7 +7,7 @@ import { Package } from "../../src/interfaces";
 let stub: sinon.SinonStub;
 
 beforeEach(() => {
-    stub = sinon.stub(console, "log");
+    stub = sinon.stub(console, "info");
 });
 
 afterEach(() => {
@@ -47,7 +47,7 @@ test.serial("Invalid", (t) => {
 });
 
 test.serial("Summary", (t) => {
-    const licenses: Array<{ name: string, count: number }> = [
+    const licenses: Array<{ name: string; count: number }> = [
         { name: "MIT", count: 9 },
         { name: "Apache-2.0", count: 3 },
         { name: "ISC", count: 1 },

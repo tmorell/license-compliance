@@ -28,8 +28,8 @@ export function processArgs(): Configuration {
 }
 
 function help(errorMessage: string): void {
-    console.log(chalk.red("Error:"), errorMessage);
-    console.log(program.help());
+    console.info(chalk.red("Error:"), errorMessage);
+    console.info(program.help());
 }
 
 function verifyAllow(value: string): Array<string> {

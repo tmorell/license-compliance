@@ -1,6 +1,6 @@
 import { main } from "./main";
 
-(async () => {
+(async (): Promise<void> => {
     if (!await main()) {
         process.exitCode = 1;
     }

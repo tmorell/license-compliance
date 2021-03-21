@@ -27,8 +27,8 @@ export async function getConfiguration(): Promise<Configuration | null> {
             const c = await explorer.load(path.join("node_modules", extendsPath, "index.js"));
             configExtended = c?.config as Partial<Configuration> || {};
             delete configInline.extends;
-        } catch (error) {
-            console.log(chalk.red("Extended configuration error:"), error);
+        } catch (error: unknown) {
+            console.info(chalk.red("Extended configuration error:"), error);
             return null;
         }
     }
@@ -56,7 +56,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
         report: joi.string().valid(Report.detailed, Report.invalid, Report.summary),
     }).validate(configuration);
     if (result.error) {
-        console.log(chalk.red("Configuration error:"), result.error.message);
+        console.info(chalk.red("Configuration error:"), result.error.message);
         return null;
     }
 

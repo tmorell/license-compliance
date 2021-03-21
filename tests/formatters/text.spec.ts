@@ -8,7 +8,7 @@ import { Package } from "../../src/interfaces";
 let stubLog: sinon.SinonStub;
 
 beforeEach(() => {
-    stubLog = sinon.stub(console, "log");
+    stubLog = sinon.stub(console, "info");
 });
 
 afterEach(() => {
@@ -53,7 +53,7 @@ test.serial("Invalid, multiple packages", (t) => {
 });
 
 test.serial("Summary", (t) => {
-    const licenses: Array<{ name: string, count: number }> = [
+    const licenses: Array<{ name: string; count: number }> = [
         { name: "MIT", count: 15 },
         { name: Literals.UNKNOWN, count: 5 },
         { name: "ISC", count: 1 }

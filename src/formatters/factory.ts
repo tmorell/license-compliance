@@ -5,7 +5,7 @@ import { Text } from "./text";
 import { Formatter as FormatterName } from "../enumerations";
 
 export class Factory {
-    public static getInstance(format: FormatterName): Formatter {
+    static getInstance(format: FormatterName): Formatter {
         const classes = { Csv, Json, Text };
         return new classes[format]();
     }

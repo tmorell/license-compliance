@@ -11,7 +11,7 @@ export interface Configuration {
 }
 
 export interface ExtendableConfiguration extends Partial<Configuration> {
-  extends?: string;
+    extends?: string;
 }
 
 export interface License {

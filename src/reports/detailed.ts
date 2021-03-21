@@ -10,7 +10,7 @@ export class Detailed implements Reporter {
         private readonly formatter: Formatter
     ) { }
 
-    public process(packages: Array<Package>): void {
+    process(packages: Array<Package>): void {
         this.sorted = packages;
         this.sorted.sort((a, b) => {
             return a.name > b.name ? 1 : -1;
@@ -19,7 +19,7 @@ export class Detailed implements Reporter {
         this.formatter.detail(packages);
     }
 
-    public get packages(): Array<Package> {
+    get packages(): Array<Package> {
         return this.sorted;
     }
 }

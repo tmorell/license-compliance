@@ -8,7 +8,7 @@ let stubConsole: sinon.SinonStub;
 let spyJson: sinon.SinonSpy;
 
 beforeEach(() => {
-    stubConsole = sinon.stub(console, "log");
+    stubConsole = sinon.stub(console, "info");
     spyJson = sinon.spy(JSON, "stringify");
 });
 
@@ -41,7 +41,7 @@ test.serial("Invalid", (t) => {
 });
 
 test.serial("Summary", (t) => {
-    const licenses: Array<{ name: string, count: number }> = [
+    const licenses: Array<{ name: string; count: number }> = [
         { name: "MIT", count: 9 },
         { name: "Apache-2.0", count: 3 }
     ];

@@ -5,14 +5,12 @@ import { NpmPackage } from "./interfaces";
 
 export async function fileExists(filePath: string): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
-        fs.access(filePath, fs.constants.F_OK, (error) => {
-            error ? resolve(false) : resolve(true);
-        });
+        fs.access(filePath, fs.constants.F_OK, (error) => error ? resolve(false) : resolve(true));
     });
 }
 
 export async function readdir(path: string): Promise<Array<string>> {
-    return await util.promisify(fs.readdir)(path, "utf8");
+    return util.promisify(fs.readdir)(path, "utf8");
 }
 
 /**

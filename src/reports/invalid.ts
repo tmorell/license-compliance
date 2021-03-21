@@ -8,7 +8,7 @@ export class Invalid implements Reporter {
         private readonly formatter: Formatter
     ) { }
 
-    public process(packages: Array<Package>): void {
+    process(packages: Array<Package>): void {
         this.formatter.invalid(packages);
     }
 
