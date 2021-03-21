@@ -33,10 +33,10 @@ test("Allow, valid licenses", (t) => {
 
     const configuration = processArgs();
 
-    t.is(configuration.allow?.length, 3);
-    t.is(configuration.allow?.[0], "MIT");
-    t.is(configuration.allow?.[1], "ISC");
-    t.is(configuration.allow?.[2], "Apache-2.0");
+    t.is(configuration.allow.length, 3);
+    t.is(configuration.allow[0], "MIT");
+    t.is(configuration.allow[1], "ISC");
+    t.is(configuration.allow[2], "Apache-2.0");
 });
 
 test("Allow, invalid licenses", (t) => {
@@ -86,10 +86,10 @@ test("Exclude", (t) => {
 
     const configuration = processArgs();
 
-    t.is(configuration.exclude?.length, 3);
-    t.is(configuration.exclude?.[0], "pack-01");
-    t.deepEqual(configuration.exclude?.[1], /^@company/);
-    t.is(configuration.exclude?.[2], "pack-02");
+    t.is(configuration.exclude.length, 3);
+    t.is(configuration.exclude[0], "pack-01");
+    t.deepEqual(configuration.exclude[1], /^@company/);
+    t.is(configuration.exclude[2], "pack-02");
 });
 
 test("Format", (t) => {
