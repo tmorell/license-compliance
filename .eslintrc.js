@@ -99,10 +99,15 @@ module.exports = {
         "@typescript-eslint/return-await": "error",
         "@typescript-eslint/semi": "error",
         "@typescript-eslint/unified-signatures": "error",
-        // "comma-dangle": [
-        //     "error",
-        //     "always"
-        // ],
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "always-multiline",
+                "functions": "always-multiline",
+                "imports": "never",
+                "objects": "always-multiline",
+            }
+        ],
         "jest/no-focused-tests": "error",
         "max-classes-per-file": "error",
         "no-await-in-loop": "error",

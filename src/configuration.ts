@@ -42,7 +42,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
         exclude: mergedConfiguration.exclude || [],
         format: toPascal(mergedConfiguration.format) as Formatter || Formatter.text,
         production: !!mergedConfiguration.production || false,
-        report: toPascal(mergedConfiguration.report) as Report || Report.summary
+        report: toPascal(mergedConfiguration.report) as Report || Report.summary,
     };
 
     // Validate configuration

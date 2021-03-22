@@ -78,6 +78,6 @@ function getMockConfiguration(): Configuration {
         exclude: [],
         format: Formatter.text,
         production: false,
-        report: Report.summary
+        report: Report.summary,
     };
 }

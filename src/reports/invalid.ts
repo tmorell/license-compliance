@@ -5,7 +5,7 @@ import { Package } from "../interfaces";
 export class Invalid implements Reporter {
 
     constructor(
-        private readonly formatter: Formatter
+        private readonly formatter: Formatter,
     ) { }
 
     process(packages: Array<Package>): void {

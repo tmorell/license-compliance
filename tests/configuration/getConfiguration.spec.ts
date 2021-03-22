@@ -59,7 +59,7 @@ test.serial("Invalid inline configuration", async (t) => {
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
     sinon.stub(explorer, "search").returns(Promise.resolve({
         config: {
-            format: "some-format"
+            format: "some-format",
         },
         filepath: "some-path",
         isEmpty: false,
@@ -82,7 +82,7 @@ test.serial("Inline configuration, not extended", async (t) => {
         config: {
             production: true,
             allow: ["MIT", "ISC"],
-            format: Formatter.json.toLowerCase()
+            format: Formatter.json.toLowerCase(),
         },
         filepath: "some-path",
         isEmpty: false,

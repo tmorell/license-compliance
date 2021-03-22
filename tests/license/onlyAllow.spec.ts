@@ -12,7 +12,7 @@ test("No licenses to check", (t) => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
-        { name: "test-03", path: "test-03", version: "3.0.0", license: "ISC", repository: "company/project" }
+        { name: "test-03", path: "test-03", version: "3.0.0", license: "ISC", repository: "company/project" },
     ];
 
     // Arguments
@@ -25,7 +25,7 @@ test("All packages allowed, single check", (t) => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "MIT", repository: "company/project" },
-        { name: "test-03", path: "test-03", version: "3.0.0", license: "MIT", repository: "company/project" }
+        { name: "test-03", path: "test-03", version: "3.0.0", license: "MIT", repository: "company/project" },
     ];
 
     // Arguments
@@ -38,7 +38,7 @@ test("All packages allowed, multiple checks", (t) => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
-        { name: "test-03", path: "test-03", version: "3.0.0", license: "ISC", repository: "company/project" }
+        { name: "test-03", path: "test-03", version: "3.0.0", license: "ISC", repository: "company/project" },
     ];
 
     // Arguments
@@ -52,7 +52,7 @@ test("Some packages not allowed, single check", (t) => {
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
         { name: "test-03", path: "test-03", version: "3.0.0", license: "ISC", repository: "company/project" },
-        { name: "test-04", path: "test-04", version: "4.0.0", license: "BSD-2-Clause", repository: "company/project" }
+        { name: "test-04", path: "test-04", version: "4.0.0", license: "BSD-2-Clause", repository: "company/project" },
     ];
 
     // Arguments
@@ -69,7 +69,7 @@ test("Some packages not allowed, multiple checks", (t) => {
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
         { name: "test-03", path: "test-03", version: "3.0.0", license: "ISC", repository: "company/project" },
-        { name: "test-04", path: "test-04", version: "4.0.0", license: "BSD-2-Clause", repository: "company/project" }
+        { name: "test-04", path: "test-04", version: "4.0.0", license: "BSD-2-Clause", repository: "company/project" },
     ];
 
     // Arguments

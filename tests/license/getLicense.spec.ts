@@ -8,7 +8,7 @@ import { NpmPackage } from "../../src/interfaces";
 
 [
     { name: "single-license-01", test: "LICENSE" },
-    { name: "single-license-02", test: "LICENSE-MIT" }
+    { name: "single-license-02", test: "LICENSE-MIT" },
 ].forEach((value) => {
     test(`In-line single license with ${value.test}`, async (t) => {
         const packPath = path.join(__dirname, "..", "mock-packages", value.name);

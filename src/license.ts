@@ -130,7 +130,7 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
         return {
             name: getLicenseFromArray(pack.licenses),
             path: undefined,
-            status: LicenseStatus.valid
+            status: LicenseStatus.valid,
         };
     }
 
@@ -138,7 +138,7 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
     return {
         name: Literals.UNKNOWN,
         path: undefined,
-        status: LicenseStatus.unknown
+        status: LicenseStatus.unknown,
     };
 }
 

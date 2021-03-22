@@ -16,6 +16,6 @@ export function getDefaultConfiguration(): Configuration {
         exclude: [],
         production: false,
         format: Formatter.text,
-        report: Report.summary
+        report: Report.summary,
     };
 }

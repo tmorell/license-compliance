@@ -7,7 +7,7 @@ export class Summary implements Reporter {
     private readonly licenses = new Array<{name: string; count: number}>();
 
     constructor(
-        private readonly formatter: Formatter
+        private readonly formatter: Formatter,
     ) { }
 
     process(packages: Array<Package>): void {
@@ -33,7 +33,7 @@ export class Summary implements Reporter {
         }
         this.licenses.push({
             name,
-            count: 1
+            count: 1,
         });
     }
 }

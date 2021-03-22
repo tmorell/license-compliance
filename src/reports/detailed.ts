@@ -7,7 +7,7 @@ export class Detailed implements Reporter {
     private sorted!: Array<Package>;
 
     constructor(
-        private readonly formatter: Formatter
+        private readonly formatter: Formatter,
     ) { }
 
     process(packages: Array<Package>): void {

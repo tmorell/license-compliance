@@ -113,7 +113,7 @@ async function readPackages(parentName: string, dependencies: Array<[string, str
 }
 
 async function getPackage(parentName: string, dependency: string, parentNodeModulesPath: string,
-    configuration: Pick<Configuration, "direct">, depth: number, rootNodeModulesPath: string, packages: Array<Package>
+    configuration: Pick<Configuration, "direct">, depth: number, rootNodeModulesPath: string, packages: Array<Package>,
 ): Promise<void> {
     const packagePath = await getInstalledPath(parentName, dependency, parentNodeModulesPath, rootNodeModulesPath);
     if (packagePath === undefined) {
@@ -132,7 +132,7 @@ async function getPackage(parentName: string, dependency: string, parentNodeModu
         name: dependency,
         path: packagePath,
         repository: getRepository(file.repository),
-        version: file.version
+        version: file.version,
     };
     if (alreadyAnalyzed(packages, pack)) {
         return;
