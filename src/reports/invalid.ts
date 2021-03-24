@@ -5,10 +5,10 @@ import { Package } from "../interfaces";
 export class Invalid implements Reporter {
 
     constructor(
-        private readonly formatter: Formatter
+        private readonly formatter: Formatter,
     ) { }
 
-    public process(packages: Array<Package>): void {
+    process(packages: Array<Package>): void {
         this.formatter.invalid(packages);
     }
 

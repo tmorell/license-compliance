@@ -14,7 +14,7 @@ test("No filters", (t) => {
         { name: "@company/test-02", path: "@company/test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
         { name: "test-01", path: "test-01", version: "1.1.0", license: "ISC", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "1.2.0", license: "MIT", repository: "company/project" },
-        { name: "test-03", path: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" }
+        { name: "test-03", path: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" },
     ];
 
     // Arguments
@@ -29,7 +29,7 @@ test("By package names", (t) => {
         { name: "@company/test-02", path: "@company/test-02", version: "1.0.0", license: "Apache-2.0", repository: "company/project" },
         { name: "test-01", path: "test-01", version: "1.1.0", license: "ISC", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "1.2.0", license: "MIT", repository: "company/project" },
-        { name: "test-03", path: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" }
+        { name: "test-03", path: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" },
     ];
 
     // Arguments
@@ -47,7 +47,7 @@ test("Regex", (t) => {
         { name: "@company/test-02", path: "@company/test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
         { name: "test-01", path: "test-01", version: "1.1.0", license: "ISC", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "1.2.0", license: "MIT", repository: "company/project" },
-        { name: "test-03", path: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" }
+        { name: "test-03", path: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" },
     ];
 
     // Arguments
@@ -65,7 +65,7 @@ test("Regex and string", (t) => {
         { name: "@company/test-02", path: "@company/test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
         { name: "test-01", path: "test-01", version: "1.1.0", license: "ISC", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "1.2.0", license: "MIT", repository: "company/project" },
-        { name: "test-03", path: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" }
+        { name: "test-03", path: "test-03", version: "1.3.0", license: "ISC", repository: "company/project" },
     ];
 
     // Arguments

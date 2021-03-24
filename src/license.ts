@@ -2,17 +2,17 @@
 // SPDX: https://spdx.org/sites/cpstandard/files/pages/files/using_spdx_license_list_short_identifiers.pdf
 // NPM: https://docs.npmjs.com/files/package.json#license
 
-import * as chalk from "chalk";
-import * as Debug from "debug";
-import * as path from "path";
+import chalk from "chalk";
+import Debug from "debug";
+import path from "path";
+import parse from "spdx-expression-parse";
+import satisfies from "spdx-satisfies";
 
 import { LicenseStatus, Literals } from "./enumerations";
 import { NpmPackage, OldLicenseFormat, Package, License, Configuration } from "./interfaces";
 import * as util from "./util";
 
 const debug = Debug("license-compliance:license");
-const parse = require("spdx-expression-parse");
-const satisfies = require("spdx-satisfies");
 const SEE_LICENSE_IN = "SEE LICENSE IN";
 const LICENSE_FILE = "license";
 
@@ -50,7 +50,7 @@ export function isLicenseValid(license: string): boolean {
     }
 
     try {
-        // tslint:disable-next-line: no-unsafe-any
+        // eslint-disable-next-line 
         parse(license);
         return true;
     } catch {
@@ -68,14 +68,14 @@ export function isLicenseValid(license: string): boolean {
  * @returns {void}
  */
 export function onlyAllow(packages: Array<Package>, configuration: Pick<Configuration, "allow">): Array<Package> {
-    if (configuration.allow?.length === 0) {
+    if (configuration.allow.length === 0) {
         return [];
     }
 
     const invalidPackages = new Array<Package>();
     const spdxLicense = argsToSpdxLicense(configuration.allow);
     for (const pack of packages) {
-        // tslint:disable-next-line: no-unsafe-any
+        // eslint-disable-next-line
         const matches = pack.license !== Literals.UNKNOWN && satisfies(spdxLicense, pack.license);
         debug(chalk.blue(pack.name), "/", pack.license, "=>", matches ? chalk.green(spdxLicense) : chalk.red(spdxLicense));
         if (!matches) {
@@ -130,7 +130,7 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
         return {
             name: getLicenseFromArray(pack.licenses),
             path: undefined,
-            status: LicenseStatus.valid
+            status: LicenseStatus.valid,
         };
     }
 
@@ -138,7 +138,7 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
     return {
         name: Literals.UNKNOWN,
         path: undefined,
-        status: LicenseStatus.unknown
+        status: LicenseStatus.unknown,
     };
 }
 

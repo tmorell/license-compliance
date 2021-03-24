@@ -7,7 +7,7 @@ import { Formatter, Report } from "../../src/enumerations";
 import { getConfiguration } from "../../src/configuration";
 import * as program from "../../src/program";
 
-// tslint:disable-next-line: no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare type Config = any;
 
 declare type CosmiconfigResult = {
@@ -34,11 +34,8 @@ afterEach(() => {
 
 test.serial("Default configuration", async (t) => {
     // No inline configuration
-    const explorer = {
-        search: () => { }
-    } as Explorer;
+    const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve(null));
 
     // No command line args
     sinon.stub(program, "processArgs").returns({} as Configuration);
@@ -58,13 +55,11 @@ test.serial("Default configuration", async (t) => {
 
 test.serial("Invalid inline configuration", async (t) => {
     // No inline configuration
-    const explorer = {
-        search: () => { }
-    } as Explorer;
+    const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
     sinon.stub(explorer, "search").returns(Promise.resolve({
         config: {
-            format: "some-format"
+            format: "some-format",
         },
         filepath: "some-path",
         isEmpty: false,
@@ -81,15 +76,13 @@ test.serial("Invalid inline configuration", async (t) => {
 
 test.serial("Inline configuration, not extended", async (t) => {
     // No inline configuration
-    const explorer = {
-        search: () => { }
-    } as Explorer;
+    const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
     sinon.stub(explorer, "search").returns(Promise.resolve({
         config: {
             production: true,
             allow: ["MIT", "ISC"],
-            format: Formatter.json.toLowerCase()
+            format: Formatter.json.toLowerCase(),
         },
         filepath: "some-path",
         isEmpty: false,
@@ -115,10 +108,7 @@ test.serial("Inline configuration, not extended", async (t) => {
 
 test.serial("Inline configuration, invalid extended file", async (t) => {
     // Inline configuration
-    const explorer = {
-        search: () => { },
-        load: () => { },
-    } as unknown as Explorer;
+    const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
     sinon.stub(explorer, "search").returns(Promise.resolve({
         config: {
@@ -129,8 +119,6 @@ test.serial("Inline configuration, invalid extended file", async (t) => {
         filepath: "some-path",
         isEmpty: false,
     }));
-
-    // Invalid extended configuration
     sinon.stub(explorer, "load").throws("ENOENT: no such file or directory");
 
     // Get configuration
@@ -141,10 +129,7 @@ test.serial("Inline configuration, invalid extended file", async (t) => {
 
 test.serial("Inline configuration, extended", async (t) => {
     // Inline configuration
-    const explorer = {
-        search: () => { },
-        load: () => { },
-    } as unknown as Explorer;
+    const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
     sinon.stub(explorer, "search").returns(Promise.resolve({
         config: {
@@ -155,8 +140,6 @@ test.serial("Inline configuration, extended", async (t) => {
         filepath: "some-path",
         isEmpty: false,
     }));
-
-    // Extended configuration
     sinon.stub(explorer, "load").returns(Promise.resolve({
         config: {
             allow: ["MIT", "ISC"],
@@ -183,3 +166,19 @@ test.serial("Inline configuration, extended", async (t) => {
     t.is(config?.format, Formatter.json);
     t.is(config?.report, Report.detailed);
 });
+
+function createExplorer(): Explorer {
+    return {
+        search: async (): Promise<CosmiconfigResult> => Promise.resolve(null),
+        load: async (): Promise<CosmiconfigResult> => Promise.resolve(null),
+        clearLoadCache: (): void => {
+            return;
+        },
+        clearSearchCache: (): void => {
+            return;
+        },
+        clearCaches: (): void => {
+            return;
+        },
+    };
+}

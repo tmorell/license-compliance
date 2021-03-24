@@ -1,4 +1,4 @@
-import * as Debug from "debug";
+import Debug from "debug";
 
 import { getConfiguration } from "./configuration";
 import { Report } from "./enumerations";
@@ -18,7 +18,7 @@ export async function main(): Promise<boolean> {
     }
 
     // Get all installed packages
-    let packages = await getInstalledPackages("", configuration);
+    let packages = await getInstalledPackages(configuration);
     if (packages.length === 0) {
         return false;
     }

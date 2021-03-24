@@ -1,12 +1,9 @@
-import * as chalk from "chalk";
-import * as commander from "commander";
-import * as Debug from "debug";
+import chalk from "chalk";
+import commander from "commander";
 
 import { Formatter, Report } from "./enumerations";
 import { Configuration } from "./interfaces";
 import { isLicenseValid } from "./license";
-
-const debug = Debug("license-compliance:processArgs");
 
 let program: commander.Command;
 
@@ -31,11 +28,11 @@ export function processArgs(): Configuration {
 }
 
 function help(errorMessage: string): void {
-    console.log(chalk.red("Error:"), errorMessage);
-    console.log(program.help());
+    console.info(chalk.red("Error:"), errorMessage);
+    console.info(program.help());
 }
 
-function verifyAllow(value: string, previous: Array<string>): Array<string> {
+function verifyAllow(value: string): Array<string> {
     return value
         .split(";")
         .map((license) => license.trim())
@@ -48,7 +45,7 @@ function verifyAllow(value: string, previous: Array<string>): Array<string> {
         });
 }
 
-function verifyExclude(value: string, previous: Array<string | RegExp>): Array<string | RegExp> {
+function verifyExclude(value: string): Array<string | RegExp> {
     return value
         .split(";")
         .map((exclude) => exclude.trim())
@@ -61,7 +58,7 @@ function verifyExclude(value: string, previous: Array<string | RegExp>): Array<s
         });
 }
 
-function verifyFormat(value: string, previous: string): string {
+function verifyFormat(value: string): string {
     if (!Object.keys(Formatter).includes(value)) {
         help(`Invalid --format option "${value}"`);
     }
@@ -75,7 +72,7 @@ function verifyProductionDevelopment(): void {
     }
 }
 
-function verifyReport(value: string, previous: string): string {
+function verifyReport(value: string): string {
     if (!Object.keys(Report).includes(value)) {
         help(`Invalid --report option "${value}"`);
     }

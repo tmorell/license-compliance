@@ -7,7 +7,7 @@ import { Factory as FormatFactory } from "../formatters";
 
 export class Factory {
 
-    public static getInstance(type: Report, format: FormatterName): Reporter {
+    static getInstance(type: Report, format: FormatterName): Reporter {
         const classes = { Detailed, Invalid, Summary };
         return new classes[type](FormatFactory.getInstance(format));
     }

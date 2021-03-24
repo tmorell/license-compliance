@@ -1,4 +1,4 @@
-import { Formatter, Report, LicenseStatus } from "./enumerations";
+import { Formatter, LicenseStatus, Report } from "./enumerations";
 
 export interface Configuration {
     allow: Array<string>;
@@ -11,7 +11,7 @@ export interface Configuration {
 }
 
 export interface ExtendableConfiguration extends Partial<Configuration> {
-  extends?: string;
+    extends?: string;
 }
 
 export interface License {
