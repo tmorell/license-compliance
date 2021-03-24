@@ -10,7 +10,6 @@ import { main } from "../src/main";
 import * as npm from "../src/npm";
 import * as configuration from "../src/configuration";
 import * as reports from "../src/reports";
-import { Invalid } from "../src/reports/invalid";
 import { Summary } from "../src/reports/summary";
 
 beforeEach(() => {
@@ -46,11 +45,11 @@ test.serial("Not allowed licenses", async (t) => {
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
     sinon.stub(license, "onlyAllow").returns(packages);  // Packages with not allowed licenses found
-    const stubReport = sinon.stub(reports.Factory, "getInstance").returns(new Invalid(new Text()));
+    const stubReport = sinon.stub(reports.Factory, "getInstance").returns(new Summary(new Text()));
 
     const r = await main();
 
-    t.true(stubReport.calledOnceWith(Report.invalid, Formatter.text));
+    t.true(stubReport.calledOnceWith(Report.summary, Formatter.text));
     t.false(r);
 });
 
