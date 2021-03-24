@@ -1,4 +1,4 @@
-![Travis (.com)](https://img.shields.io/travis/com/tmorell/license-compliance)
+![GitHub Actions](https://github.com/tmorell/license-compliance/actions/workflows/ci.yaml/badge.svg)
 ![David](https://img.shields.io/david/tmorell/license-compliance)
 ![Snyk Vulnerabilities for npm scoped package](https://img.shields.io/snyk/vulnerabilities/npm/license-compliance)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tmorell_license-compliance&metric=alert_status)](https://sonarcloud.io/dashboard?id=tmorell_license-compliance)
