@@ -1,5 +1,14 @@
 import { Package } from "../interfaces";
 
-export interface Reporter {
-    process(packages: Array<Package>, invalidPackages?: boolean): void;
+export abstract class Reporter {
+
+    protected hasInvalidPackages = false;
+
+    abstract process(packages: Array<Package>): void;
+
+    withInvalidPackages(): Reporter {
+        this.hasInvalidPackages = true;
+        return this;
+    }
+
 }
