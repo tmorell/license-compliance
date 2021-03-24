@@ -12,11 +12,6 @@ export class Text implements Formatter {
         console.info("\nTotal packages:", packages.length);
     }
 
-    invalid(packages: Array<Package>): void {
-        console.info(`${chalk.red("Error:")} The following ${packages.length === 1 ? "package does" : "packages do"} not meet the allowed license criteria`);
-        this.formatPackages(packages);
-    }
-
     summary(licenses: Array<{ name: string; count: number }>): void {
         let count = 0;
         console.info("Licenses");
@@ -39,4 +34,5 @@ ${i === packages.length - 1 ? "   ├─" : "│  ├─"} Path: ${pack.path}
 ${i === packages.length - 1 ? "   └─" : "│  └─"} Repository: ${pack.repository}`);
         }
     }
+
 }

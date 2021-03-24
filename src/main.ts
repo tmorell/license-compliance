@@ -1,7 +1,6 @@
 import Debug from "debug";
 
 import { getConfiguration } from "./configuration";
-import { Report } from "./enumerations";
 import { excludePackages } from "./filters";
 import { onlyAllow } from "./license";
 import { getInstalledPackages } from "./npm";
@@ -29,7 +28,7 @@ export async function main(): Promise<boolean> {
     // Verify allowed licenses
     const invalidPackages = onlyAllow(packages, configuration);
     if (invalidPackages.length > 0) {
-        FactoryReport.getInstance(Report.invalid, configuration.format).process(invalidPackages);
+        FactoryReport.getInstance(configuration.report, configuration.format).process(invalidPackages, true);
         return false;
     }
 

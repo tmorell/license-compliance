@@ -53,7 +53,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
         exclude: joi.array(),
         format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text),
         production: joi.boolean(),
-        report: joi.string().valid(Report.detailed, Report.invalid, Report.summary),
+        report: joi.string().valid(Report.detailed, Report.summary),
     }).validate(configuration);
     if (result.error) {
         console.info(chalk.red("Configuration error:"), result.error.message);
