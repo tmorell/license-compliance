@@ -35,20 +35,21 @@ jobs:
         npm run lint
         npm run test
         npm run coverage:ci
-    # - name: SonarCloud Scan
-    #   uses: sonarsource/sonarcloud-github-action@master
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   sonarcloud:
-    needs: build
     runs-on: ubuntu-latest
+    name: SonarCloud Scan
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: SonarCloud Scan
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 14
+    - run: |
+        npm install
+        npm run test
+        npm run coverage:ci
       uses: sonarsource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
