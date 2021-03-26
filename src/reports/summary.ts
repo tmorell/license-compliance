@@ -1,18 +1,14 @@
-import chalk from "chalk";
-
 import { Reporter } from "./reporter";
 import { Formatter } from "../formatters";
 import { Package } from "../interfaces";
 
-export class Summary extends Reporter {
+export class Summary implements Reporter {
 
-    private readonly licenses = new Array<{name: string; count: number}>();
+    private readonly licenses = new Array<{ name: string; count: number }>();
 
     constructor(
         private readonly formatter: Formatter,
-    ) {
-        super();
-    }
+    ) { }
 
     process(packages: Array<Package>): void {
         for (const pack of packages) {
@@ -22,9 +18,6 @@ export class Summary extends Reporter {
             return b.count - a.count;
         });
 
-        if (this.hasInvalidPackages) {
-            console.info(`${chalk.red("Error:")} The following ${this.licenses.length === 1 ? "license does" : "licenses do"} not meet the allowed criteria`);
-        }
         this.formatter.summary(this.licenses);
     }
 

@@ -25,7 +25,7 @@ test.serial("Detail", (t) => {
     const csv = new Text();
     csv.detail(packages);
 
-    t.is(stubLog.callCount, 5);
+    t.is(stubLog.callCount, 4);
 });
 
 test.serial("Summary", (t) => {
@@ -38,5 +38,5 @@ test.serial("Summary", (t) => {
     const csv = new Text();
     csv.summary(licenses);
 
-    t.is(stubLog.callCount, 5);
+    t.is(stubLog.callCount, 4);
 });

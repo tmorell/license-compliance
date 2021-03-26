@@ -15,11 +15,11 @@ export function processArgs(): Configuration {
         .description("Analyzes licenses of installed NPM packages, assisting with compliance.")
         .option("-p, --production", "Analyzes only production dependencies.")
         .option("-d, --development", "Analyzes only development dependencies.")
-        .option("-t, --direct", "Analyzes only direct dependencies.")
-        .option("-f, --format <format>", "Report format, csv, text, or json.", verifyFormat)
-        .option("-r, --report <report>", "Report type, summary or detailed.", verifyReport)
-        .option<Array<string>>("-a, --allow <licenses>", "Semicolon separated list of allowed licenses. Must conform to SPDX identifiers.", verifyAllow)
-        .option<Array<string | RegExp>>("-e, --exclude <packages>", "Semicolon separated list of packages to be excluded from analysis. Supports Regex.", verifyExclude)
+        .option("-t, --direct", "Analyzes only direct dependencies (depth = 1).")
+        .option("-f, --format <format>", "Report format, csv, text, or json (default = text).", verifyFormat)
+        .option("-r, --report <report>", "Report type, summary or detailed (default = summary).", verifyReport)
+        .option<Array<string>>("-a, --allow <licenses>", "Semicolon separated list of allowed licenses. Must conform to SPDX specifications.", verifyAllow)
+        .option<Array<string | RegExp>>("-e, --exclude <packages>", "Semicolon separated list of packages to be excluded from analysis. Regex expressions are supported.", verifyExclude)
         .parse(process.argv);
 
     verifyProductionDevelopment();

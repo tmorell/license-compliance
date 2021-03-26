@@ -29,21 +29,6 @@ test.serial("Summary", (t) => {
     t.is(sorted[2].name, "pack-xyz");
 });
 
-test.serial("With 1 error", (t) => {
-    const packages: Array<Package> = [
-        { name: "pack-mno", path: "pack-mno", version: "1.0.0", license: "ISC", repository: "company/project" },
-    ];
-
-    const stubConsole = sinon.stub(console, "info");
-
-    const report = new Detailed(new Text());
-    report.withInvalidPackages().process(packages);
-    const sorted = report.packages;
-
-    t.true(stubConsole.calledWith("Error: The following package does not meet the allowed license criteria"));
-    t.is(sorted[0].name, "pack-mno");
-});
-
 test.serial("With errors", (t) => {
     const packages: Array<Package> = [
         { name: "pack-mno", path: "pack-mno", version: "1.0.0", license: "ISC", repository: "company/project" },
@@ -51,13 +36,10 @@ test.serial("With errors", (t) => {
         { name: "pack-xyz", path: "pack-xyz", version: "3.0.0", license: "MIT", repository: "company/project" },
     ];
 
-    const stubConsole = sinon.stub(console, "info");
-
     const report = new Detailed(new Text());
-    report.withInvalidPackages().process(packages);
+    report.process(packages);
     const sorted = report.packages;
 
-    t.true(stubConsole.calledWith("Error: The following packages do not meet the allowed license criteria"));
     t.is(sorted[0].name, "pack-abc");
     t.is(sorted[1].name, "pack-mno");
     t.is(sorted[2].name, "pack-xyz");

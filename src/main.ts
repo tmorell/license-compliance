@@ -30,7 +30,7 @@ export async function main(): Promise<boolean> {
     // Verify allowed licenses
     const invalidPackages = onlyAllow(packages, configuration);
     if (invalidPackages.length > 0) {
-        report.withInvalidPackages().process(invalidPackages);
+        report.process(invalidPackages);
         return false;
     }
 

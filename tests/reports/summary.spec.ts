@@ -37,35 +37,16 @@ test.serial("Summary", (t) => {
     t.is(licenses[2].count, 1);
 });
 
-test.serial("With 1 error", (t) => {
-    const packages: Array<Package> = [
-        { name: "pack-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" },
-    ];
-
-    const stubConsole = sinon.stub(console, "info");
-
-    const report = new Summary(new Text());
-    report.withInvalidPackages().process(packages);
-    const licenses = report.summary;
-
-    t.true(stubConsole.calledWith("Error: The following license does not meet the allowed criteria"));
-    t.is(licenses[0].name, "MIT");
-    t.is(licenses[0].count, 1);
-});
-
 test.serial("With errors", (t) => {
     const packages: Array<Package> = [
         { name: "pack-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "pack-03", path: "pack-03", version: "3.0.0", license: "ISC", repository: "company/project" },
     ];
 
-    const stubConsole = sinon.stub(console, "info");
-
     const report = new Summary(new Text());
-    report.withInvalidPackages().process(packages);
+    report.process(packages);
     const licenses = report.summary;
 
-    t.true(stubConsole.calledWith("Error: The following licenses do not meet the allowed criteria"));
     t.is(licenses[0].name, "MIT");
     t.is(licenses[0].count, 1);
     t.is(licenses[1].name, "ISC");
