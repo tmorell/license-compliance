@@ -3,52 +3,83 @@ name: CI
 on:
   push:
     paths-ignore:
-      - 'docs/**'
-      - '*.md'    
-    branches: 
+      - "*.md"
+    branches:
       - master
   pull_request:
     paths-ignore:
-      - 'docs/**'
-      - '*.md'    
+      - "*.md"
     branches:
       - master
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node_version:
           # - '10'
           # - '12'
-          # - '14'
-          - '15'
-    name: Node ${{ matrix.node_version }} 
+          - '14'
+          # - "15"
+    name: Node ${{ matrix.node_version }}
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node_version }}
-    - run: |
-        npm install
-        npm run lint
-        npm run test
-        npm run coverage:ci
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-  sonarcloud:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: 14
-    - run: |
-        npm install
-        npm run test
-        npm run coverage:ci
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: install
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Coverage
+        if: ${{ matrix.node_version == "14" }}
+        run: npm run coverage:ci
+
+      - name: SonarCloud Scan
+        if: ${{ matrix.node_version == "14" }}
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+  # sonarcloud:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Use Node.js
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 14
+
+  #     - name: install
+  #       run: npm install
+
+  #     - name: Test
+  #       run: npm test
+
+  #     - name: Coverage
+  #       run: npm run coverage:ci
+
+  #     - name: SonarCloud Scan
+  #       uses: sonarsource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
