@@ -4,7 +4,7 @@ import { Package } from "../interfaces";
 
 export class Summary implements Reporter {
 
-    private readonly licenses = new Array<{name: string; count: number}>();
+    private readonly licenses = new Array<{ name: string; count: number }>();
 
     constructor(
         private readonly formatter: Formatter,
@@ -17,6 +17,7 @@ export class Summary implements Reporter {
         this.licenses.sort((a, b) => {
             return b.count - a.count;
         });
+
         this.formatter.summary(this.licenses);
     }
 

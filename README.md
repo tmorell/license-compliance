@@ -1,4 +1,4 @@
-![Travis (.com)](https://img.shields.io/travis/com/tmorell/license-compliance)
+![GitHub Actions](https://github.com/tmorell/license-compliance/actions/workflows/ci.yaml/badge.svg)
 ![David](https://img.shields.io/david/tmorell/license-compliance)
 ![Snyk Vulnerabilities for npm scoped package](https://img.shields.io/snyk/vulnerabilities/npm/license-compliance)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tmorell_license-compliance&metric=alert_status)](https://sonarcloud.io/dashboard?id=tmorell_license-compliance)
@@ -24,7 +24,7 @@ npm install --save-dev license-compliance
 ## Examples
 Getting a summary of all installed packages (production and development).
 ```
-license-compliance
+$ license-compliance
 
 Licenses
 ├─ MIT: 366
@@ -34,50 +34,32 @@ Licenses
 ├─ Apache-2.0: 6
 ├─ (MIT OR CC0-1.0): 3
 ├─ UNKNOWN: 3
-├─ CC0-1.0: 1
-├─ (MIT AND CC-BY-3.0): 1
-├─ CC-BY-3.0: 1d
-├─ (WTFPL OR MIT): 1
 └─ (BSD-2-Clause OR MIT OR Apache-2.0): 1
-
-Total packages: 449
 ```
 
-Verify compliance by providing list of allowed licenses
+Verify compliance by providing list of allowed licenses.
 ```
-license-compliance --production --allow "MIT;ISC"
+$ license-compliance --production --allow "MIT;ISC"
 
-Error: The following packages do not meet the allowed license criteria
+Packages
 ├─ spdx-exceptions@2.2.0
 │  ├─ Licenses: CC-BY-3.0
 │  └─ Path: node_modules/spdx-exceptions
 └─ spdx-license-ids@3.0.5
    ├─ Licenses: CC0-1.0
    └─ Path: node_modules/spdx-license-ids
-
-Note: Exits with status 1.
 ```
-
-```
-license-compliance --production --direct --allow "MIT;ISC"
-
-Licenses
-└─ MIT: 5
-
-Total packages: 5
-
-Note: Exits with status 0.
-```
+> Exits with 0 if all packages meet the allowed criteria; otherwise, exits with 1.
 
 ## Options
-* ```-p, --production``` Analyzes only production dependencies.
-* ```-d, --development``` Analyzes only development dependencies.
-* ```-t, --direct``` Analyzes only direct dependencies.
-* ```-f, --format <format>``` Report format, csv, text, or json. (default: "text")
-* ```-r, --report <report>``` Report type, summary or detailed. (default: "summary")
-* ```-a, --allow <licenses>``` Semicolon separated list of allowed licenses. Must conform to [SPDX specifications](https://spdx.org/licenses).
-* ```-e, --exclude <packages>``` Semicolon separated list of package names to be excluded from the analysis. Regex are supported.
-* ```-h, --help``` output usage information
+* `-p, --production` Analyzes only production dependencies.
+* `-d, --development` Analyzes only development dependencies.
+* `-t, --direct` Analyzes only direct dependencies (depth = 1).
+* `-f, --format <format>` Report format, csv, text, or json (default = "text").
+* `-r, --report <report>` Report type, summary or detailed (default = "summary").
+* `-a, --allow <licenses>` Semicolon separated list of allowed licenses. Must conform to [SPDX](https://spdx.org/licenses) specifications.
+* `-e, --exclude <packages>` Semicolon separated list of package names to be excluded from the analysis. Regex expressions are supported.
+* `-h, --help` Display help for command
 
 ## Excluding Packages
 In some scenarios there might be the need to exclude certain packages from the analysis. Let's say there is no license information for some scoped packages (**@the-project**), but they are under an approved license for your project. Also, there is a very specific package under the same condition (**some-package**).
@@ -90,17 +72,17 @@ This will:
 
 ## As Part of Your CI
 package.json
-```
-"scripts": {
-    :
-    "license-compliance": "license-compliance --production --allow=\"MIT;ISC\""
-    :
+```json
+{
+    "scripts": {
+        "license-compliance": "license-compliance --production --allow=\"MIT;ISC\""
+    }
 }
 ```
-Add it the CI configuration
+Add it to the CI pipeline.
 ```
-    script: / run: / etc
-    npm run license-compliance
+script: / run: / etc
+npm run license-compliance
 ```
 
 # Sharable Configurations

@@ -1,7 +1,6 @@
 import Debug from "debug";
 
 import { getConfiguration } from "./configuration";
-import { Report } from "./enumerations";
 import { excludePackages } from "./filters";
 import { onlyAllow } from "./license";
 import { getInstalledPackages } from "./npm";
@@ -26,14 +25,16 @@ export async function main(): Promise<boolean> {
     // Filter packages
     packages = excludePackages(packages, configuration);
 
+    const report = FactoryReport.getInstance(configuration.report, configuration.format);
+
     // Verify allowed licenses
     const invalidPackages = onlyAllow(packages, configuration);
     if (invalidPackages.length > 0) {
-        FactoryReport.getInstance(Report.invalid, configuration.format).process(invalidPackages);
+        report.process(invalidPackages);
         return false;
     }
 
     // Requested report
-    FactoryReport.getInstance(configuration.report, configuration.format).process(packages);
+    report.process(packages);
     return true;
 }

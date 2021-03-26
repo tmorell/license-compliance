@@ -28,18 +28,6 @@ test.serial("Detailed", (t) => {
     t.true(stubConsole.calledWithExactly(JSON.stringify(packages, null, 2)));
 });
 
-test.serial("Invalid", (t) => {
-    const packages: Array<Package> = [
-        { name: "pack-01", path: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" },
-    ];
-
-    const json = new Json();
-    json.invalid(packages);
-
-    t.true(spyJson.calledWithExactly(packages, null, 2));
-    t.true(stubConsole.calledWithExactly(JSON.stringify(packages, null, 2)));
-});
-
 test.serial("Summary", (t) => {
     const licenses: Array<{ name: string; count: number }> = [
         { name: "MIT", count: 9 },

@@ -9,24 +9,15 @@ export class Text implements Formatter {
     detail(packages: Array<Package>): void {
         console.info("Packages");
         this.formatPackages(packages);
-        console.info("\nTotal packages:", packages.length);
-    }
-
-    invalid(packages: Array<Package>): void {
-        console.info(`${chalk.red("Error:")} The following ${packages.length === 1 ? "package does" : "packages do"} not meet the allowed license criteria`);
-        this.formatPackages(packages);
     }
 
     summary(licenses: Array<{ name: string; count: number }>): void {
-        let count = 0;
         console.info("Licenses");
         for (let i = 0; i < licenses.length; i++) {
             const license = licenses[i];
-            count += license.count;
             console.info(`${i === licenses.length - 1 ?
                 "└─" : "├─"} ${license.name === Literals.UNKNOWN ? chalk.red(license.name) : license.name}:`, license.count);
         }
-        console.info("\nTotal packages:", count);
     }
 
     private formatPackages(packages: Array<Package>): void {
@@ -39,4 +30,5 @@ ${i === packages.length - 1 ? "   ├─" : "│  ├─"} Path: ${pack.path}
 ${i === packages.length - 1 ? "   └─" : "│  └─"} Repository: ${pack.repository}`);
         }
     }
+
 }

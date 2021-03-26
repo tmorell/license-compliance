@@ -8,10 +8,6 @@ export class Csv implements Formatter {
         this.formatPackages(packages);
     }
 
-    invalid(packages: Array<Package>): void {
-        this.formatPackages(packages);
-    }
-
     summary(licenses: Array<{ name: string; count: number }>): void {
         console.info(`"license","count"`);
         for (const license of licenses) {

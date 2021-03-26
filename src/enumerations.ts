@@ -17,6 +17,5 @@ export enum Literals {
 
 export enum Report {
     detailed = "Detailed",
-    invalid = "Invalid",
     summary = "Summary"
 }
