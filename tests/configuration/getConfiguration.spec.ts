@@ -127,6 +127,38 @@ test.serial("Inline configuration, invalid extended file", async (t) => {
     t.is(config, null);
 });
 
+test.serial("Inline configuration, extended null", async (t) => {
+    // Inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(Promise.resolve({
+        config: {
+            allow: ["Apache-2.0"],
+            report: Report.detailed.toLowerCase(),
+            extends: "@acme/license-policy",
+        },
+        filepath: "some-path",
+        isEmpty: false,
+    }));
+    sinon.stub(explorer, "load").returns(Promise.resolve(null));
+
+    // No command line args
+    sinon.stub(program, "processArgs").returns({} as Configuration);
+
+    // Get configuration
+    const config = await getConfiguration();
+
+    t.not(config, null);
+    t.is(config?.allow.length, 1);
+    t.is(config?.allow[0], "Apache-2.0");
+    t.false(config?.development);
+    t.false(config?.direct);
+    t.is(config?.exclude.length, 0);
+    t.false(config?.production);
+    t.is(config?.format, Formatter.text);
+    t.is(config?.report, Report.detailed);
+});
+
 test.serial("Inline configuration, extended", async (t) => {
     // Inline configuration
     const explorer: Explorer = createExplorer();
