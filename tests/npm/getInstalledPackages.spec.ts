@@ -20,6 +20,14 @@ test.serial("Get packages, empty package.json", async (t) => {
     t.is(packages.length, 0);
 });
 
+test.serial("Analyze library own packages. No mocking", async (t) => {
+    const packages = await getInstalledPackages(getDefaultConfiguration());
+
+    // Real npm install testing the it works on root folder
+    // Number of packages might change
+    t.truthy(packages.length > 400);
+});
+
 test.serial("Get all packages, full installation", async (t) => {
     const packages = await getInstalledPackages(getDefaultConfiguration(), path.join(__dirname, "..", "mock-packages", "installation-full"));
 
