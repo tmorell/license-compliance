@@ -55,7 +55,7 @@ Packages
 * `-p, --production` Analyzes only production dependencies.
 * `-d, --development` Analyzes only development dependencies.
 * `-t, --direct` Analyzes only direct dependencies (depth = 1).
-* `-f, --format <format>` Report format, csv, text, or json (default = "text").
+* `-f, --format <format>` Report format, csv, text, json or xunit (default = "text").
 * `-r, --report <report>` Report type, summary or detailed (default = "summary").
 * `-a, --allow <licenses>` Semicolon separated list of allowed licenses. Must conform to [SPDX](https://spdx.org/licenses) specifications.
 * `-e, --exclude <packages>` Semicolon separated list of package names to be excluded from the analysis. Regex expressions are supported.
