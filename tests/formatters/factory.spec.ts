@@ -5,6 +5,7 @@ import { Csv } from "../../src/formatters/csv";
 import { Factory } from "../../src/formatters/factory";
 import { Json } from "../../src/formatters/json";
 import { Text } from "../../src/formatters/text";
+import { Xunit } from "../../src/formatters/xunit";
 
 test("Csv", (t) => {
     const formatter = Factory.getInstance(Formatter.csv);
@@ -22,4 +23,10 @@ test("Text", (t) => {
     const formatter = Factory.getInstance(Formatter.text);
 
     t.true(formatter instanceof Text);
+});
+
+test("Xunit", (t) => {
+    const formatter = Factory.getInstance(Formatter.xunit);
+
+    t.true(formatter instanceof Xunit);
 });
