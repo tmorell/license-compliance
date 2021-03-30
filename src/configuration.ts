@@ -51,7 +51,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
         development: joi.boolean(),
         direct: joi.boolean(),
         exclude: joi.array(),
-        format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text),
+        format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text, Formatter.xunit),
         production: joi.boolean(),
         report: joi.string().valid(Report.detailed, Report.summary),
     }).validate(configuration);

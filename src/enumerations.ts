@@ -1,7 +1,8 @@
 export enum Formatter {
     csv = "Csv",
     json = "Json",
-    text = "Text"
+    text = "Text",
+    xunit = "Xunit"
 }
 
 export enum LicenseStatus {
