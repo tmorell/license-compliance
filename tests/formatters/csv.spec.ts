@@ -4,10 +4,10 @@ import * as sinon from "sinon";
 import { Csv } from "../../src/formatters/csv";
 import { Package } from "../../src/interfaces";
 
-let stub: sinon.SinonStub;
+let stubConsole: sinon.SinonStub;
 
 beforeEach(() => {
-    stub = sinon.stub(console, "info");
+    stubConsole = sinon.stub(console, "info");
 });
 
 afterEach(() => {
@@ -24,10 +24,11 @@ test.serial("Detailed", (t) => {
     const csv = new Csv();
     csv.detail(packages);
 
-    t.true(stub.calledWithExactly(`"package name","version","license","license file","repository"`));
-    t.true(stub.calledWithExactly(`"pack-01","1.1.0","MIT","node_modules/pack-01/LICENSE","company/project"`));
-    t.true(stub.calledWithExactly(`"pack-02","2.0.0","ISC","UNKNOWN","company/project"`));
-    t.true(stub.calledWithExactly(`"pack-03","2.0.0","(MIT OR Apache-2.0)","UNKNOWN","company/project"`));
+    t.true(stubConsole.calledWithExactly(`"package name","version","license","license file","repository"
+"pack-01","1.1.0","MIT","node_modules/pack-01/LICENSE","company/project"
+"pack-02","2.0.0","ISC","UNKNOWN","company/project"
+"pack-03","2.0.0","(MIT OR Apache-2.0)","UNKNOWN","company/project"
+`));
 });
 
 test.serial("Summary", (t) => {
@@ -40,8 +41,9 @@ test.serial("Summary", (t) => {
     const csv = new Csv();
     csv.summary(licenses);
 
-    t.true(stub.calledWithExactly(`"license","count"`));
-    t.true(stub.calledWithExactly(`"MIT","9"`));
-    t.true(stub.calledWithExactly(`"Apache-2.0","3"`));
-    t.true(stub.calledWithExactly(`"ISC","1"`));
+    t.true(stubConsole.calledWithExactly(`"license","count"
+"MIT","9"
+"Apache-2.0","3"
+"ISC","1"
+`));
 });

@@ -1,3 +1,5 @@
+import { EOL } from "os";
+
 import { Formatter } from "./index";
 import { Package } from "../interfaces";
 import { Literals } from "../enumerations";
@@ -5,21 +7,19 @@ import { Literals } from "../enumerations";
 export class Csv implements Formatter {
 
     detail(packages: Array<Package>): void {
-        this.formatPackages(packages);
+        let buffer = `"package name","version","license","license file","repository"${EOL}`;
+        for (const pack of packages) {
+            buffer += `"${pack.name}","${pack.version}","${pack.license}","${pack.licenseFile ? pack.licenseFile : Literals.UNKNOWN}","${pack.repository}"${EOL}`;
+        }
+        console.info(buffer);
     }
 
     summary(licenses: Array<{ name: string; count: number }>): void {
-        console.info(`"license","count"`);
+        let buffer = `"license","count"${EOL}`;
         for (const license of licenses) {
-            console.info(`"${license.name}","${license.count}"`);
+            buffer += `"${license.name}","${license.count}"${EOL}`;
         }
-    }
-
-    private formatPackages(packages: Array<Package>): void {
-        console.info(`"package name","version","license","license file","repository"`);
-        for (const pack of packages) {
-            console.info(`"${pack.name}","${pack.version}","${pack.license}","${pack.licenseFile ? pack.licenseFile : Literals.UNKNOWN}","${pack.repository}"`);
-        }
+        console.info(buffer);
     }
 
 }

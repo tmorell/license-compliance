@@ -5,10 +5,10 @@ import { Literals } from "../../src/enumerations";
 import { Text } from "../../src/formatters/text";
 import { Package } from "../../src/interfaces";
 
-let stubLog: sinon.SinonStub;
+let stubConsole: sinon.SinonStub;
 
 beforeEach(() => {
-    stubLog = sinon.stub(console, "info");
+    stubConsole = sinon.stub(console, "info");
 });
 
 afterEach(() => {
@@ -25,7 +25,23 @@ test.serial("Detail", (t) => {
     const csv = new Text();
     csv.detail(packages);
 
-    t.is(stubLog.callCount, 4);
+    t.true(stubConsole.calledWithExactly(`Packages
+├─ pack-01@1.1.0
+│  ├─ Licenses: MIT
+│  ├─ License file: node_modules/pack-01/LICENSE
+│  ├─ Path: pack-01
+│  └─ Repository: company/project
+├─ pack-02@2.0.0
+│  ├─ Licenses: ISC
+│  ├─ License file: UNKNOWN
+│  ├─ Path: pack-02
+│  └─ Repository: company/project
+└─ pack-03@2.0.0
+   ├─ Licenses: (MIT OR Apache-2.0)
+   ├─ License file: UNKNOWN
+   ├─ Path: pack-03
+   └─ Repository: company/project
+`));
 });
 
 test.serial("Summary", (t) => {
@@ -38,5 +54,9 @@ test.serial("Summary", (t) => {
     const csv = new Text();
     csv.summary(licenses);
 
-    t.is(stubLog.callCount, 4);
+    t.true(stubConsole.calledWithExactly(`Licenses
+├─ MIT: 15
+├─ UNKNOWN: 5
+└─ ISC: 1
+`));
 });
