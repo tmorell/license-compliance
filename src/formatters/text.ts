@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { EOL } from "os";
 
 import { Literals } from "../enumerations";
 import { Formatter } from "./index";
@@ -7,28 +8,27 @@ import { Package } from "../interfaces";
 export class Text implements Formatter {
 
     detail(packages: Array<Package>): void {
-        console.info("Packages");
-        this.formatPackages(packages);
+        const length = packages.length - 1;
+        let buffer = "Packages" + EOL;
+        for (let i = 0; i <= length; i++) {
+            const pack = packages[i];
+            buffer += `${i === length ? "└─" : "├─"} ${chalk.blue(pack.name)}@${chalk.green(pack.version)}${EOL}`;
+            buffer += `${i === length ? "   ├─" : "│  ├─"} Licenses: ${pack.license}${EOL}`;
+            buffer += `${i === length ? "   ├─" : "│  ├─"} License file: ${pack.licenseFile ? pack.licenseFile : Literals.UNKNOWN}${EOL}`;
+            buffer += `${i === length ? "   ├─" : "│  ├─"} Path: ${pack.path}${EOL}`;
+            buffer += `${i === length ? "   └─" : "│  └─"} Repository: ${pack.repository}${EOL}`;
+        }
+        console.info(buffer);
     }
 
     summary(licenses: Array<{ name: string; count: number }>): void {
-        console.info("Licenses");
-        for (let i = 0; i < licenses.length; i++) {
+        const length = licenses.length - 1;
+        let buffer = "Licenses" + EOL;
+        for (let i = 0; i <= length; i++) {
             const license = licenses[i];
-            console.info(`${i === licenses.length - 1 ?
-                "└─" : "├─"} ${license.name === Literals.UNKNOWN ? chalk.red(license.name) : license.name}:`, license.count);
+            buffer += `${i === length ? "└─" : "├─"} ${license.name === Literals.UNKNOWN ? chalk.red(license.name) : license.name}: ${license.count}${EOL}`;
         }
-    }
-
-    private formatPackages(packages: Array<Package>): void {
-        for (let i = 0; i < packages.length; i++) {
-            const pack = packages[i];
-            console.info(`${i === packages.length - 1 ? "└─" : "├─"} ${chalk.blue(pack.name)}@${chalk.green(pack.version)}
-${i === packages.length - 1 ? "   ├─" : "│  ├─"} Licenses: ${pack.license}
-${i === packages.length - 1 ? "   ├─" : "│  ├─"} License file: ${pack.licenseFile ? pack.licenseFile : Literals.UNKNOWN}
-${i === packages.length - 1 ? "   ├─" : "│  ├─"} Path: ${pack.path}
-${i === packages.length - 1 ? "   └─" : "│  └─"} Repository: ${pack.repository}`);
-        }
+        console.info(buffer);
     }
 
 }
