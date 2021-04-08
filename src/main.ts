@@ -19,7 +19,8 @@ export async function main(): Promise<boolean> {
     // Get all installed packages
     let packages = await getInstalledPackages(configuration);
     if (packages.length === 0) {
-        return false;
+        // no dependency -> no compliance issue
+        return true;
     }
 
     // Filter packages

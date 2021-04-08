@@ -35,7 +35,7 @@ test.serial("No packages installed", async (t) => {
 
     const r = await main();
 
-    t.false(r);
+    t.true(r);
 });
 
 test.serial("Not allowed licenses", async (t) => {
