@@ -38,10 +38,29 @@ test.serial("No packages installed", async (t) => {
     t.true(r);
 });
 
+test.serial("Get licenses summary", async (t) => {
+    const packages = new Array<Package>();
+    packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
+
+    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration()));
+    sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
+    sinon.stub(filters, "excludePackages").returns(packages);
+    sinon.stub(license, "onlyAllow").returns(packages);
+    const stubReport = sinon.stub(reports.Factory, "getInstance").returns(new Summary(new Text()));
+
+    const r = await main();
+
+    t.true(stubReport.calledOnceWith(Report.summary, Formatter.text));
+    t.true(r);
+});
+
 test.serial("Not allowed licenses", async (t) => {
     const packages = new Array<Package>();
     packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
-    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration()));
+
+    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration({
+        allow: ["Apache-2.0"], // Simulate a policy that will fail the compliance checkup
+    })));
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
     sinon.stub(license, "onlyAllow").returns(packages);  // Packages with not allowed licenses found
@@ -57,20 +76,19 @@ test.serial("Success", async (t) => {
     const packages = new Array<Package>();
     packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
 
-    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration()));
+    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration({
+        allow: ["MIT"], // Simulate a policy that will pass the compliance checkup
+    })));
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
     sinon.stub(license, "onlyAllow").returns(new Array<Package>());
-    const stubReport = sinon.stub(reports.Factory, "getInstance").returns(new Summary(new Text()));
-
     const r = await main();
 
-    t.true(stubReport.calledOnceWith(Report.summary, Formatter.text));
     t.true(r);
 });
 
-function getMockConfiguration(): Configuration {
-    return {
+function getMockConfiguration(overrideConfiguration?: Partial<Configuration>): Configuration {
+    return Object.assign({
         allow: [],
         development: false,
         direct: false,
@@ -78,5 +96,5 @@ function getMockConfiguration(): Configuration {
         format: Formatter.text,
         production: false,
         report: Report.summary,
-    };
+    }, overrideConfiguration);
 }

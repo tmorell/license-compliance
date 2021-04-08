@@ -19,7 +19,7 @@ export async function main(): Promise<boolean> {
     // Get all installed packages
     let packages = await getInstalledPackages(configuration);
     if (packages.length === 0) {
-        // no dependency -> no compliance issue
+        // No dependency -> no compliance issue
         return true;
     }
 
@@ -28,14 +28,22 @@ export async function main(): Promise<boolean> {
 
     const report = FactoryReport.getInstance(configuration.report, configuration.format);
 
-    // Verify allowed licenses
-    const invalidPackages = onlyAllow(packages, configuration);
-    if (invalidPackages.length > 0) {
-        report.process(invalidPackages);
-        return false;
-    }
+    // Verify allowed licenses: command behaviour will be different whether "allow" is set or not
+    const isComplianceModeEnabled = Array.isArray(configuration.allow) && configuration.allow.length > 0;
+    if (isComplianceModeEnabled) {
+        // Running compliance checkup: identify non compliant packages
+        const invalidPackages = onlyAllow(packages, configuration);
+        if (invalidPackages.length > 0) {
+            // If any non-compliant package is found, process the list and return with error code
+            report.process(invalidPackages);
+            return false;
+        }
 
-    // Requested report
-    report.process(packages);
-    return true;
+        // All packages are compliant: return with success code
+        return true;
+    } else {
+        // Inspecting packages: process the list & return with success code
+        report.process(packages);
+        return true;
+    }
 }
