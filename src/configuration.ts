@@ -62,3 +62,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
 
     return configuration;
 }
+
+export function isComplianceModeEnabled(configuration: Pick<Configuration, "allow">): boolean {
+    return Array.isArray(configuration.allow) && configuration.allow.length > 0;
+}
