@@ -40,9 +40,9 @@ export async function main(): Promise<boolean> {
 
         // All packages are compliant: return with success code
         return true;
-    } else {
-        // Inspecting packages: process the list & return with success code
-        report.process(packages);
-        return true;
     }
+
+    // Running license inspection: process the list & return with success code
+    report.process(packages);
+    return true;
 }
