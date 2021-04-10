@@ -28,7 +28,7 @@ export async function main(): Promise<boolean> {
 
     const report = FactoryReport.getInstance(configuration.report, configuration.format);
 
-    // Verify allowed licenses: command behaviour will be different whether "allow" is set or not
+    // Verify allowed licenses: command behavior will be different whether "allow" is set or not
     if (isComplianceModeEnabled(configuration)) {
         // Running compliance checkup: identify non compliant packages
         const invalidPackages = onlyAllow(packages, configuration);
