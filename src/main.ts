@@ -1,6 +1,6 @@
 import Debug from "debug";
 
-import { getConfiguration } from "./configuration";
+import { getConfiguration, isComplianceModeEnabled } from "./configuration";
 import { excludePackages } from "./filters";
 import { onlyAllow } from "./license";
 import { getInstalledPackages } from "./npm";
@@ -19,7 +19,8 @@ export async function main(): Promise<boolean> {
     // Get all installed packages
     let packages = await getInstalledPackages(configuration);
     if (packages.length === 0) {
-        return false;
+        // No dependency -> no compliance issue
+        return true;
     }
 
     // Filter packages
@@ -27,14 +28,21 @@ export async function main(): Promise<boolean> {
 
     const report = FactoryReport.getInstance(configuration.report, configuration.format);
 
-    // Verify allowed licenses
-    const invalidPackages = onlyAllow(packages, configuration);
-    if (invalidPackages.length > 0) {
-        report.process(invalidPackages);
-        return false;
+    // Verify allowed licenses: command behaviour will be different whether "allow" is set or not
+    if (isComplianceModeEnabled(configuration)) {
+        // Running compliance checkup: identify non compliant packages
+        const invalidPackages = onlyAllow(packages, configuration);
+        if (invalidPackages.length > 0) {
+            // If any non-compliant package is found, process the list and return with error code
+            report.process(invalidPackages);
+            return false;
+        }
+
+        // All packages are compliant: return with success code
+        return true;
     }
 
-    // Requested report
+    // Running license inspection: process the list & return with success code
     report.process(packages);
     return true;
 }
