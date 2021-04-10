@@ -38,7 +38,7 @@ Licenses
 ```
 
 Verify compliance by providing list of allowed licenses.
-```
+```bash
 $ license-compliance --production --allow "MIT;ISC"
 
 Packages
@@ -49,7 +49,12 @@ Packages
    ├─ Licenses: CC0-1.0
    └─ Path: node_modules/spdx-license-ids
 ```
-> Exits with 0 if all packages meet the allowed criteria; otherwise, exits with 1.
+> If there are non compliant packages, it exits with code 1, and outputs the non compliant packages.
+
+```bash
+$ license-compliance --production --allow "MIT;ISC;CC-BY-3.0;CC0-1.0"
+```
+> If all packages are compliant, it exits with code 0 and no additional output.
 
 ## Options
 * `-p, --production` Analyzes only production dependencies.
