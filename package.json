@@ -44,7 +44,7 @@
         "@typescript-eslint/parser": "4.21.0",
         "ava": "3.15.0",
         "eslint": "7.24.0",
-        "eslint-config-prettier": "8.1.0",
+        "eslint-config-prettier": "8.3.0",
         "eslint-plugin-jest": "24.3.4",
         "nyc": "15.1.0",
         "sinon": "10.0.0",
