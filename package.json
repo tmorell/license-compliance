@@ -24,7 +24,7 @@
         "chalk": "4.1.0",
         "commander": "7.2.0",
         "cosmiconfig": "7.0.0",
-        "debug": "4.3.1",
+        "debug": "4.3.2",
         "joi": "17.4.0",
         "spdx-expression-parse": "3.0.1",
         "spdx-satisfies": "5.0.0",
@@ -34,7 +34,7 @@
     "description": "License compliance checker",
     "devDependencies": {
         "@types/cosmiconfig": "6.0.0",
-        "@types/debug": "4.1.5",
+        "@types/debug": "4.1.6",
         "@types/joi": "17.2.3",
         "@types/node": "12.20.7",
         "@types/sinon": "9.0.11",
