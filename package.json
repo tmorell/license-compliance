@@ -23,7 +23,7 @@
     "dependencies": {
         "chalk": "4.1.1",
         "commander": "8.0.0",
-        "cosmiconfig": "7.0.0",
+        "cosmiconfig": "7.0.1",
         "debug": "4.3.2",
         "joi": "17.4.0",
         "spdx-expression-parse": "3.0.1",
