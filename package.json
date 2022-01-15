@@ -21,23 +21,23 @@
         "url": "https://github.com/tmorell/license-compliance/issues"
     },
     "dependencies": {
-        "chalk": "4.1.1",
-        "commander": "8.0.0",
-        "cosmiconfig": "7.0.0",
-        "debug": "4.3.2",
-        "joi": "17.4.0",
+        "chalk": "4.1.2",
+        "commander": "8.3.0",
+        "cosmiconfig": "7.0.1",
+        "debug": "4.3.3",
+        "joi": "17.5.0",
         "spdx-expression-parse": "3.0.1",
         "spdx-satisfies": "5.0.1",
-        "tslib": "2.3.0",
+        "tslib": "2.3.1",
         "xmlbuilder": "15.1.1"
     },
     "description": "License compliance checker",
     "devDependencies": {
         "@types/cosmiconfig": "6.0.0",
-        "@types/debug": "4.1.6",
+        "@types/debug": "4.1.7",
         "@types/joi": "17.2.3",
         "@types/node": "14.17.27",
-        "@types/sinon": "10.0.2",
+        "@types/sinon": "10.0.6",
         "@types/spdx-expression-parse": "3.0.1",
         "@types/spdx-satisfies": "0.1.0",
         "@typescript-eslint/eslint-plugin": "4.33.0",
@@ -45,12 +45,12 @@
         "ava": "3.15.0",
         "eslint": "7.32.0",
         "eslint-config-prettier": "8.3.0",
-        "eslint-plugin-jest": "24.3.6",
+        "eslint-plugin-jest": "24.7.0",
         "nyc": "15.1.0",
-        "sinon": "11.1.1",
-        "ts-node": "10.0.0",
-        "tsc-watch": "4.4.0",
-        "typescript": "4.3.5"
+        "sinon": "11.1.2",
+        "ts-node": "10.4.0",
+        "tsc-watch": "4.6.0",
+        "typescript": "4.5.4"
     },
     "engines": {
         "node": ">=10.24.0"
