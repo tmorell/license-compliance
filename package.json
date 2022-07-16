@@ -36,7 +36,7 @@
         "@types/cosmiconfig": "6.0.0",
         "@types/debug": "4.1.7",
         "@types/joi": "17.2.3",
-        "@types/node": "16.11.35",
+        "@types/node": "16.11.45",
         "@types/sinon": "10.0.11",
         "@types/spdx-expression-parse": "3.0.1",
         "@types/spdx-satisfies": "0.1.0",
