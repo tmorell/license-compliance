@@ -12,7 +12,7 @@
         ],
         "tap": false,
         "timeout": "10s",
-        "verbose": true
+        "verbose": false
     },
     "bin": {
         "license-compliance": "./bin/cli.js"

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import test from "ava";
 import * as sinon from "sinon";
 
@@ -54,7 +53,7 @@ test("Development", (t) => {
     const configuration = processArgs();
 
     t.true(configuration.allow === undefined);
-    t.true(configuration.development === true);
+    t.true(configuration.development);
     t.true(configuration.direct === undefined);
     t.true(configuration.exclude === undefined);
     t.true(configuration.format === undefined);
