@@ -1,14 +1,15 @@
-import test, { after, before } from "ava";
+/* eslint-disable no-console */
+import test from "ava";
 import * as sinon from "sinon";
 
 import { Formatter, Report } from "../../src/enumerations";
 import { processArgs } from "../../src/program";
 
-before(() => {
+test.before(() => {
     sinon.stub(process.stdout, "write");
 });
 
-after(() => {
+test.after(() => {
     sinon.restore();
 });
 
@@ -17,13 +18,13 @@ test("No arguments", (t) => {
 
     const configuration = processArgs();
 
-    t.is(configuration.allow, undefined);
-    t.is(configuration.development, undefined);
-    t.is(configuration.direct, undefined);
-    t.is(configuration.exclude, undefined);
-    t.is(configuration.format, undefined);
-    t.is(configuration.production, undefined);
-    t.is(configuration.report, undefined);
+    t.true(configuration.allow === undefined);
+    t.true(configuration.development === undefined);
+    t.true(configuration.direct === undefined);
+    t.true(configuration.exclude === undefined);
+    t.true(configuration.format === undefined);
+    t.true(configuration.production === undefined);
+    t.true(configuration.report === undefined);
 });
 
 test("Allow, valid licenses", (t) => {
@@ -52,13 +53,13 @@ test("Development", (t) => {
 
     const configuration = processArgs();
 
-    t.is(configuration.allow, undefined);
-    t.is(configuration.development, true);
-    t.is(configuration.direct, undefined);
-    t.is(configuration.exclude, undefined);
-    t.is(configuration.format, undefined);
-    t.is(configuration.production, undefined);
-    t.is(configuration.report, undefined);
+    t.true(configuration.allow === undefined);
+    t.true(configuration.development === true);
+    t.true(configuration.direct === undefined);
+    t.true(configuration.exclude === undefined);
+    t.true(configuration.format === undefined);
+    t.true(configuration.production === undefined);
+    t.true(configuration.report === undefined);
 });
 
 test("Direct", (t) => {
@@ -66,13 +67,13 @@ test("Direct", (t) => {
 
     const configuration = processArgs();
 
-    t.is(configuration.allow, undefined);
-    t.is(configuration.development, undefined);
-    t.is(configuration.direct, true);
-    t.is(configuration.exclude, undefined);
-    t.is(configuration.format, undefined);
-    t.is(configuration.production, undefined);
-    t.is(configuration.report, undefined);
+    t.true(configuration.allow === undefined);
+    t.true(configuration.development === undefined);
+    t.true(configuration.direct);
+    t.true(configuration.exclude === undefined);
+    t.true(configuration.format === undefined);
+    t.true(configuration.production === undefined);
+    t.true(configuration.report === undefined);
 });
 
 test("Exclude", (t) => {
@@ -91,13 +92,13 @@ test("Format", (t) => {
 
     const configuration = processArgs();
 
-    t.is(configuration.allow, undefined);
-    t.is(configuration.development, undefined);
-    t.is(configuration.direct, undefined);
-    t.is(configuration.exclude, undefined);
-    t.is(configuration.format, Formatter.json.toLowerCase());
-    t.is(configuration.production, undefined);
-    t.is(configuration.report, undefined);
+    t.true(configuration.allow === undefined);
+    t.true(configuration.development === undefined);
+    t.true(configuration.direct === undefined);
+    t.true(configuration.exclude === undefined);
+    t.true(configuration.format === Formatter.json.toLowerCase());
+    t.true(configuration.production === undefined);
+    t.true(configuration.report === undefined);
 });
 
 test("Format, bad param", (t) => {
@@ -115,13 +116,13 @@ test("Production", (t) => {
 
     const configuration = processArgs();
 
-    t.is(configuration.allow, undefined);
-    t.is(configuration.development, undefined);
-    t.is(configuration.direct, undefined);
-    t.is(configuration.exclude, undefined);
-    t.is(configuration.format, undefined);
-    t.is(configuration.production, true);
-    t.is(configuration.report, undefined);
+    t.true(configuration.allow === undefined);
+    t.true(configuration.development === undefined);
+    t.true(configuration.direct === undefined);
+    t.true(configuration.exclude === undefined);
+    t.true(configuration.format === undefined);
+    t.true(configuration.production);
+    t.true(configuration.report === undefined);
 });
 
 test("Production or development", (t) => {
@@ -139,13 +140,13 @@ test("Report", (t) => {
 
     const configuration = processArgs();
 
-    t.is(configuration.allow, undefined);
-    t.is(configuration.development, undefined);
-    t.is(configuration.direct, undefined);
-    t.is(configuration.exclude, undefined);
-    t.is(configuration.format, undefined);
-    t.is(configuration.production, undefined);
-    t.is(configuration.report, (Report.detailed as string).toLowerCase());
+    t.true(configuration.allow === undefined);
+    t.true(configuration.development === undefined);
+    t.true(configuration.direct === undefined);
+    t.true(configuration.exclude === undefined);
+    t.true(configuration.format === undefined);
+    t.true(configuration.production === undefined);
+    t.true(configuration.report === (Report.detailed as string).toLowerCase());
 });
 
 test("Report, bad param", (t) => {

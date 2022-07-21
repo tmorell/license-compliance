@@ -1,10 +1,10 @@
-import test, { after } from "ava";
+import test from "ava";
 import * as sinon from "sinon";
 
 import { excludePackages } from "../../src/filters";
 import { Package } from "../../src/interfaces";
 
-after(() => {
+test.after(() => {
     sinon.restore();
 });
 

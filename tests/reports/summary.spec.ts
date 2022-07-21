@@ -1,15 +1,15 @@
-import test, { afterEach, beforeEach } from "ava";
+import test from "ava";
 import * as sinon from "sinon";
 
 import { Text } from "../../src/formatters/text";
 import { Package } from "../../src/interfaces";
 import { Summary } from "../../src/reports/summary";
 
-beforeEach(() => {
+test.beforeEach(() => {
     sinon.stub(process.stdout, "write");
 });
 
-afterEach(() => {
+test.afterEach(() => {
     sinon.restore();
 });
 

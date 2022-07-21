@@ -1,4 +1,4 @@
-import test, { after, before } from "ava";
+import test from "ava";
 import * as path from "path";
 import * as sinon from "sinon";
 
@@ -6,11 +6,11 @@ import { getDefaultConfiguration } from "../util";
 import { getInstalledPackages } from "../../src/npm";
 import { Literals } from "../../src/enumerations";
 
-before(() => {
+test.before(() => {
     sinon.stub(console, "error");
 });
 
-after(() => {
+test.after(() => {
     sinon.restore();
 });
 

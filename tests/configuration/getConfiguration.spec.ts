@@ -1,4 +1,4 @@
-import test, { afterEach, beforeEach } from "ava";
+import test from "ava";
 import * as sinon from "sinon";
 import * as cosmiconfig from "cosmiconfig";
 
@@ -24,11 +24,11 @@ interface Explorer {
     readonly clearCaches: () => void;
 }
 
-beforeEach(() => {
+test.beforeEach(() => {
     sinon.stub(process.stdout, "write");
 });
 
-afterEach(() => {
+test.afterEach(() => {
     sinon.restore();
 });
 
