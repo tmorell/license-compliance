@@ -1,4 +1,4 @@
-import test, { afterEach, beforeEach } from "ava";
+import test from "ava";
 import * as sinon from "sinon";
 
 import { Json } from "../../src/formatters/json";
@@ -7,12 +7,12 @@ import { Package } from "../../src/interfaces";
 let stubConsole: sinon.SinonStub;
 let spyJson: sinon.SinonSpy;
 
-beforeEach(() => {
+test.beforeEach(() => {
     stubConsole = sinon.stub(console, "info");
     spyJson = sinon.spy(JSON, "stringify");
 });
 
-afterEach(() => {
+test.afterEach(() => {
     sinon.restore();
 });
 

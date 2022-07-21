@@ -1,4 +1,4 @@
-import test, { afterEach, beforeEach } from "ava";
+import test from "ava";
 import * as sinon from "sinon";
 
 import { Formatter, Report } from "../src/enumerations";
@@ -12,11 +12,11 @@ import * as configuration from "../src/configuration";
 import * as reports from "../src/reports";
 import { Summary } from "../src/reports/summary";
 
-beforeEach(() => {
+test.beforeEach(() => {
     sinon.stub(process.stdout, "write");
 });
 
-afterEach(() => {
+test.afterEach(() => {
     sinon.restore();
 });
 

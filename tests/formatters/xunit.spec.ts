@@ -1,4 +1,4 @@
-import test, { afterEach, beforeEach } from "ava";
+import test from "ava";
 import * as sinon from "sinon";
 
 import { Xunit } from "../../src/formatters/xunit";
@@ -6,11 +6,11 @@ import { Package } from "../../src/interfaces";
 
 let stubConsole: sinon.SinonStub;
 
-beforeEach(() => {
+test.beforeEach(() => {
     stubConsole = sinon.stub(console, "info");
 });
 
-afterEach(() => {
+test.afterEach(() => {
     sinon.restore();
 });
 

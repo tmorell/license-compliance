@@ -1,4 +1,5 @@
-import test, { afterEach, beforeEach } from "ava";
+import chalk from "chalk";
+import test from "ava";
 import * as sinon from "sinon";
 
 import { Literals } from "../../src/enumerations";
@@ -7,11 +8,11 @@ import { Package } from "../../src/interfaces";
 
 let stubConsole: sinon.SinonStub;
 
-beforeEach(() => {
+test.beforeEach(() => {
     stubConsole = sinon.stub(console, "info");
 });
 
-afterEach(() => {
+test.afterEach(() => {
     sinon.restore();
 });
 
@@ -22,21 +23,21 @@ test.serial("Detail", (t) => {
         { name: "pack-03", path: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" },
     ];
 
-    const csv = new Text();
-    csv.detail(packages);
+    const text = new Text();
+    text.detail(packages);
 
     t.true(stubConsole.calledWithExactly(`Packages
-├─ pack-01@1.1.0
+├─ ${chalk.blue("pack-01")}@${chalk.green("1.1.0")}
 │  ├─ Licenses: MIT
 │  ├─ License file: node_modules/pack-01/LICENSE
 │  ├─ Path: pack-01
 │  └─ Repository: company/project
-├─ pack-02@2.0.0
+├─ ${chalk.blue("pack-02")}@${chalk.green("2.0.0")}
 │  ├─ Licenses: ISC
 │  ├─ License file: UNKNOWN
 │  ├─ Path: pack-02
 │  └─ Repository: company/project
-└─ pack-03@2.0.0
+└─ ${chalk.blue("pack-03")}@${chalk.green("2.0.0")}
    ├─ Licenses: (MIT OR Apache-2.0)
    ├─ License file: UNKNOWN
    ├─ Path: pack-03
@@ -51,12 +52,12 @@ test.serial("Summary", (t) => {
         { name: "ISC", count: 1 },
     ];
 
-    const csv = new Text();
-    csv.summary(licenses);
+    const text = new Text();
+    text.summary(licenses);
 
     t.true(stubConsole.calledWithExactly(`Licenses
 ├─ MIT: 15
-├─ UNKNOWN: 5
+├─ ${chalk.red("UNKNOWN")}: 5
 └─ ISC: 1
 `));
 });
