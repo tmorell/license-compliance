@@ -42,7 +42,7 @@
         "@types/spdx-satisfies": "0.1.0",
         "@typescript-eslint/eslint-plugin": "5.30.7",
         "@typescript-eslint/parser": "5.30.7",
-        "ava": "4.3.1",
+        "ava": "4.3.3",
         "eslint": "8.16.0",
         "eslint-config-prettier": "8.5.0",
         "eslint-plugin-jest": "26.6.0",
