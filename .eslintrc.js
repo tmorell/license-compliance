@@ -10,7 +10,6 @@ module.exports = {
         "plugin:@typescript-eslint/recommended",
     ],
     "ignorePatterns": [
-        "jest.config.ts",
         "lib",
         "node_modules",
         "tests/mock-packages/*",
@@ -20,7 +19,6 @@ module.exports = {
         "project": "./tsconfig.json"
     },
     "plugins": [
-        "eslint-plugin-jest",
         "@typescript-eslint"
     ],
     "root": true,
@@ -108,7 +106,6 @@ module.exports = {
                 "objects": "always-multiline",
             }
         ],
-        "jest/no-focused-tests": "error",
         "max-classes-per-file": "error",
         "no-await-in-loop": "error",
         "no-console": [

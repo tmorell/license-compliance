@@ -45,7 +45,6 @@
         "ava": "4.3.3",
         "eslint": "8.23.0",
         "eslint-config-prettier": "8.5.0",
-        "eslint-plugin-jest": "27.0.1",
         "nyc": "15.1.0",
         "sinon": "14.0.0",
         "ts-node": "10.9.1",
