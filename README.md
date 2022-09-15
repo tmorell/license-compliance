@@ -1,5 +1,4 @@
 ![GitHub Actions](https://github.com/tmorell/license-compliance/actions/workflows/ci.yaml/badge.svg)
-![David](https://img.shields.io/david/tmorell/license-compliance)
 ![Snyk Vulnerabilities for npm scoped package](https://img.shields.io/snyk/vulnerabilities/npm/license-compliance)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tmorell_license-compliance&metric=alert_status)](https://sonarcloud.io/dashboard?id=tmorell_license-compliance)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tmorell_license-compliance&metric=coverage)](https://sonarcloud.io/dashboard?id=tmorell_license-compliance)
@@ -8,7 +7,7 @@
 
 ![npm](https://img.shields.io/npm/v/license-compliance)
 ![node](https://img.shields.io/node/v/license-compliance)
-![NPM](https://img.shields.io/npm/l/license-compliance)
+![npm](https://img.shields.io/npm/l/license-compliance)
 
 </div>
 
