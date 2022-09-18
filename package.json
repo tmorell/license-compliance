@@ -40,16 +40,16 @@
         "@types/sinon": "10.0.13",
         "@types/spdx-expression-parse": "3.0.2",
         "@types/spdx-satisfies": "0.1.0",
-        "@typescript-eslint/eslint-plugin": "5.36.2",
-        "@typescript-eslint/parser": "5.36.2",
+        "@typescript-eslint/eslint-plugin": "5.37.0",
+        "@typescript-eslint/parser": "5.37.0",
         "ava": "4.3.3",
-        "eslint": "8.23.0",
+        "eslint": "8.23.1",
         "eslint-config-prettier": "8.5.0",
         "nyc": "15.1.0",
         "sinon": "14.0.0",
         "ts-node": "10.9.1",
         "tsc-watch": "5.0.3",
-        "typescript": "4.8.2"
+        "typescript": "4.8.3"
     },
     "engines": {
         "node": ">=12.13.0"
@@ -91,6 +91,7 @@
         "url": "git+https://github.com/tmorell/license-compliance.git"
     },
     "scripts": {
+        "all": "npm run build && npm run lint && npm test",
         "build": "rm -rf ./lib ./.nyc_output ./coverage && tsc -p tsconfig.build.json",
         "coverage": "nyc report --reporter=html && xdg-open ./coverage/index.html",
         "coverage:ci": "nyc report --reporter=lcov",
