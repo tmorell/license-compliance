@@ -29,3 +29,7 @@ export function excludePackages(packages: Array<Package>, configuration: Pick<Co
 
     return col;
 }
+
+export function queryPackages(packages: Array<Package>, configuration: Pick<Configuration, "query">): Array<Package> {
+    return packages.filter(value => configuration.query.includes(value.license));
+}

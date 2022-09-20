@@ -77,11 +77,26 @@ test.serial("Success", async (t) => {
     packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
 
     sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration({
-        allow: ["MIT"], // Simulate a policy that will pass the compliance checkup
+        allow: ["MIT"],
     })));
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
     sinon.stub(license, "onlyAllow").returns(new Array<Package>());
+    const r = await main();
+
+    t.true(r);
+});
+
+test.serial("Success query", async (t) => {
+    const packages = new Array<Package>();
+    packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
+
+    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration({
+        query: ["MIT"],
+    })));
+    sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
+    sinon.stub(filters, "excludePackages").returns(packages);
+    sinon.stub(filters, "queryPackages").returns(new Array<Package>());
     const r = await main();
 
     t.true(r);
@@ -95,6 +110,7 @@ function getMockConfiguration(overrideConfiguration?: Partial<Configuration>): C
         exclude: [],
         format: Formatter.text,
         production: false,
+        query: [],
         report: Report.summary,
     }, overrideConfiguration);
 }

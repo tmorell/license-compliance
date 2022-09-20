@@ -18,13 +18,14 @@ export function processArgs(): Configuration {
         .option("-t, --direct", "Analyzes only direct dependencies (depth = 1).")
         .option("-f, --format <format>", "Report format, csv, text, or json (default = text).", verifyFormat)
         .option("-r, --report <report>", "Report type, summary or detailed (default = summary).", verifyReport)
+        .option<Array<string>>("-q, --query <licenses>", "Semicolon separated list of licenses to query. Must conform to SPDX specifications.", verifyQuery)
         .option<Array<string>>("-a, --allow <licenses>", "Semicolon separated list of allowed licenses. Must conform to SPDX specifications.", verifyAllow)
         .option<Array<string | RegExp>>("-e, --exclude <packages>", "Semicolon separated list of packages to be excluded from analysis. Regex expressions are supported.", verifyExclude)
         .parse(process.argv);
 
-    verifyProductionDevelopment();
+    verifyIncompatibleArguments();
 
-    return program.opts() as Configuration;
+    return program.opts();
 }
 
 function help(errorMessage: string): void {
@@ -40,6 +41,20 @@ function verifyAllow(value: string): Array<string> {
         .map((license) => {
             if (!isLicenseValid(license)) {
                 help(`Invalid --allow option "${license}"`);
+            }
+            return license;
+        });
+}
+
+// TODO: Refactor avoid duplicated code with verifyAllow
+function verifyQuery(value: string): Array<string> {
+    return value
+        .split(";")
+        .map((license) => license.trim())
+        .filter((license) => !!license)
+        .map((license) => {
+            if (!isLicenseValid(license) && license !== "UNKNOWN") {
+                help(`Invalid --query option "${license}"`);
             }
             return license;
         });
@@ -65,16 +80,19 @@ function verifyFormat(value: string): string {
     return value;
 }
 
-function verifyProductionDevelopment(): void {
-    const options = program.opts();
-    if (options.production && options.development) {
-        help("Options \"--production\" and \"--development\" cannot be used together");
-    }
-}
-
 function verifyReport(value: string): string {
     if (!Object.keys(Report).includes(value)) {
         help(`Invalid --report option "${value}"`);
     }
     return value;
+}
+
+function verifyIncompatibleArguments(): void {
+    const options = program.opts();
+    if (options.production && options.development) {
+        help("Options \"--production\" and \"--development\" cannot be used together");
+    }
+    if (options.query && options.allow) {
+        help("Options '--allow' and '--query' cannot be used together");
+    }
 }

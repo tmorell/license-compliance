@@ -42,6 +42,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
         exclude: mergedConfiguration.exclude || [],
         format: toPascal(mergedConfiguration.format) as Formatter || Formatter.text,
         production: !!mergedConfiguration.production || false,
+        query: mergedConfiguration.query || [],
         report: toPascal(mergedConfiguration.report) as Report || Report.summary,
     };
 
@@ -53,6 +54,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
         exclude: joi.array(),
         format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text, Formatter.xunit),
         production: joi.boolean(),
+        query: joi.array().items(joi.string()),
         report: joi.string().valid(Report.detailed, Report.summary),
     }).validate(configuration);
     if (result.error) {
