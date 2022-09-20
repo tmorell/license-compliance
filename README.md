@@ -1,16 +1,12 @@
-![GitHub Actions](https://github.com/tmorell/license-compliance/actions/workflows/ci.yaml/badge.svg)
-![Snyk Vulnerabilities for npm scoped package](https://img.shields.io/snyk/vulnerabilities/npm/license-compliance)
+[![GitHub Actions](https://github.com/tmorell/license-compliance/actions/workflows/ci.yaml/badge.svg)](https://github.com/tmorell/license-compliance/actions/workflows/ci.yaml)
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/license-compliance)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tmorell_license-compliance&metric=alert_status)](https://sonarcloud.io/dashboard?id=tmorell_license-compliance)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tmorell_license-compliance&metric=coverage)](https://sonarcloud.io/dashboard?id=tmorell_license-compliance)
 
-<div>
 
-![npm](https://img.shields.io/npm/v/license-compliance)
-![node](https://img.shields.io/node/v/license-compliance)
-![npm](https://img.shields.io/npm/l/license-compliance)
-
-</div>
-
+![npm version](https://img.shields.io/npm/v/license-compliance)
+![Node.js](https://img.shields.io/node/v/license-compliance)
+[![License](https://img.shields.io/npm/l/license-compliance)](https://github.com/tmorell/license-compliance/blob/master/LICENSE)
 
 # License Compliance
 Analyzes installed packages allowing to verify compliance with allowed licenses.
@@ -55,15 +51,35 @@ $ license-compliance --production --allow "MIT;ISC;CC-BY-3.0;CC0-1.0"
 ```
 > If all packages are compliant, it exits with code 0 and no additional output.
 
+Find which packages have a specific license.
+```bash
+$ license-compliance --production --report detailed --query "MIT"
+
+Packages
+├─ @babel/code-frame@7.18.6
+│  ├─ Licenses: MIT
+│  ├─ License file: node_modules/@babel/code-frame/LICENSE
+│  ├─ Path: node_modules/@babel/code-frame
+│  └─ Repository: https://github.com/babel/babel
+└─ @babel/helper-validator-identifier@7.19.1
+   ├─ Licenses: MIT
+   ├─ License file: node_modules/@babel/helper-validator-identifier/LICENSE
+   ├─ Path: node_modules/@babel/helper-validator-identifier
+   └─ Repository: https://github.com/babel/babel
+```
+
 ## Options
 * `-p, --production` Analyzes only production dependencies.
 * `-d, --development` Analyzes only development dependencies.
 * `-t, --direct` Analyzes only direct dependencies (depth = 1).
 * `-f, --format <format>` Report format, csv, text, json, or xunit (default = "text").
 * `-r, --report <report>` Report type, summary or detailed (default = "summary").
-* `-a, --allow <licenses>` Semicolon separated list of allowed licenses. Must conform to [SPDX](https://spdx.org/licenses) specifications.
+* `-a, --allow <licenses>` Semicolon separated list of allowed licenses.
 * `-e, --exclude <packages>` Semicolon separated list of package names to be excluded from the analysis. Regex expressions are supported.
+* `-q, --query <licenses>` Semicolon separated list of licenses.
 * `-h, --help` Display help for command
+
+> `<licenses>` must conform to [SPDX](https://spdx.org/licenses) specifications.
 
 ## Excluding Packages
 In some scenarios there might be the need to exclude certain packages from the analysis. Let's say there is no license information for some scoped packages (**@the-project**), but they are under an approved license for your project. Also, there is a very specific package under the same condition (**some-package**).
