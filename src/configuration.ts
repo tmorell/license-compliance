@@ -11,7 +11,6 @@ import { toPascal } from "./util";
 const packageName = "license-compliance";
 
 export async function getConfiguration(): Promise<Configuration | null> {
-
     let configExtended: Partial<Configuration> = {};
     let configInline: ExtendableConfiguration = {};
 

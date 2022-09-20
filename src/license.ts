@@ -99,7 +99,7 @@ function argsToSpdxLicense(licenses: Array<string>): string {
 
 async function extractLicense(pack: NpmPackage, packPath: string): Promise<License> {
     // Find possible location of license file
-    const licensePath = await getLicencePath(packPath);
+    const licensePath = await getLicensePath(packPath);
 
     // License as a single string entry
     if (typeof pack.license === "string") {
@@ -160,7 +160,7 @@ function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
     return argsToSpdxLicense(licenses.map((value) => value.type.trim()));
 }
 
-async function getLicencePath(packPath: string): Promise<string | undefined> {
+async function getLicensePath(packPath: string): Promise<string | undefined> {
     const data = await util.readdir(packPath);
     for (const fileName of data) {
         if (fileName.toLowerCase().startsWith(LICENSE_FILE)) {

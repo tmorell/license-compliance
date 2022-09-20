@@ -6,7 +6,6 @@ import { Formatter } from "./index";
 import { Package } from "../interfaces";
 
 export class Text implements Formatter {
-
     detail(packages: Array<Package>): void {
         const length = packages.length - 1;
         let buffer = "Packages" + EOL;
@@ -30,5 +29,4 @@ export class Text implements Formatter {
         }
         console.info(buffer);
     }
-
 }

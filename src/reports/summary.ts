@@ -3,7 +3,6 @@ import { Formatter } from "../formatters";
 import { Package } from "../interfaces";
 
 export class Summary implements Reporter {
-
     private readonly licenses = new Array<{ name: string; count: number }>();
 
     constructor(

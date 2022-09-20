@@ -46,7 +46,6 @@ function verifyAllow(value: string): Array<string> {
         });
 }
 
-// TODO: Refactor avoid duplicated code with verifyAllow
 function verifyQuery(value: string): Array<string> {
     return value
         .split(";")

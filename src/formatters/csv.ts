@@ -5,7 +5,6 @@ import { Package } from "../interfaces";
 import { Literals } from "../enumerations";
 
 export class Csv implements Formatter {
-
     detail(packages: Array<Package>): void {
         let buffer = `"package name","version","license","license file","repository"${EOL}`;
         for (const pack of packages) {
@@ -21,5 +20,4 @@ export class Csv implements Formatter {
         }
         console.info(buffer);
     }
-
 }
