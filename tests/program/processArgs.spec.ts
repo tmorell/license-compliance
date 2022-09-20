@@ -124,8 +124,38 @@ test("Production", (t) => {
     t.true(configuration.report === undefined);
 });
 
-test("Production or development", (t) => {
+test("Production and development", (t) => {
     sinon.stub(process, "argv").value(["", "", "--production", "--development"]);
+    const stubProcess = sinon.stub(process, "exit");
+
+    processArgs();
+
+    t.true(stubProcess.calledTwice);
+    stubProcess.restore();
+});
+
+test("Query UNKNOWN", (t) => {
+    sinon.stub(process, "argv").value(["", "", "--query", "MIT;UNKNOWN"]);
+
+    const configuration = processArgs();
+
+    t.is(configuration.query.length, 2);
+    t.is(configuration.query[0], "MIT");
+    t.is(configuration.query[1], "UNKNOWN");
+});
+
+test("Query and allow", (t) => {
+    sinon.stub(process, "argv").value(["", "", "--allow", "MIT", "--query", "MIT"]);
+    const stubProcess = sinon.stub(process, "exit");
+
+    processArgs();
+
+    t.true(stubProcess.calledTwice);
+    stubProcess.restore();
+});
+
+test("Query, invalid licenses", (t) => {
+    sinon.stub(process, "argv").value(["", "", "--query", "MIT;ISC;Apache 2.0"]);
     const stubProcess = sinon.stub(process, "exit");
 
     processArgs();

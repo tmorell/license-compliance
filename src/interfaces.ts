@@ -7,6 +7,7 @@ export interface Configuration {
     exclude: Array<string | RegExp>;
     format: Formatter;
     production: boolean;
+    query: Array<string>;
     report: Report;
 }
 

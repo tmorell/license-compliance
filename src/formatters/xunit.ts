@@ -9,7 +9,6 @@ interface LicenseDetail {
 }
 
 type XmlValue = string | number | boolean;
-
 type RecursiveXmlValue = XmlValue | Record<string, XmlValue> | Array<Record<string, XmlValue>>;
 
 interface XUnitTestCase extends Record<string, RecursiveXmlValue> {

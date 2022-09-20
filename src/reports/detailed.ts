@@ -3,7 +3,6 @@ import { Formatter } from "../formatters";
 import { Package } from "../interfaces";
 
 export class Detailed implements Reporter {
-
     private sorted!: Array<Package>;
 
     constructor(

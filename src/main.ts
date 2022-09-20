@@ -1,7 +1,7 @@
 import Debug from "debug";
 
 import { getConfiguration, isComplianceModeEnabled } from "./configuration";
-import { excludePackages } from "./filters";
+import { excludePackages, queryPackages } from "./filters";
 import { onlyAllow } from "./license";
 import { getInstalledPackages } from "./npm";
 import { Factory as FactoryReport } from "./reports";
@@ -19,11 +19,10 @@ export async function main(): Promise<boolean> {
     // Get all installed packages
     let packages = await getInstalledPackages(configuration);
     if (packages.length === 0) {
-        // No dependency -> no compliance issue
         return true;
     }
 
-    // Filter packages
+    // Filter out excluded packages
     packages = excludePackages(packages, configuration);
 
     const report = FactoryReport.getInstance(configuration.report, configuration.format);
@@ -40,6 +39,11 @@ export async function main(): Promise<boolean> {
 
         // All packages are compliant: return with success code
         return true;
+    }
+
+    // Filter querying packages
+    if (configuration.query.length > 0) {
+        packages = queryPackages(packages, configuration);
     }
 
     // Running license inspection: process the list & return with success code
