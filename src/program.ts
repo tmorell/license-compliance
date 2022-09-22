@@ -10,7 +10,7 @@ let program: commander.Command;
 export function processArgs(): Configuration {
     program = new commander.Command();
     program
-        .exitOverride(() => process.exit(1))
+        .exitOverride((): void => process.exit(1))
         .name("license-compliance")
         .description("Analyzes licenses of installed NPM packages, assisting with compliance.")
         .option("-p, --production", "Analyzes only production dependencies.")
@@ -36,9 +36,9 @@ function help(errorMessage: string): void {
 function verifyAllow(value: string): Array<string> {
     return value
         .split(";")
-        .map((license) => license.trim())
-        .filter((license) => !!license)
-        .map((license) => {
+        .map((license): string => license.trim())
+        .filter((license): boolean => !!license)
+        .map((license): string => {
             if (!isLicenseValid(license)) {
                 help(`Invalid --allow option "${license}"`);
             }
@@ -49,9 +49,9 @@ function verifyAllow(value: string): Array<string> {
 function verifyQuery(value: string): Array<string> {
     return value
         .split(";")
-        .map((license) => license.trim())
-        .filter((license) => !!license)
-        .map((license) => {
+        .map((license): string => license.trim())
+        .filter((license): boolean => !!license)
+        .map((license): string => {
             if (!isLicenseValid(license) && license !== "UNKNOWN") {
                 help(`Invalid --query option "${license}"`);
             }
@@ -62,9 +62,9 @@ function verifyQuery(value: string): Array<string> {
 function verifyExclude(value: string): Array<string | RegExp> {
     return value
         .split(";")
-        .map((exclude) => exclude.trim())
-        .filter((exclude) => !!exclude)
-        .map((exclude) => {
+        .map((exclude): string => exclude.trim())
+        .filter((exclude): boolean => !!exclude)
+        .map((exclude): string | RegExp => {
             if (exclude.startsWith("/") && exclude.endsWith("/")) {
                 return RegExp(exclude.substr(1, exclude.length - 2));
             }

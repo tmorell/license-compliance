@@ -5,13 +5,13 @@ import { Factory } from "../../src/reports";
 import { Detailed } from "../../src/reports/detailed";
 import { Summary } from "../../src/reports/summary";
 
-test("Detail", (t) => {
+test("Detail", (t): void => {
     const report = Factory.getInstance(Report.detailed, Formatter.text);
 
     t.true(report instanceof Detailed);
 });
 
-test("Summary", (t) => {
+test("Summary", (t): void => {
     const report = Factory.getInstance(Report.summary, Formatter.text);
 
     t.true(report instanceof Summary);

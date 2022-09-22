@@ -5,15 +5,15 @@ import { Text } from "../../src/formatters/text";
 import { Package } from "../../src/interfaces";
 import { Summary } from "../../src/reports/summary";
 
-test.beforeEach(() => {
+test.beforeEach((): void => {
     sinon.stub(process.stdout, "write");
 });
 
-test.afterEach(() => {
+test.afterEach((): void => {
     sinon.restore();
 });
 
-test.serial("Summary", (t) => {
+test.serial("Summary", (t): void => {
     const packages: Array<Package> = [
         { name: "pack-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "pack-02", path: "pack-02", version: "2.0.0", license: "MIT", repository: "company/project" },
@@ -37,7 +37,7 @@ test.serial("Summary", (t) => {
     t.is(licenses[2].count, 1);
 });
 
-test.serial("With errors", (t) => {
+test.serial("With errors", (t): void => {
     const packages: Array<Package> = [
         { name: "pack-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "pack-03", path: "pack-03", version: "3.0.0", license: "ISC", repository: "company/project" },

@@ -8,7 +8,7 @@ export function excludePackages(packages: Array<Package>, configuration: Pick<Co
     }
 
     const col = new Array<Package>();
-    packages.forEach((pack) => {
+    packages.forEach((pack): void => {
         let exclude = false;
         for (const filter of excludeFilters) {
             if (typeof filter === "string") {
@@ -31,5 +31,5 @@ export function excludePackages(packages: Array<Package>, configuration: Pick<Co
 }
 
 export function queryPackages(packages: Array<Package>, configuration: Pick<Configuration, "query">): Array<Package> {
-    return packages.filter(value => configuration.query.includes(value.license));
+    return packages.filter((value): boolean => configuration.query.includes(value.license));
 }

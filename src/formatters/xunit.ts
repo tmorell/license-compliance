@@ -49,19 +49,19 @@ export class Xunit implements Formatter {
 
     private formatDetailedTestSuites(packages: Array<Package>): XUnitTestSuites {
         const detailedList = this.groupPackagesByLicense(packages);
-        const totalNumberOfFailures = detailedList.reduce((sum, license) => sum + license.packages.length, 0);
+        const totalNumberOfFailures = detailedList.reduce((sum, license): number => sum + license.packages.length, 0);
 
         return {
             "@name": this.TEST_SUITES_NAME,
             "@tests": totalNumberOfFailures,
             "@errors": 0,
             "@failures": totalNumberOfFailures,
-            testsuite: detailedList.map((license) => ({
+            testsuite: detailedList.map((license): XUnitTestSuite => ({
                 "@name": license.name,
                 "@tests": license.packages.length,
                 "@errors": 0,
                 "@failures": license.packages.length,
-                testcase: license.packages.map((packageInformations) => ({
+                testcase: license.packages.map((packageInformations): XUnitTestCase => ({
                     "@name": `${packageInformations.name}@${packageInformations.version}`,
                     "@path": packageInformations.path,
                     failure: {
@@ -79,7 +79,7 @@ export class Xunit implements Formatter {
             "@tests": licenses.length,
             "@errors": 0,
             "@failures": licenses.length,
-            testsuite: licenses.map((license) => ({
+            testsuite: licenses.map((license): XUnitTestSuite => ({
                 "@name": license.name,
                 "@tests": 1,
                 "@errors": 0,
@@ -100,8 +100,8 @@ export class Xunit implements Formatter {
      */
     private groupPackagesByLicense(packages: Array<Package>): Array<LicenseDetail> {
         return packages.reduce<Array<LicenseDetail>>(
-            (licenses, packageInformations) => {
-                const licenseIndex = licenses.findIndex((license) => license.name === packageInformations.license);
+            (licenses, packageInformations): Array<LicenseDetail> => {
+                const licenseIndex = licenses.findIndex((license): boolean => license.name === packageInformations.license);
 
                 if (licenseIndex >= 0) {
                     // if the license was already in the iterator, push the current package to its list

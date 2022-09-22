@@ -12,15 +12,15 @@ import * as configuration from "../src/configuration";
 import * as reports from "../src/reports";
 import { Summary } from "../src/reports/summary";
 
-test.beforeEach(() => {
+test.beforeEach((): void => {
     sinon.stub(process.stdout, "write");
 });
 
-test.afterEach(() => {
+test.afterEach((): void => {
     sinon.restore();
 });
 
-test.serial("Invalid arguments", async (t) => {
+test.serial("Invalid arguments", async (t): Promise<void> => {
     sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(null));
 
     const r = await main();
@@ -28,7 +28,7 @@ test.serial("Invalid arguments", async (t) => {
     t.false(r);
 });
 
-test.serial("No packages installed", async (t) => {
+test.serial("No packages installed", async (t): Promise<void> => {
     const packages = new Array<Package>();
     sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration()));
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages)); // No packages were found
@@ -38,7 +38,7 @@ test.serial("No packages installed", async (t) => {
     t.true(r);
 });
 
-test.serial("Get licenses summary", async (t) => {
+test.serial("Get licenses summary", async (t): Promise<void> => {
     const packages = new Array<Package>();
     packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
 
@@ -54,7 +54,7 @@ test.serial("Get licenses summary", async (t) => {
     t.true(r);
 });
 
-test.serial("Not allowed licenses", async (t) => {
+test.serial("Not allowed licenses", async (t): Promise<void> => {
     const packages = new Array<Package>();
     packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
 
@@ -63,7 +63,7 @@ test.serial("Not allowed licenses", async (t) => {
     })));
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
-    sinon.stub(license, "onlyAllow").returns(packages);  // Packages with not allowed licenses found
+    sinon.stub(license, "onlyAllow").returns(packages); // Packages with not allowed licenses found
     const stubReport = sinon.stub(reports.Factory, "getInstance").returns(new Summary(new Text()));
 
     const r = await main();
@@ -72,7 +72,7 @@ test.serial("Not allowed licenses", async (t) => {
     t.false(r);
 });
 
-test.serial("Success", async (t) => {
+test.serial("Success", async (t): Promise<void> => {
     const packages = new Array<Package>();
     packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
 
@@ -87,7 +87,7 @@ test.serial("Success", async (t) => {
     t.true(r);
 });
 
-test.serial("Success query", async (t) => {
+test.serial("Success query", async (t): Promise<void> => {
     const packages = new Array<Package>();
     packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
 

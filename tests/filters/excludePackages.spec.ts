@@ -4,11 +4,11 @@ import * as sinon from "sinon";
 import { excludePackages } from "../../src/filters";
 import { Package } from "../../src/interfaces";
 
-test.after(() => {
+test.after((): void => {
     sinon.restore();
 });
 
-test("No filters", (t) => {
+test("No filters", (t): void => {
     const packages: Array<Package> = [
         { name: "@company/test-01", path: "@company/test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "@company/test-02", path: "@company/test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
@@ -23,7 +23,7 @@ test("No filters", (t) => {
     t.is(filtered.length, 5);
 });
 
-test("By package names", (t) => {
+test("By package names", (t): void => {
     const packages: Array<Package> = [
         { name: "@company/test-01", path: "@company/test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "@company/test-02", path: "@company/test-02", version: "1.0.0", license: "Apache-2.0", repository: "company/project" },
@@ -41,7 +41,7 @@ test("By package names", (t) => {
     t.is(filtered[2].name, "test-03");
 });
 
-test("Regex", (t) => {
+test("Regex", (t): void => {
     const packages: Array<Package> = [
         { name: "@company/test-01", path: "@company/test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "@company/test-02", path: "@company/test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
@@ -59,7 +59,7 @@ test("Regex", (t) => {
     t.is(filtered[2].name, "test-03");
 });
 
-test("Regex and string", (t) => {
+test("Regex and string", (t): void => {
     const packages: Array<Package> = [
         { name: "@company/test-01", path: "@company/test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "@company/test-02", path: "@company/test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },

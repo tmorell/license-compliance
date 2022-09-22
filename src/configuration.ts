@@ -17,14 +17,14 @@ export async function getConfiguration(): Promise<Configuration | null> {
     // Get inline configuration
     const explorer = cosmiconfig(packageName);
     const configResult = await explorer.search();
-    configInline = configResult?.config as ExtendableConfiguration;
+    configInline = <ExtendableConfiguration>configResult?.config;
 
     // Get extended configuration
     const extendsPath = configInline?.extends;
     if (extendsPath) {
         try {
             const c = await explorer.load(path.join("node_modules", extendsPath, "index.js"));
-            configExtended = c?.config as Partial<Configuration> || {};
+            configExtended = <Partial<Configuration>>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
             console.info(chalk.red("Extended configuration error:"), error);
@@ -33,16 +33,16 @@ export async function getConfiguration(): Promise<Configuration | null> {
     }
 
     // Merge configurations: CLI > inline > extended
-    const mergedConfiguration = Object.assign(configExtended, configInline as Partial<Configuration>, processArgs());
+    const mergedConfiguration = Object.assign(configExtended, <Partial<Configuration>>configInline, processArgs());
     const configuration = {
         allow: mergedConfiguration.allow || [],
         development: !!mergedConfiguration.development || false,
         direct: mergedConfiguration.direct || false,
         exclude: mergedConfiguration.exclude || [],
-        format: toPascal(mergedConfiguration.format) as Formatter || Formatter.text,
+        format: <Formatter>toPascal(mergedConfiguration.format) || Formatter.text,
         production: !!mergedConfiguration.production || false,
         query: mergedConfiguration.query || [],
-        report: toPascal(mergedConfiguration.report) as Report || Report.summary,
+        report: <Report>toPascal(mergedConfiguration.report) || Report.summary,
     };
 
     // Validate configuration

@@ -50,7 +50,7 @@ export function isLicenseValid(license: string): boolean {
     }
 
     try {
-        // eslint-disable-next-line 
+        // eslint-disable-next-line
         parse(license);
         return true;
     } catch {
@@ -157,7 +157,7 @@ function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
     if (licenses.length === 1) {
         return licenses[0].type;
     }
-    return argsToSpdxLicense(licenses.map((value) => value.type.trim()));
+    return argsToSpdxLicense(licenses.map((value): string => value.type.trim()));
 }
 
 async function getLicensePath(packPath: string): Promise<string | undefined> {

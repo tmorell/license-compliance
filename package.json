@@ -72,6 +72,7 @@
         "all": true,
         "cache": false,
         "exclude": [
+            ".eslintrc.ext.js",
             ".eslintrc.js",
             ".license-compliancerc.js",
             "**/*.d.ts",

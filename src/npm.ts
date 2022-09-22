@@ -49,7 +49,7 @@ export async function getInstalledPackages(configuration: Pick<Configuration, "d
  * @returns {boolean} true if it was analyzed; otherwise, false.
  */
 function alreadyAnalyzed(packages: Array<Package>, pack: Package): boolean {
-    return packages.find((value) => value.name === pack.name && value.version === pack.version) !== undefined;
+    return packages.find((value): boolean => value.name === pack.name && value.version === pack.version) !== undefined;
 }
 
 /**
@@ -99,8 +99,8 @@ async function getInstalledPath(parentName: string, packageName: string, parentN
  * @returns {Promise<void>}
  */
 async function readPackages(parentName: string, dependencies: Array<[string, string]>, depth: number,
-    parentNodeModulesPath: string, configuration: Pick<Configuration, "direct">, rootNodeModulesPath: string, packages: Array<Package>,
-): Promise<void> {
+    parentNodeModulesPath: string, configuration: Pick<Configuration, "direct">,
+    rootNodeModulesPath: string, packages: Array<Package>): Promise<void> {
     if (depth > 0 && configuration.direct) {
         return;
     }
@@ -113,8 +113,7 @@ async function readPackages(parentName: string, dependencies: Array<[string, str
 }
 
 async function getPackage(parentName: string, dependency: string, parentNodeModulesPath: string,
-    configuration: Pick<Configuration, "direct">, depth: number, rootNodeModulesPath: string, packages: Array<Package>,
-): Promise<void> {
+    configuration: Pick<Configuration, "direct">, depth: number, rootNodeModulesPath: string, packages: Array<Package>): Promise<void> {
     const packagePath = await getInstalledPath(parentName, dependency, parentNodeModulesPath, rootNodeModulesPath);
     if (packagePath === undefined) {
         console.error(chalk.red(`Package "${dependency}" was not found. Confirm that all modules are installed.`));

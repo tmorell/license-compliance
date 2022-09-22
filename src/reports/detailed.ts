@@ -11,7 +11,7 @@ export class Detailed implements Reporter {
 
     process(packages: Array<Package>): void {
         this.sorted = packages;
-        this.sorted.sort((a, b) => {
+        this.sorted.sort((a, b): number => {
             return a.name > b.name ? 1 : -1;
         });
 
