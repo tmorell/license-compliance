@@ -2,34 +2,29 @@ import { Configuration, Package } from "./interfaces";
 
 export function excludePackages(packages: Array<Package>, configuration: Pick<Configuration, "exclude">): Array<Package> {
     const { exclude: excludeFilters } = configuration;
-
     if (excludeFilters.length === 0) {
         return packages;
     }
 
-    const col = new Array<Package>();
-    packages.forEach((pack): void => {
-        let exclude = false;
+    return packages.filter((pack): boolean => {
         for (const filter of excludeFilters) {
             if (typeof filter === "string") {
                 if (pack.name === filter) {
-                    exclude = true;
-                    break;
+                    return false;
                 }
             } else if (filter.test(pack.name)) {
-                exclude = true;
-                break;
+                return false;
             }
         }
-
-        if (!exclude) {
-            col.push(pack);
-        }
+        return true;
     });
-
-    return col;
 }
 
 export function queryPackages(packages: Array<Package>, configuration: Pick<Configuration, "query">): Array<Package> {
-    return packages.filter((value): boolean => configuration.query.includes(value.license));
+    const { query: queryFilter } = configuration;
+    if (queryFilter.length === 0) {
+        return packages;
+    }
+
+    return packages.filter((value): boolean => queryFilter.includes(value.license));
 }
