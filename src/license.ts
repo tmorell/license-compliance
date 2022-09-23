@@ -24,7 +24,6 @@ const LICENSE_FILE = "license";
  * @returns {string}
  */
 export async function getLicense(pack: NpmPackage, packPath: string): Promise<License> {
-    // TODO: Implement license properties
     const license = await extractLicense(pack, packPath);
     if (!isLicenseValid(license.name)) {
         license.name = Literals.UNKNOWN;
