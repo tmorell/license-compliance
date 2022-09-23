@@ -92,14 +92,16 @@
         "url": "git+https://github.com/tmorell/license-compliance.git"
     },
     "scripts": {
-        "all": "npm run build && npm run lint && npm test",
-        "build": "rm -rf ./lib ./.nyc_output ./coverage && tsc -p tsconfig.build.json",
+        "all": "npm run build && npm run lint && npm test:ci",
+        "build": "npm run cleanup && tsc -p tsconfig.build.json",
+        "cleanup": "rm -rf ./lib ./.nyc_output ./coverage",
         "coverage": "nyc report --reporter=html && xdg-open ./coverage/index.html",
         "coverage:ci": "nyc report --reporter=lcov",
         "debug:watch": "DEBUG=license-checker:* DEBUG_COLORS=true tsc-watch --onSuccess 'node ./lib/index.js'",
         "lint": "eslint . --ext .ts",
         "nyc": "nyc ava",
-        "test": "npm run build && npm run nyc",
+        "test": "ava",
+        "test:ci": "npm run nyc",
         "test:watch": "ava --watch"
     },
     "version": "1.2.4"
