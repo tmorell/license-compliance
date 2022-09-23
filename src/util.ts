@@ -34,5 +34,5 @@ export function toPascal(value: string | undefined): string | undefined {
     if (!value || value.length < 2) {
         return value;
     }
-    return value[0].toUpperCase() + value.substr(1);
+    return value[0].toUpperCase() + value.substring(1);
 }

@@ -93,8 +93,7 @@ function argsToSpdxLicense(licenses: Array<string>): string {
     for (const license of licenses) {
         buffer += license + " OR ";
     }
-    buffer = buffer.substr(0, buffer.length - 4) + ")";
-    return buffer;
+    return buffer.substring(0, buffer.length - 4) + ")";
 }
 
 async function extractLicense(pack: NpmPackage, packPath: string): Promise<License> {

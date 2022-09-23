@@ -66,7 +66,7 @@ function verifyExclude(value: string): Array<string | RegExp> {
         .filter((exclude): boolean => !!exclude)
         .map((exclude): string | RegExp => {
             if (exclude.startsWith("/") && exclude.endsWith("/")) {
-                return RegExp(exclude.substr(1, exclude.length - 2));
+                return RegExp(exclude.substring(1, exclude.length - 1));
             }
             return exclude;
         });
