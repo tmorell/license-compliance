@@ -103,5 +103,5 @@
         "test:ci": "npm run nyc",
         "test:watch": "ava --watch"
     },
-    "version": "1.2.4"
+    "version": "1.2.5"
 }
