@@ -3,8 +3,7 @@ import * as fs from "fs";
 import { Configuration } from "../src/interfaces";
 import { Formatter, Report } from "../src/enumerations";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function readJson(path: string): any {
+export function readJson(path: string): unknown {
     return JSON.parse(fs.readFileSync(path, "utf8"));
 }
 

@@ -8,15 +8,15 @@ import { Package } from "../../src/interfaces";
 
 let stubConsole: sinon.SinonStub;
 
-test.beforeEach(() => {
+test.beforeEach((): void => {
     stubConsole = sinon.stub(console, "info");
 });
 
-test.afterEach(() => {
+test.afterEach((): void => {
     sinon.restore();
 });
 
-test.serial("Detail", (t) => {
+test.serial("Detail", (t): void => {
     const packages: Array<Package> = [
         { name: "pack-01", path: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project", licenseFile: "node_modules/pack-01/LICENSE" },
         { name: "pack-02", path: "pack-02", version: "2.0.0", license: "ISC", repository: "company/project" },
@@ -45,7 +45,7 @@ test.serial("Detail", (t) => {
 `));
 });
 
-test.serial("Summary", (t) => {
+test.serial("Summary", (t): void => {
     const licenses: Array<{ name: string; count: number }> = [
         { name: "MIT", count: 15 },
         { name: Literals.UNKNOWN, count: 5 },

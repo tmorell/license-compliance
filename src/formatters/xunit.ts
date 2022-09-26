@@ -49,24 +49,24 @@ export class Xunit implements Formatter {
 
     private formatDetailedTestSuites(packages: Array<Package>): XUnitTestSuites {
         const detailedList = this.groupPackagesByLicense(packages);
-        const totalNumberOfFailures = detailedList.reduce((sum, license) => sum + license.packages.length, 0);
+        const totalNumberOfFailures = detailedList.reduce((sum, license): number => sum + license.packages.length, 0);
 
         return {
             "@name": this.TEST_SUITES_NAME,
             "@tests": totalNumberOfFailures,
             "@errors": 0,
             "@failures": totalNumberOfFailures,
-            testsuite: detailedList.map((license) => ({
+            testsuite: detailedList.map((license): XUnitTestSuite => ({
                 "@name": license.name,
                 "@tests": license.packages.length,
                 "@errors": 0,
                 "@failures": license.packages.length,
-                testcase: license.packages.map((packageInformations) => ({
-                    "@name": `${packageInformations.name}@${packageInformations.version}`,
-                    "@path": packageInformations.path,
+                testcase: license.packages.map((packageInformation): XUnitTestCase => ({
+                    "@name": `${packageInformation.name}@${packageInformation.version}`,
+                    "@path": packageInformation.path,
                     failure: {
                         "@type": this.TEST_CASE_ERROR_TYPE,
-                        "#text": `Package "${packageInformations.name}@${packageInformations.version}" uses non compliant license "${packageInformations.license}"`,
+                        "#text": `Package "${packageInformation.name}@${packageInformation.version}" uses non compliant license "${packageInformation.license}"`,
                     },
                 })),
             })),
@@ -79,7 +79,7 @@ export class Xunit implements Formatter {
             "@tests": licenses.length,
             "@errors": 0,
             "@failures": licenses.length,
-            testsuite: licenses.map((license) => ({
+            testsuite: licenses.map((license): XUnitTestSuite => ({
                 "@name": license.name,
                 "@tests": 1,
                 "@errors": 0,
@@ -100,17 +100,17 @@ export class Xunit implements Formatter {
      */
     private groupPackagesByLicense(packages: Array<Package>): Array<LicenseDetail> {
         return packages.reduce<Array<LicenseDetail>>(
-            (licenses, packageInformations) => {
-                const licenseIndex = licenses.findIndex((license) => license.name === packageInformations.license);
+            (licenses, packageInformation): Array<LicenseDetail> => {
+                const licenseIndex = licenses.findIndex((license): boolean => license.name === packageInformation.license);
 
                 if (licenseIndex >= 0) {
                     // if the license was already in the iterator, push the current package to its list
-                    licenses[licenseIndex].packages.push(packageInformations);
+                    licenses[licenseIndex].packages.push(packageInformation);
                 } else {
                     // otherwise add an item with the license name
                     licenses.push({
-                        name: packageInformations.license,
-                        packages: [packageInformations],
+                        name: packageInformation.license,
+                        packages: [packageInformation],
                     });
                 }
 

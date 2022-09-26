@@ -36,13 +36,13 @@ jobs:
           node-version: ${{ matrix.node_version }}
 
       - name: install
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
 
       - name: Test
-        run: npm test
+        run: npm run test:ci
 
       - name: Coverage
         if: ${{ matrix.node_version == '14' }}

@@ -4,11 +4,11 @@ import * as sinon from "sinon";
 import { onlyAllow } from "../../src/license";
 import { Package } from "../../src/interfaces";
 
-test.after(() => {
+test.after((): void => {
     sinon.restore();
 });
 
-test("No licenses to check", (t) => {
+test("No licenses to check", (t): void => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
@@ -21,7 +21,7 @@ test("No licenses to check", (t) => {
     t.is(invalid.length, 0);
 });
 
-test("All packages allowed, single check", (t) => {
+test("All packages allowed, single check", (t): void => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "MIT", repository: "company/project" },
@@ -34,7 +34,7 @@ test("All packages allowed, single check", (t) => {
     t.is(invalid.length, 0);
 });
 
-test("All packages allowed, multiple checks", (t) => {
+test("All packages allowed, multiple checks", (t): void => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
@@ -47,7 +47,7 @@ test("All packages allowed, multiple checks", (t) => {
     t.is(invalid.length, 0);
 });
 
-test("Some packages not allowed, single check", (t) => {
+test("Some packages not allowed, single check", (t): void => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
@@ -64,7 +64,7 @@ test("Some packages not allowed, single check", (t) => {
     t.is(invalid[2].name, "test-04");
 });
 
-test("Some packages not allowed, multiple checks", (t) => {
+test("Some packages not allowed, multiple checks", (t): void => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "MIT", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "Apache-2.0", repository: "company/project" },
@@ -80,7 +80,7 @@ test("Some packages not allowed, multiple checks", (t) => {
     t.is(invalid[1].name, "test-04");
 });
 
-test("All packages allowed, OR licenses", (t) => {
+test("All packages allowed, OR licenses", (t): void => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "(BSD-2-Clause OR MIT)", repository: "company/project" },
@@ -94,7 +94,7 @@ test("All packages allowed, OR licenses", (t) => {
     t.is(invalid.length, 0);
 });
 
-test("Some packages not allowed, OR licenses", (t) => {
+test("Some packages not allowed, OR licenses", (t): void => {
     const packages: Array<Package> = [
         { name: "test-01", path: "test-01", version: "1.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" },
         { name: "test-02", path: "test-02", version: "2.0.0", license: "(BSD-2-Clause OR MIT)", repository: "company/project" },

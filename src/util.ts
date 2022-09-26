@@ -3,13 +3,13 @@ import util from "util";
 
 import { NpmPackage } from "./interfaces";
 
-export async function fileExists(filePath: string): Promise<boolean> {
-    return new Promise<boolean>((resolve) => {
-        fs.access(filePath, fs.constants.F_OK, (error) => error ? resolve(false) : resolve(true));
+export function fileExists(filePath: string): Promise<boolean> {
+    return new Promise<boolean>((resolve): void => {
+        fs.access(filePath, fs.constants.F_OK, (error): void => error ? resolve(false) : resolve(true));
     });
 }
 
-export async function readdir(path: string): Promise<Array<string>> {
+export function readdir(path: string): Promise<Array<string>> {
     return util.promisify(fs.readdir)(path, "utf8");
 }
 
@@ -25,7 +25,7 @@ export async function readPackageJson(packagePath: string): Promise<NpmPackage |
     }
     const data = await util.promisify(fs.readFile)(packagePath, "utf8");
     if (data) {
-        return JSON.parse(data) as NpmPackage;
+        return JSON.parse(data);
     }
     return undefined;
 }
@@ -34,5 +34,5 @@ export function toPascal(value: string | undefined): string | undefined {
     if (!value || value.length < 2) {
         return value;
     }
-    return value[0].toUpperCase() + value.substr(1);
+    return value[0].toUpperCase() + value.substring(1);
 }

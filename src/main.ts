@@ -42,9 +42,7 @@ export async function main(): Promise<boolean> {
     }
 
     // Filter querying packages
-    if (configuration.query.length > 0) {
-        packages = queryPackages(packages, configuration);
-    }
+    packages = queryPackages(packages, configuration);
 
     // Running license inspection: process the list & return with success code
     report.process(packages);

@@ -13,7 +13,7 @@ export class Summary implements Reporter {
         for (const pack of packages) {
             this.increase(pack.license);
         }
-        this.licenses.sort((a, b) => {
+        this.licenses.sort((a, b): number => {
             return b.count - a.count;
         });
 

@@ -9,10 +9,10 @@ import { NpmPackage } from "../../src/interfaces";
 [
     { name: "single-license-01", test: "LICENSE" },
     { name: "single-license-02", test: "LICENSE-MIT" },
-].forEach((value) => {
-    test(`In-line single license with ${value.test}`, async (t) => {
+].forEach((value): void => {
+    test(`In-line single license with ${value.test}`, async (t): Promise<void> => {
         const packPath = path.join(__dirname, "..", "mock-packages", value.name);
-        const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+        const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
         const license = await getLicense(pack, packPath);
         t.is(license.name, "MIT");
@@ -21,9 +21,9 @@ import { NpmPackage } from "../../src/interfaces";
     });
 });
 
-test("In-line single license with no LICENSE", async (t) => {
+test("In-line single license with no LICENSE", async (t): Promise<void> => {
     const packPath = path.join(__dirname, "..", "mock-packages", "single-license-03");
-    const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
     const license = await getLicense(pack, packPath);
     t.is(license.name, "MIT");
@@ -31,9 +31,9 @@ test("In-line single license with no LICENSE", async (t) => {
     t.is(license.path, undefined);
 });
 
-test("In-line single license with CUSTOM LICENSE", async (t) => {
+test("In-line single license with CUSTOM LICENSE", async (t): Promise<void> => {
     const packPath = path.join(__dirname, "..", "mock-packages", "single-license-04");
-    const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
     const license = await getLicense(pack, packPath);
     t.is(license.name, Literals.CUSTOM);
@@ -41,9 +41,9 @@ test("In-line single license with CUSTOM LICENSE", async (t) => {
     t.is(license.path, path.join(packPath, "MY-CUSTOM-LICENSE"));
 });
 
-test("In-line single license with CUSTOM LICENSE not found", async (t) => {
+test("In-line single license with CUSTOM LICENSE not found", async (t): Promise<void> => {
     const packPath = path.join(__dirname, "..", "mock-packages", "single-license-05");
-    const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
     const license = await getLicense(pack, packPath);
     t.is(license.name, Literals.CUSTOM);
@@ -51,9 +51,9 @@ test("In-line single license with CUSTOM LICENSE not found", async (t) => {
     t.is(license.path, undefined);
 });
 
-test("Array valid licenses", async (t) => {
+test("Array valid licenses", async (t): Promise<void> => {
     const packPath = path.join(__dirname, "..", "mock-packages", "array-license-01");
-    const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
     const license = await getLicense(pack, packPath);
     t.is(license.name, "(MIT OR Apache-2.0)");
@@ -61,9 +61,9 @@ test("Array valid licenses", async (t) => {
     t.is(license.path, undefined);
 });
 
-test("Array invalid licenses", async (t) => {
+test("Array invalid licenses", async (t): Promise<void> => {
     const packPath = path.join(__dirname, "..", "mock-packages", "array-license-02");
-    const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
     const license = await getLicense(pack, packPath);
     t.is(license.name, Literals.UNKNOWN);
@@ -71,9 +71,9 @@ test("Array invalid licenses", async (t) => {
     t.is(license.path, undefined);
 });
 
-test("Array is empty", async (t) => {
+test("Array is empty", async (t): Promise<void> => {
     const packPath = path.join(__dirname, "..", "mock-packages", "array-license-03");
-    const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
     const license = await getLicense(pack, packPath);
     t.is(license.name, Literals.UNKNOWN);
@@ -81,9 +81,9 @@ test("Array is empty", async (t) => {
     t.is(license.path, undefined);
 });
 
-test("Array with single entry", async (t) => {
+test("Array with single entry", async (t): Promise<void> => {
     const packPath = path.join(__dirname, "..", "mock-packages", "array-license-04");
-    const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
     const license = await getLicense(pack, packPath);
     t.is(license.name, "MIT");
@@ -91,9 +91,9 @@ test("Array with single entry", async (t) => {
     t.is(license.path, undefined);
 });
 
-test("No license", async (t) => {
+test("No license", async (t): Promise<void> => {
     const packPath = path.join(__dirname, "..", "mock-packages", "no-license");
-    const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
     const license = await getLicense(pack, packPath);
     t.is(license.name, Literals.UNKNOWN);
@@ -101,9 +101,9 @@ test("No license", async (t) => {
     t.is(license.path, undefined);
 });
 
-test("License type", async (t) => {
+test("License type", async (t): Promise<void> => {
     const packPath = path.join(__dirname, "..", "mock-packages", "license-type-01");
-    const pack = util.readJson(path.join(packPath, "package.json")) as NpmPackage;
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
 
     const license = await getLicense(pack, packPath);
     t.is(license.name, "MIT");

@@ -4,15 +4,16 @@ import * as sinon from "sinon";
 import { Formatter, Report } from "../../src/enumerations";
 import { processArgs } from "../../src/program";
 
-test.before(() => {
+test.before((): void => {
     sinon.stub(process.stdout, "write");
+    sinon.stub(process.stderr, "write");
 });
 
-test.after(() => {
+test.after((): void => {
     sinon.restore();
 });
 
-test("No arguments", (t) => {
+test("No arguments", (t): void => {
     sinon.stub(process, "argv").value([]);
 
     const configuration = processArgs();
@@ -26,7 +27,7 @@ test("No arguments", (t) => {
     t.true(configuration.report === undefined);
 });
 
-test("Allow, valid licenses", (t) => {
+test("Allow, valid licenses", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--allow", "MIT;ISC;Apache-2.0"]);
 
     const configuration = processArgs();
@@ -37,7 +38,7 @@ test("Allow, valid licenses", (t) => {
     t.is(configuration.allow[2], "Apache-2.0");
 });
 
-test("Allow, invalid licenses", (t) => {
+test("Allow, invalid licenses", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--allow", "MIT;ISC;Apache 2.0"]);
     const stubProcess = sinon.stub(process, "exit");
 
@@ -47,7 +48,7 @@ test("Allow, invalid licenses", (t) => {
     stubProcess.restore();
 });
 
-test("Development", (t) => {
+test("Development", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--development"]);
 
     const configuration = processArgs();
@@ -61,7 +62,7 @@ test("Development", (t) => {
     t.true(configuration.report === undefined);
 });
 
-test("Direct", (t) => {
+test("Direct", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--direct"]);
 
     const configuration = processArgs();
@@ -75,7 +76,7 @@ test("Direct", (t) => {
     t.true(configuration.report === undefined);
 });
 
-test("Exclude", (t) => {
+test("Exclude", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--exclude", "pack-01;/^@company/;pack-02"]);
 
     const configuration = processArgs();
@@ -86,7 +87,7 @@ test("Exclude", (t) => {
     t.is(configuration.exclude[2], "pack-02");
 });
 
-test("Format", (t) => {
+test("Format", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--format", "json"]);
 
     const configuration = processArgs();
@@ -100,7 +101,7 @@ test("Format", (t) => {
     t.true(configuration.report === undefined);
 });
 
-test("Format, bad param", (t) => {
+test("Format, bad param", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--format", "bad-param"]);
     const stubProcess = sinon.stub(process, "exit");
 
@@ -110,7 +111,7 @@ test("Format, bad param", (t) => {
     stubProcess.restore();
 });
 
-test("Production", (t) => {
+test("Production", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--production"]);
 
     const configuration = processArgs();
@@ -124,7 +125,7 @@ test("Production", (t) => {
     t.true(configuration.report === undefined);
 });
 
-test("Production and development", (t) => {
+test("Production and development", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--production", "--development"]);
     const stubProcess = sinon.stub(process, "exit");
 
@@ -134,7 +135,7 @@ test("Production and development", (t) => {
     stubProcess.restore();
 });
 
-test("Query UNKNOWN", (t) => {
+test("Query UNKNOWN", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--query", "MIT;UNKNOWN"]);
 
     const configuration = processArgs();
@@ -144,7 +145,7 @@ test("Query UNKNOWN", (t) => {
     t.is(configuration.query[1], "UNKNOWN");
 });
 
-test("Query and allow", (t) => {
+test("Query and allow", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--allow", "MIT", "--query", "MIT"]);
     const stubProcess = sinon.stub(process, "exit");
 
@@ -154,7 +155,7 @@ test("Query and allow", (t) => {
     stubProcess.restore();
 });
 
-test("Query, invalid licenses", (t) => {
+test("Query, invalid licenses", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--query", "MIT;ISC;Apache 2.0"]);
     const stubProcess = sinon.stub(process, "exit");
 
@@ -164,7 +165,7 @@ test("Query, invalid licenses", (t) => {
     stubProcess.restore();
 });
 
-test("Report", (t) => {
+test("Report", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--report", "detailed"]);
 
     const configuration = processArgs();
@@ -175,10 +176,10 @@ test("Report", (t) => {
     t.true(configuration.exclude === undefined);
     t.true(configuration.format === undefined);
     t.true(configuration.production === undefined);
-    t.true(configuration.report === (Report.detailed as string).toLowerCase());
+    t.true(configuration.report === Report.detailed.toLowerCase());
 });
 
-test("Report, bad param", (t) => {
+test("Report, bad param", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--report", "bad-param"]);
     const stubProcess = sinon.stub(process, "exit");
 

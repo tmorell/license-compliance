@@ -24,7 +24,6 @@ const LICENSE_FILE = "license";
  * @returns {string}
  */
 export async function getLicense(pack: NpmPackage, packPath: string): Promise<License> {
-    // TODO: Implement license properties
     const license = await extractLicense(pack, packPath);
     if (!isLicenseValid(license.name)) {
         license.name = Literals.UNKNOWN;
@@ -50,7 +49,6 @@ export function isLicenseValid(license: string): boolean {
     }
 
     try {
-        // eslint-disable-next-line 
         parse(license);
         return true;
     } catch {
@@ -75,7 +73,6 @@ export function onlyAllow(packages: Array<Package>, configuration: Pick<Configur
     const invalidPackages = new Array<Package>();
     const spdxLicense = argsToSpdxLicense(configuration.allow);
     for (const pack of packages) {
-        // eslint-disable-next-line
         const matches = pack.license !== Literals.UNKNOWN && satisfies(spdxLicense, pack.license);
         debug(chalk.blue(pack.name), "/", pack.license, "=>", matches ? chalk.green(spdxLicense) : chalk.red(spdxLicense));
         if (!matches) {
@@ -93,8 +90,7 @@ function argsToSpdxLicense(licenses: Array<string>): string {
     for (const license of licenses) {
         buffer += license + " OR ";
     }
-    buffer = buffer.substr(0, buffer.length - 4) + ")";
-    return buffer;
+    return buffer.substring(0, buffer.length - 4) + ")";
 }
 
 async function extractLicense(pack: NpmPackage, packPath: string): Promise<License> {
@@ -157,7 +153,7 @@ function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
     if (licenses.length === 1) {
         return licenses[0].type;
     }
-    return argsToSpdxLicense(licenses.map((value) => value.type.trim()));
+    return argsToSpdxLicense(licenses.map((value): string => value.type.trim()));
 }
 
 async function getLicensePath(packPath: string): Promise<string | undefined> {

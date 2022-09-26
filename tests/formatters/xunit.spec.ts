@@ -6,15 +6,15 @@ import { Package } from "../../src/interfaces";
 
 let stubConsole: sinon.SinonStub;
 
-test.beforeEach(() => {
+test.beforeEach((): void => {
     stubConsole = sinon.stub(console, "info");
 });
 
-test.afterEach(() => {
+test.afterEach((): void => {
     sinon.restore();
 });
 
-test.serial("Detailed", (t) => {
+test.serial("Detailed", (t): void => {
     const packages: Array<Package> = [
         { name: "pack-01", path: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project" },
         { name: "pack-02", path: "pack-02", version: "2.2.0", license: "MIT", repository: "company/project2" },
@@ -42,7 +42,7 @@ test.serial("Detailed", (t) => {
 </testsuites>`));
 });
 
-test.serial("Summary", (t) => {
+test.serial("Summary", (t): void => {
     const licenses: Array<{ name: string; count: number }> = [
         { name: "MIT", count: 9 },
         { name: "Apache-2.0", count: 1 },
