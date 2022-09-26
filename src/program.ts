@@ -29,7 +29,7 @@ export function processArgs(): Configuration {
 }
 
 function help(errorMessage: string): void {
-    console.info(chalk.red("Error:"), errorMessage);
+    console.error(chalk.red("Error:"), errorMessage);
     console.info(program.help());
 }
 

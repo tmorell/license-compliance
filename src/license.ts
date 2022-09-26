@@ -49,7 +49,6 @@ export function isLicenseValid(license: string): boolean {
     }
 
     try {
-        // eslint-disable-next-line
         parse(license);
         return true;
     } catch {
@@ -74,7 +73,6 @@ export function onlyAllow(packages: Array<Package>, configuration: Pick<Configur
     const invalidPackages = new Array<Package>();
     const spdxLicense = argsToSpdxLicense(configuration.allow);
     for (const pack of packages) {
-        // eslint-disable-next-line
         const matches = pack.license !== Literals.UNKNOWN && satisfies(spdxLicense, pack.license);
         debug(chalk.blue(pack.name), "/", pack.license, "=>", matches ? chalk.green(spdxLicense) : chalk.red(spdxLicense));
         if (!matches) {

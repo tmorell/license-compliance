@@ -27,7 +27,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
             configExtended = <Partial<Configuration>>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
-            console.info(chalk.red("Extended configuration error:"), error);
+            console.error(chalk.red("Extended configuration error:"), error);
             return null;
         }
     }
@@ -57,7 +57,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
         report: joi.string().valid(Report.detailed, Report.summary),
     }).validate(configuration);
     if (result.error) {
-        console.info(chalk.red("Configuration error:"), result.error.message);
+        console.error(chalk.red("Configuration error:"), result.error.message);
         return null;
     }
 

@@ -6,6 +6,7 @@ import { processArgs } from "../../src/program";
 
 test.before((): void => {
     sinon.stub(process.stdout, "write");
+    sinon.stub(process.stderr, "write");
 });
 
 test.after((): void => {

@@ -7,8 +7,7 @@ import { Formatter, Report } from "../../src/enumerations";
 import { getConfiguration } from "../../src/configuration";
 import * as program from "../../src/program";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare type Config = any;
+declare type Config = unknown;
 
 declare type CosmiconfigResult = {
     config: Config;
@@ -26,6 +25,7 @@ interface Explorer {
 
 test.beforeEach((): void => {
     sinon.stub(process.stdout, "write");
+    sinon.stub(process.stderr, "write");
 });
 
 test.afterEach((): void => {
