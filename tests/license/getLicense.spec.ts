@@ -2,8 +2,8 @@ import test from "ava";
 import * as path from "path";
 
 import { LicenseStatus, Literals } from "../../src/enumerations";
-import { getLicense } from "../../src/license";
 import { NpmPackage } from "../../src/interfaces";
+import { getLicense } from "../../src/license";
 import * as util from "../util";
 
 [
