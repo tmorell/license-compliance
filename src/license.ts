@@ -9,7 +9,7 @@ import parse from "spdx-expression-parse";
 import satisfies from "spdx-satisfies";
 
 import { LicenseStatus, Literals } from "./enumerations";
-import { NpmPackage, OldLicenseFormat, Package, License, Configuration } from "./interfaces";
+import { Configuration, License, NpmPackage, OldLicenseFormat, Package } from "./interfaces";
 import * as util from "./util";
 
 const debug = Debug("license-compliance:license");

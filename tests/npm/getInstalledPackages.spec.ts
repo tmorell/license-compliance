@@ -2,9 +2,9 @@ import test from "ava";
 import * as path from "path";
 import * as sinon from "sinon";
 
-import { getDefaultConfiguration } from "../util";
-import { getInstalledPackages } from "../../src/npm";
 import { Literals } from "../../src/enumerations";
+import { getInstalledPackages } from "../../src/npm";
+import { getDefaultConfiguration } from "../util";
 
 test.before((): void => {
     sinon.stub(console, "error");

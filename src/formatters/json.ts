@@ -1,5 +1,5 @@
-import { Formatter } from "./index";
 import { Package } from "../interfaces";
+import { Formatter } from "./formatter";
 
 export class Json implements Formatter {
     detail(packages: Array<Package>): void {

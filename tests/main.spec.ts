@@ -1,6 +1,7 @@
 import test from "ava";
 import * as sinon from "sinon";
 
+import * as configuration from "../src/configuration";
 import { Formatter, Report } from "../src/enumerations";
 import * as filters from "../src/filters";
 import { Text } from "../src/formatters/text";
@@ -8,7 +9,6 @@ import { Configuration, Package } from "../src/interfaces";
 import * as license from "../src/license";
 import { main } from "../src/main";
 import * as npm from "../src/npm";
-import * as configuration from "../src/configuration";
 import * as reports from "../src/reports";
 import { Summary } from "../src/reports/summary";
 

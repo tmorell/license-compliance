@@ -1,10 +1,10 @@
 import test from "ava";
 import * as path from "path";
 
-import * as util from "../util";
 import { LicenseStatus, Literals } from "../../src/enumerations";
-import { getLicense } from "../../src/license";
 import { NpmPackage } from "../../src/interfaces";
+import { getLicense } from "../../src/license";
+import * as util from "../util";
 
 [
     { name: "single-license-01", test: "LICENSE" },

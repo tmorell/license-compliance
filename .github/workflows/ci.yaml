@@ -38,6 +38,9 @@ jobs:
       - name: install
         run: npm ci
 
+      - name: Circular reference
+        run: npm run circular
+
       - name: Lint
         run: npm run lint
 

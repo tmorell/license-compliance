@@ -2,8 +2,8 @@ import chalk from "chalk";
 import { EOL } from "os";
 
 import { Literals } from "../enumerations";
-import { Formatter } from "./index";
 import { Package } from "../interfaces";
+import { Formatter } from "./formatter";
 
 export class Text implements Formatter {
     detail(packages: Array<Package>): void {
