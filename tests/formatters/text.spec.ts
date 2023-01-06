@@ -1,5 +1,5 @@
-import chalk from "chalk";
 import test from "ava";
+import chalk from "chalk";
 import * as sinon from "sinon";
 
 import { Literals } from "../../src/enumerations";

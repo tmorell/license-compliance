@@ -1,9 +1,9 @@
-import { Formatter } from "./index";
+import { Formatter as FormatterName } from "../enumerations";
 import { Csv } from "./csv";
+import { Formatter } from "./formatter";
 import { Json } from "./json";
 import { Text } from "./text";
 import { Xunit } from "./xunit";
-import { Formatter as FormatterName } from "../enumerations";
 
 export class Factory {
     static getInstance(format: FormatterName): Formatter {

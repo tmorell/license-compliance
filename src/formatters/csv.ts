@@ -1,8 +1,8 @@
 import { EOL } from "os";
 
-import { Formatter } from "./index";
-import { Package } from "../interfaces";
 import { Literals } from "../enumerations";
+import { Package } from "../interfaces";
+import { Formatter } from "./formatter";
 
 export class Csv implements Formatter {
     detail(packages: Array<Package>): void {

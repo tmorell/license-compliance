@@ -1,10 +1,10 @@
 import test from "ava";
-import * as sinon from "sinon";
 import * as cosmiconfig from "cosmiconfig";
+import * as sinon from "sinon";
 
-import { Configuration } from "../../src/interfaces";
-import { Formatter, Report } from "../../src/enumerations";
 import { getConfiguration } from "../../src/configuration";
+import { Formatter, Report } from "../../src/enumerations";
+import { Configuration } from "../../src/interfaces";
 import * as program from "../../src/program";
 
 declare type Config = unknown;

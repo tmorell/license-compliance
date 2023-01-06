@@ -1,7 +1,7 @@
 import test from "ava";
 
-import { getRepository } from "../../src/repository";
 import { Literals } from "../../src/enumerations";
+import { getRepository } from "../../src/repository";
 
 let testIndex = 0;
 

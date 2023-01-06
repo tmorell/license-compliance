@@ -1,6 +1,6 @@
-import { Reporter } from "./reporter";
 import { Formatter } from "../formatters";
 import { Package } from "../interfaces";
+import { Reporter } from "./reporter";
 
 export class Detailed implements Reporter {
     private sorted!: Array<Package>;

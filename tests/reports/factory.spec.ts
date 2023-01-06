@@ -1,6 +1,6 @@
 import test from "ava";
-import { Formatter, Report } from "../../src/enumerations";
 
+import { Formatter, Report } from "../../src/enumerations";
 import { Factory } from "../../src/reports";
 import { Detailed } from "../../src/reports/detailed";
 import { Summary } from "../../src/reports/summary";

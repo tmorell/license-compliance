@@ -1,6 +1,6 @@
 import test from "ava";
-import { Formatter } from "../../src/enumerations";
 
+import { Formatter } from "../../src/enumerations";
 import { Csv } from "../../src/formatters/csv";
 import { Factory } from "../../src/formatters/factory";
 import { Json } from "../../src/formatters/json";

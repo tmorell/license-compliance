@@ -1,6 +1,6 @@
-import { Reporter } from "./reporter";
 import { Formatter } from "../formatters";
 import { Package } from "../interfaces";
+import { Reporter } from "./reporter";
 
 export class Summary implements Reporter {
     private readonly licenses = new Array<{ name: string; count: number }>();
