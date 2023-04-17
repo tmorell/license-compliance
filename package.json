@@ -22,7 +22,7 @@
     },
     "dependencies": {
         "chalk": "4.1.2",
-        "commander": "9.4.1",
+        "commander": "10.0.1",
         "cosmiconfig": "8.0.0",
         "debug": "4.3.4",
         "joi": "17.7.0",
