@@ -45,7 +45,7 @@
         "ava": "4.3.3",
         "eslint": "8.31.0",
         "eslint-config-prettier": "8.6.0",
-        "madge": "5.0.1",
+        "madge": "6.1.0",
         "nyc": "15.1.0",
         "sinon": "15.0.1",
         "ts-node": "10.9.1",
