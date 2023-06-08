@@ -18,11 +18,12 @@ jobs:
     strategy:
       matrix:
         node_version:
-          - '12'
-          - '14'
+          - "12"
+          - "14"
           - "15"
           - "16"
           - "18"
+          - "20"
     name: Node ${{ matrix.node_version }}
     steps:
       - name: Checkout
