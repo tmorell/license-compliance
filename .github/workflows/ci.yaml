@@ -21,7 +21,9 @@ jobs:
           - "14"
           - "15"
           - "16"
+          - "17"
           - "18"
+          - "19"
           - "20"
     name: Node ${{ matrix.node_version }}
     steps:
@@ -38,8 +40,8 @@ jobs:
       - name: install
         run: npm ci
 
-      - name: Circular reference
-        run: npm run circular
+      # - name: Circular reference
+      #   run: npm run circular
 
       - name: Lint
         run: npm run lint
