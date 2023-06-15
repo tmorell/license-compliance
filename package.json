@@ -1,109 +1,109 @@
 {
-    "author": "Teo Morell <teomorell@gmail.com>",
-    "ava": {
-        "extensions": [
-            "ts"
-        ],
-        "files": [
-            "!tests/util.ts"
-        ],
-        "require": [
-            "ts-node/register"
-        ],
-        "tap": false,
-        "timeout": "10s",
-        "verbose": false
-    },
-    "bin": {
-        "license-compliance": "./bin/cli.js"
-    },
-    "bugs": {
-        "url": "https://github.com/tmorell/license-compliance/issues"
-    },
-    "dependencies": {
-        "chalk": "4.1.2",
-        "commander": "9.4.1",
-        "cosmiconfig": "8.0.0",
-        "debug": "4.3.4",
-        "joi": "17.7.0",
-        "spdx-expression-parse": "3.0.1",
-        "spdx-satisfies": "5.0.1",
-        "tslib": "2.4.1",
-        "xmlbuilder": "15.1.1"
-    },
-    "description": "License compliance checker",
-    "devDependencies": {
-        "@types/cosmiconfig": "6.0.0",
-        "@types/debug": "4.1.7",
-        "@types/joi": "17.2.3",
-        "@types/node": "18.11.18",
-        "@types/sinon": "10.0.13",
-        "@types/spdx-expression-parse": "3.0.2",
-        "@types/spdx-satisfies": "0.1.0",
-        "@typescript-eslint/eslint-plugin": "5.48.0",
-        "@typescript-eslint/parser": "5.48.0",
-        "ava": "4.3.3",
-        "eslint": "8.31.0",
-        "eslint-config-prettier": "8.6.0",
-        "madge": "5.0.1",
-        "nyc": "15.1.0",
-        "sinon": "15.0.1",
-        "ts-node": "10.9.1",
-        "tsc-watch": "6.0.0",
-        "typescript": "4.9.4"
-    },
-    "engines": {
-        "node": ">=12.13.0"
-    },
+  "author": "Teo Morell <teomorell@gmail.com>",
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
     "files": [
-        "/lib/**/*",
-        "/bin/**/*"
+      "!tests/util.ts"
     ],
-    "homepage": "https://github.com/tmorell/license-compliance#readme",
-    "keywords": [
-        "cli",
-        "compliance",
-        "license"
+    "require": [
+      "ts-node/register"
     ],
-    "license": "MIT",
-    "main": "./lib/index.js",
-    "name": "license-compliance",
-    "nyc": {
-        "all": true,
-        "cache": false,
-        "exclude": [
-            ".eslintrc.ext.js",
-            ".eslintrc.js",
-            ".license-compliancerc.js",
-            "**/*.d.ts",
-            "**/*.spec.ts",
-            "coverage",
-            "baseline",
-            "tests/util.ts",
-            "bin/cli.js",
-            "src/index.ts"
-        ],
-        "extension": [
-            ".ts"
-        ]
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/tmorell/license-compliance.git"
-    },
-    "scripts": {
-        "all": "npm run build && npm run lint && npm run test:ci",
-        "build": "npm run cleanup && tsc -p tsconfig.build.json",
-        "circular": "madge --circular src/**/*",
-        "cleanup": "rm -rf ./lib ./.nyc_output ./coverage",
-        "coverage": "nyc report --reporter=html && xdg-open ./coverage/index.html",
-        "coverage:ci": "nyc report --reporter=lcov",
-        "debug:watch": "DEBUG=license-compliance:* DEBUG_COLORS=true tsc-watch --onSuccess 'node ./lib/index.js'",
-        "lint": "eslint . --ext .ts",
-        "nyc": "nyc ava",
-        "test": "ava",
-        "test:ci": "npm run nyc",
-        "test:watch": "ava --watch"
-    },
-    "version": "1.2.5"
+    "tap": false,
+    "timeout": "10s",
+    "verbose": false
+  },
+  "bin": {
+    "license-compliance": "./bin/cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/tmorell/license-compliance/issues"
+  },
+  "dependencies": {
+    "chalk": "4.1.2",
+    "commander": "10.0.1",
+    "cosmiconfig": "8.0.0",
+    "debug": "4.3.4",
+    "joi": "17.7.0",
+    "spdx-expression-parse": "3.0.1",
+    "spdx-satisfies": "5.0.1",
+    "tslib": "2.4.1",
+    "xmlbuilder": "15.1.1"
+  },
+  "description": "License compliance checker",
+  "devDependencies": {
+    "@types/cosmiconfig": "6.0.0",
+    "@types/debug": "4.1.8",
+    "@types/joi": "17.2.3",
+    "@types/node": "20.3.1",
+    "@types/sinon": "10.0.15",
+    "@types/spdx-expression-parse": "3.0.2",
+    "@types/spdx-satisfies": "0.1.0",
+    "@typescript-eslint/eslint-plugin": "5.48.0",
+    "@typescript-eslint/parser": "5.48.0",
+    "ava": "4.3.3",
+    "eslint": "8.42.0",
+    "eslint-config-prettier": "8.8.0",
+    "madge": "5.0.1",
+    "nyc": "15.1.0",
+    "sinon": "15.1.2",
+    "ts-node": "10.9.1",
+    "tsc-watch": "6.0.0",
+    "typescript": "4.9.4"
+  },
+  "engines": {
+    "node": ">=12.13.0"
+  },
+  "files": [
+    "/lib/**/*",
+    "/bin/**/*"
+  ],
+  "homepage": "https://github.com/tmorell/license-compliance#readme",
+  "keywords": [
+    "cli",
+    "compliance",
+    "license"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "name": "license-compliance",
+  "nyc": {
+    "all": true,
+    "cache": false,
+    "exclude": [
+      ".eslintrc.ext.js",
+      ".eslintrc.js",
+      ".license-compliancerc.js",
+      "**/*.d.ts",
+      "**/*.spec.ts",
+      "coverage",
+      "baseline",
+      "tests/util.ts",
+      "bin/cli.js",
+      "src/index.ts"
+    ],
+    "extension": [
+      ".ts"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmorell/license-compliance.git"
+  },
+  "scripts": {
+    "all": "npm run build && npm run lint && npm run test:ci",
+    "build": "npm run cleanup && tsc -p tsconfig.build.json",
+    "circular": "madge --circular src/**/*",
+    "cleanup": "rm -rf ./lib ./.nyc_output ./coverage",
+    "coverage": "nyc report --reporter=html && xdg-open ./coverage/index.html",
+    "coverage:ci": "nyc report --reporter=lcov",
+    "debug:watch": "DEBUG=license-compliance:* DEBUG_COLORS=true tsc-watch --onSuccess 'node ./lib/index.js'",
+    "lint": "eslint . --ext .ts",
+    "nyc": "nyc ava",
+    "test": "ava",
+    "test:ci": "npm run nyc",
+    "test:watch": "ava --watch"
+  },
+  "version": "1.2.5"
 }
