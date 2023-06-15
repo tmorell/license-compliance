@@ -41,6 +41,9 @@ jobs:
       - name: install
         run: npm ci
 
+      - name: build
+        run: npm run build
+
       - name: Circular reference
         run: npm run circular
 

@@ -25,7 +25,7 @@
     "commander": "10.0.1",
     "cosmiconfig": "8.0.0",
     "debug": "4.3.4",
-    "joi": "17.7.0",
+    "joi": "17.9.2",
     "spdx-expression-parse": "3.0.1",
     "spdx-satisfies": "5.0.1",
     "tslib": "2.4.1",
@@ -40,8 +40,8 @@
     "@types/sinon": "10.0.15",
     "@types/spdx-expression-parse": "3.0.2",
     "@types/spdx-satisfies": "0.1.0",
-    "@typescript-eslint/eslint-plugin": "5.48.0",
-    "@typescript-eslint/parser": "5.48.0",
+    "@typescript-eslint/eslint-plugin": "5.59.11",
+    "@typescript-eslint/parser": "5.59.11",
     "ava": "4.3.3",
     "eslint": "8.42.0",
     "eslint-config-prettier": "8.8.0",
@@ -92,7 +92,7 @@
     "url": "git+https://github.com/tmorell/license-compliance.git"
   },
   "scripts": {
-    "all": "npm run build && npm run lint && npm run test:ci",
+    "all": "npm run build && npm run circular && npm run lint && npm run test:ci",
     "build": "npm run cleanup && tsc -p tsconfig.build.json",
     "circular": "madge --circular src/**/*",
     "cleanup": "rm -rf ./lib ./.nyc_output ./coverage",
