@@ -19,11 +19,8 @@ jobs:
       matrix:
         node_version:
           - "14"
-          - "15"
           - "16"
-          - "17"
           - "18"
-          - "19"
           - "20"
     name: Node ${{ matrix.node_version }}
     steps:
