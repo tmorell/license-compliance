@@ -18,6 +18,8 @@ jobs:
     strategy:
       matrix:
         node_version:
+          - "12"
+          - "13"
           - "14"
           - "15"
           - "16"
@@ -40,8 +42,8 @@ jobs:
       - name: install
         run: npm ci
 
-      # - name: Circular reference
-      #   run: npm run circular
+      - name: Circular reference
+        run: npm run circular
 
       - name: Lint
         run: npm run lint
