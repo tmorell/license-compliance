@@ -45,7 +45,7 @@
     "ava": "4.3.3",
     "eslint": "8.42.0",
     "eslint-config-prettier": "8.8.0",
-    "madge": "5.0.1",
+    "madge": "6.1.0",
     "nyc": "15.1.0",
     "sinon": "15.1.2",
     "ts-node": "10.9.1",
@@ -94,7 +94,7 @@
   "scripts": {
     "all": "npm run build && npm run circular && npm run lint && npm run test:ci",
     "build": "npm run cleanup && tsc -p tsconfig.build.json",
-    "circular": "madge --circular src/**/*",
+    "circular": "madge --extensions ts --warning src",
     "cleanup": "rm -rf ./lib ./.nyc_output ./coverage",
     "coverage": "nyc report --reporter=html && xdg-open ./coverage/index.html",
     "coverage:ci": "nyc report --reporter=lcov",
