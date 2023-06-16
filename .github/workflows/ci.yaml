@@ -18,11 +18,10 @@ jobs:
     strategy:
       matrix:
         node_version:
-          - '12'
-          - '14'
-          - "15"
+          - "14"
           - "16"
           - "18"
+          - "20"
     name: Node ${{ matrix.node_version }}
     steps:
       - name: Checkout
@@ -37,6 +36,9 @@ jobs:
 
       - name: install
         run: npm ci
+
+      - name: build
+        run: npm run build
 
       - name: Circular reference
         run: npm run circular
