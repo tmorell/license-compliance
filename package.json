@@ -28,7 +28,7 @@
     "joi": "17.9.2",
     "spdx-expression-parse": "3.0.1",
     "spdx-satisfies": "5.0.1",
-    "tslib": "2.5.3",
+    "tslib": "2.6.2",
     "xmlbuilder": "15.1.1"
   },
   "description": "License compliance checker",
