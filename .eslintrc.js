@@ -3,7 +3,7 @@ module.exports = {
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
-        "./.eslintrc.ext",
+        "./.eslintrc.ext.json",
     ],
     ignorePatterns: [
         "**/*.js",
@@ -16,6 +16,8 @@ module.exports = {
     parser: "@typescript-eslint/parser",
     plugins: [
         "@typescript-eslint",
+        "etc",
+        "import",
     ],
     root: true,
 };
