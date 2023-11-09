@@ -50,11 +50,11 @@ jobs:
         run: npm run test:ci
 
       - name: Coverage
-        if: ${{ matrix.node_version == '14' }}
+        if: ${{ matrix.node_version == '16' }}
         run: npm run coverage:ci
 
       - name: SonarCloud Scan
-        if: ${{ matrix.node_version == '14' }}
+        if: ${{ matrix.node_version == '16' }}
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
