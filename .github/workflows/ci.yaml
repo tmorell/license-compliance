@@ -25,12 +25,12 @@ jobs:
     name: Node ${{ matrix.node_version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
 
@@ -40,21 +40,23 @@ jobs:
       - name: build
         run: npm run build
 
-      - name: Circular reference
-        run: npm run circular
-
-      - name: Lint
-        run: npm run lint
-
       - name: Test
         run: npm run test:ci
 
+      - name: Circular reference
+        if: ${{ matrix.node_version == '16' }}
+        run: npm run circular
+
+      - name: Lint
+        if: ${{ matrix.node_version == '16' }}
+        run: npm run lint
+
       - name: Coverage
-        if: ${{ matrix.node_version == '14' }}
+        if: ${{ matrix.node_version == '16' }}
         run: npm run coverage:ci
 
       - name: SonarCloud Scan
-        if: ${{ matrix.node_version == '14' }}
+        if: ${{ matrix.node_version == '16' }}
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

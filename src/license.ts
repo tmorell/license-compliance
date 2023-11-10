@@ -73,7 +73,7 @@ export function onlyAllow(packages: Array<Package>, configuration: Pick<Configur
     const invalidPackages = new Array<Package>();
     const spdxLicense = argsToSpdxLicense(configuration.allow);
     for (const pack of packages) {
-        const matches = pack.license !== Literals.UNKNOWN && satisfies(spdxLicense, pack.license);
+        const matches = pack.license !== Literals.UNKNOWN && pack.license !== Literals.CUSTOM && satisfies(spdxLicense, pack.license);
         debug(chalk.blue(pack.name), "/", pack.license, "=>", matches ? chalk.green(spdxLicense) : chalk.red(spdxLicense));
         if (!matches) {
             invalidPackages.push(pack);
