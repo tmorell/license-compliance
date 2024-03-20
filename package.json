@@ -52,7 +52,7 @@
         "sinon": "17.0.1",
         "ts-node": "10.9.1",
         "tsc-watch": "6.0.4",
-        "typescript": "5.2.2"
+        "typescript": "5.4.3"
     },
     "engines": {
         "node": ">=14.17.0"
