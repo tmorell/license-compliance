@@ -10,7 +10,7 @@ import { toPascal } from "./util";
 
 const packageName = "license-compliance";
 
-export async function getConfiguration(): Promise<Configuration | null> {
+export async function getConfiguration(nodeModulesPath: string): Promise<Configuration | null> {
     let configExtended: Partial<Configuration> = {};
     let configInline: ExtendableConfiguration = {};
 
@@ -23,7 +23,7 @@ export async function getConfiguration(): Promise<Configuration | null> {
     const extendsPath = configInline?.extends;
     if (extendsPath) {
         try {
-            const c = await explorer.load(path.join("node_modules", extendsPath, "index.js"));
+            const c = await explorer.load(path.join(nodeModulesPath, extendsPath, "index.js"));
             configExtended = <Partial<Configuration>>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
@@ -46,16 +46,18 @@ export async function getConfiguration(): Promise<Configuration | null> {
     };
 
     // Validate configuration
-    const result = joi.object({
-        allow: joi.array().items(joi.string()),
-        development: joi.boolean(),
-        direct: joi.boolean(),
-        exclude: joi.array(),
-        format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text, Formatter.xunit),
-        production: joi.boolean(),
-        query: joi.array().items(joi.string()),
-        report: joi.string().valid(Report.detailed, Report.summary),
-    }).validate(configuration);
+    const result = joi
+        .object({
+            allow: joi.array().items(joi.string()),
+            development: joi.boolean(),
+            direct: joi.boolean(),
+            exclude: joi.array(),
+            format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text, Formatter.xunit),
+            production: joi.boolean(),
+            query: joi.array().items(joi.string()),
+            report: joi.string().valid(Report.detailed, Report.summary),
+        })
+        .validate(configuration);
     if (result.error) {
         console.error(chalk.red("Configuration error:"), result.error.message);
         return null;
