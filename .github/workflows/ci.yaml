@@ -51,6 +51,10 @@ jobs:
         if: ${{ matrix.node_version == '16' }}
         run: npm run lint
 
+      - name: Prettier
+        if: ${{ matrix.node_version == '16' }}
+        run: npm run prettier
+
       - name: Coverage
         if: ${{ matrix.node_version == '16' }}
         run: npm run coverage:ci

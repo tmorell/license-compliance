@@ -1,0 +1,8 @@
+{
+    "arrowParens": "avoid",
+    "organizeImportsSkipDestructiveCodeActions": true,
+    "printWidth": 120,
+    "singleQuote": false,
+    "trailingComma": "all",
+    "plugins": ["prettier-plugin-organize-imports"]
+}
