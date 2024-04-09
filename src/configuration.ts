@@ -15,7 +15,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     let configInline: ExtendableConfiguration = {};
 
     // Get inline configuration
-    const explorer = cosmiconfig(packageName);
+    const explorer = cosmiconfig(packageName, { searchStrategy: "global" });
     const configResult = await explorer.search();
     configInline = <ExtendableConfiguration>configResult?.config;
 
