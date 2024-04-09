@@ -2,21 +2,21 @@ export enum Formatter {
     csv = "Csv",
     json = "Json",
     text = "Text",
-    xunit = "Xunit"
+    xunit = "Xunit",
 }
 
 export enum LicenseStatus {
     valid = "valid",
     custom = "custom",
-    unknown = "unknown"
+    unknown = "unknown",
 }
 
 export enum Literals {
     UNKNOWN = "UNKNOWN",
-    CUSTOM = "CUSTOM"
+    CUSTOM = "CUSTOM",
 }
 
 export enum Report {
     detailed = "Detailed",
-    summary = "Summary"
+    summary = "Summary",
 }

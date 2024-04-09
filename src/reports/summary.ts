@@ -5,9 +5,7 @@ import { Reporter } from "./reporter";
 export class Summary implements Reporter {
     private readonly licenses = new Array<{ name: string; count: number }>();
 
-    constructor(
-        private readonly formatter: Formatter,
-    ) { }
+    constructor(private readonly formatter: Formatter) {}
 
     process(packages: Array<Package>): void {
         for (const pack of packages) {

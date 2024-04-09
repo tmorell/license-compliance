@@ -24,13 +24,6 @@
         "strictPropertyInitialization": true,
         "target": "ES2019"
     },
-    "exclude": [
-        "test/**/*.ts",
-        "lib",
-        "types"
-    ],
-    "include": [
-        "src/**/*",
-        "tests/**/*"
-    ]
+    "exclude": ["test/**/*.ts", "lib", "types"],
+    "include": ["src/**/*", "tests/**/*"]
 }

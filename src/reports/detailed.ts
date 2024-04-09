@@ -5,9 +5,7 @@ import { Reporter } from "./reporter";
 export class Detailed implements Reporter {
     private sorted!: Array<Package>;
 
-    constructor(
-        private readonly formatter: Formatter,
-    ) { }
+    constructor(private readonly formatter: Formatter) {}
 
     process(packages: Array<Package>): void {
         this.sorted = packages;

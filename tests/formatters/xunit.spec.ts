@@ -24,7 +24,8 @@ test.serial("Detailed", (t): void => {
     const xunit = new Xunit();
     xunit.detail(packages);
 
-    t.true(stubConsole.calledWithExactly(`<?xml version="1.0" encoding="UTF-8"?>
+    t.true(
+        stubConsole.calledWithExactly(`<?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="License Compliance" tests="3" errors="0" failures="3">
   <testsuite name="MIT" tests="2" errors="0" failures="2">
     <testcase name="pack-01@1.1.0" path="pack-01">
@@ -39,7 +40,8 @@ test.serial("Detailed", (t): void => {
       <failure type="License Compliance Error">Package &quot;pack-03@0.0.3&quot; uses non compliant license &quot;Unknown&quot;</failure>
     </testcase>
   </testsuite>
-</testsuites>`));
+</testsuites>`),
+    );
 });
 
 test.serial("Summary", (t): void => {
@@ -51,7 +53,8 @@ test.serial("Summary", (t): void => {
     const xunit = new Xunit();
     xunit.summary(licenses);
 
-    t.true(stubConsole.calledWithExactly(`<?xml version="1.0" encoding="UTF-8"?>
+    t.true(
+        stubConsole.calledWithExactly(`<?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="License Compliance" tests="2" errors="0" failures="2">
   <testsuite name="MIT" tests="1" errors="0" failures="1">
     <testcase name="MIT">
@@ -63,5 +66,6 @@ test.serial("Summary", (t): void => {
       <failure type="License Compliance Error">1 package use non compliant license &quot;Apache-2.0&quot;</failure>
     </testcase>
   </testsuite>
-</testsuites>`));
+</testsuites>`),
+    );
 });

@@ -96,7 +96,7 @@
         "url": "git+https://github.com/tmorell/license-compliance.git"
     },
     "scripts": {
-        "all": "npm run build && npm run circular && npm run lint && npm run test:ci",
+        "all": "npm run build && npm run circular && npm run lint && npm run prettier && npm run test:ci",
         "build": "npm run cleanup && tsc -p tsconfig.build.json",
         "circular": "madge --extensions ts --circular src",
         "cleanup": "rm -rf ./lib ./.nyc_output ./coverage",

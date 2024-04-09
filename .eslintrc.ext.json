@@ -37,7 +37,6 @@
                 "accessibility": "no-public"
             }
         ],
-        "@typescript-eslint/indent": "error",
         "@typescript-eslint/member-delimiter-style": [
             "error",
             {
@@ -104,7 +103,6 @@
         "no-whitespace-before-property": "error",
         "object-curly-spacing": ["error", "always"],
         "padded-blocks": ["error", "never"],
-        "quotes": ["error", "double"],
         "require-atomic-updates": "error",
         "require-await": "error",
         "rest-spread-spacing": ["error", "never"],
