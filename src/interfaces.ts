@@ -17,7 +17,7 @@ export interface ExtendableConfiguration extends Partial<Configuration> {
 
 export interface License {
     name: string;
-    path?: string;
+    path: string | null;
     status: LicenseStatus;
 }
 
@@ -38,7 +38,7 @@ export interface OldLicenseFormat {
 
 export interface Package {
     license: string;
-    licenseFile?: string;
+    licenseFile?: string | null;
     name: string;
     path: string;
     repository: string;

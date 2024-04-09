@@ -50,7 +50,6 @@
         "@typescript-eslint/no-dupe-class-members": "error",
         "@typescript-eslint/no-dynamic-delete": "error",
         "@typescript-eslint/no-explicit-any": "error",
-        "@typescript-eslint/no-extra-parens": "error",
         "@typescript-eslint/no-extraneous-class": [
             "error",
             {

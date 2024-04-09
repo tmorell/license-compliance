@@ -75,7 +75,7 @@ async function getInstalledPath(
     packageName: string,
     parentNodeModulesPath: string,
     rootNodeModulesPath: string,
-): Promise<string | undefined> {
+): Promise<string | null> {
     // Verify if present in parent's node_modules
     let packagePath = path.join(parentNodeModulesPath, packageName);
     if (await util.fileExists(packagePath)) {
@@ -99,7 +99,7 @@ async function getInstalledPath(
         return packagePath;
     }
 
-    return undefined;
+    return null;
 }
 
 /**
@@ -151,7 +151,7 @@ async function getPackage(
     packages: Array<Package>,
 ): Promise<void> {
     const packagePath = await getInstalledPath(parentName, dependency, parentNodeModulesPath, rootNodeModulesPath);
-    if (packagePath === undefined) {
+    if (packagePath === null) {
         console.error(chalk.red(`Package "${dependency}" was not found. Confirm that all modules are installed.`));
         return;
     }
