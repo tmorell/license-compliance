@@ -17,25 +17,33 @@ const NODE_MODULES = "node_modules";
  * @export
  * @returns {Promise<Array<Package>>}
  */
-export async function getInstalledPackages(configuration: Pick<Configuration, "direct" | "development" | "production">, rootPath = ""): Promise<Array<Package>> {
+export async function getInstalledPackages(
+    configuration: Pick<Configuration, "direct" | "development" | "production">,
+    nodeModulesPath: string,
+    packageJsonPath = "",
+): Promise<Array<Package>> {
     const packages: Array<Package> = new Array<Package>();
-
-    // Paths
-    const rootNodeModulesPath = path.join(rootPath, NODE_MODULES);
-    const packPath = path.join(rootPath, PACKAGE_JSON);
-
-    const pack = await util.readPackageJson(packPath);
+    const pack = await util.readPackageJson(path.join(packageJsonPath, PACKAGE_JSON));
     if (!pack) {
+        console.error(chalk.red(`Could not find '${PACKAGE_JSON}' at '${packageJsonPath}'`));
         return new Array<Package>();
     }
 
     if (pack.dependencies && !configuration.development) {
-        debug("Analyzing production dependencies at", rootNodeModulesPath);
-        await readPackages(pack.name, pack.dependencies, 0, rootNodeModulesPath, configuration, rootNodeModulesPath, packages);
+        debug("Analyzing production dependencies at", nodeModulesPath);
+        await readPackages(pack.name, pack.dependencies, 0, nodeModulesPath, configuration, nodeModulesPath, packages);
     }
     if (pack.devDependencies && !configuration.production) {
-        debug("Analyzing development dependencies at", rootNodeModulesPath);
-        await readPackages(pack.name, pack.devDependencies, 0, rootNodeModulesPath, configuration, rootNodeModulesPath, packages);
+        debug("Analyzing development dependencies at", nodeModulesPath);
+        await readPackages(
+            pack.name,
+            pack.devDependencies,
+            0,
+            nodeModulesPath,
+            configuration,
+            nodeModulesPath,
+            packages,
+        );
     }
 
     return packages;
@@ -62,7 +70,12 @@ function alreadyAnalyzed(packages: Array<Package>, pack: Package): boolean {
  * @param {(string | undefined)} parentNodeModulesPath Path of the parent package.
  * @returns {(Promise<string | undefined>)} Promise with the path where the package was found; undefined if not found.
  */
-async function getInstalledPath(parentName: string, packageName: string, parentNodeModulesPath: string, rootNodeModulesPath: string): Promise<string | undefined> {
+async function getInstalledPath(
+    parentName: string,
+    packageName: string,
+    parentNodeModulesPath: string,
+    rootNodeModulesPath: string,
+): Promise<string | null> {
     // Verify if present in parent's node_modules
     let packagePath = path.join(parentNodeModulesPath, packageName);
     if (await util.fileExists(packagePath)) {
@@ -86,7 +99,7 @@ async function getInstalledPath(parentName: string, packageName: string, parentN
         return packagePath;
     }
 
-    return undefined;
+    return null;
 }
 
 /**
@@ -98,24 +111,47 @@ async function getInstalledPath(parentName: string, packageName: string, parentN
  * @param {string} parentNodeModulesPath Parent package's node_module path.
  * @returns {Promise<void>}
  */
-async function readPackages(parentName: string, dependencies: Array<[string, string]>, depth: number,
-    parentNodeModulesPath: string, configuration: Pick<Configuration, "direct">,
-    rootNodeModulesPath: string, packages: Array<Package>): Promise<void> {
+async function readPackages(
+    parentName: string,
+    dependencies: Array<[string, string]>,
+    depth: number,
+    parentNodeModulesPath: string,
+    configuration: Pick<Configuration, "direct">,
+    rootNodeModulesPath: string,
+    packages: Array<Package>,
+): Promise<void> {
     if (depth > 0 && configuration.direct) {
         return;
     }
 
     const getPackagePromises = new Array<Promise<void>>();
     for (const dependency of Object.keys(dependencies)) {
-        getPackagePromises.push(getPackage(parentName, dependency, parentNodeModulesPath, configuration, depth, rootNodeModulesPath, packages));
+        getPackagePromises.push(
+            getPackage(
+                parentName,
+                dependency,
+                parentNodeModulesPath,
+                configuration,
+                depth,
+                rootNodeModulesPath,
+                packages,
+            ),
+        );
     }
     await Promise.all(getPackagePromises);
 }
 
-async function getPackage(parentName: string, dependency: string, parentNodeModulesPath: string,
-    configuration: Pick<Configuration, "direct">, depth: number, rootNodeModulesPath: string, packages: Array<Package>): Promise<void> {
+async function getPackage(
+    parentName: string,
+    dependency: string,
+    parentNodeModulesPath: string,
+    configuration: Pick<Configuration, "direct">,
+    depth: number,
+    rootNodeModulesPath: string,
+    packages: Array<Package>,
+): Promise<void> {
     const packagePath = await getInstalledPath(parentName, dependency, parentNodeModulesPath, rootNodeModulesPath);
-    if (packagePath === undefined) {
+    if (packagePath === null) {
         console.error(chalk.red(`Package "${dependency}" was not found. Confirm that all modules are installed.`));
         return;
     }
@@ -140,6 +176,14 @@ async function getPackage(parentName: string, dependency: string, parentNodeModu
     packages.push(pack);
 
     if (file.dependencies) {
-        await readPackages(dependency, file.dependencies, depth + 1, path.join(packagePath, NODE_MODULES), configuration, rootNodeModulesPath, packages);
+        await readPackages(
+            dependency,
+            file.dependencies,
+            depth + 1,
+            path.join(packagePath, NODE_MODULES),
+            configuration,
+            rootNodeModulesPath,
+            packages,
+        );
     }
 }

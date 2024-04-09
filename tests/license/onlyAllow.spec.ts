@@ -82,9 +82,27 @@ test("Some packages not allowed, multiple checks", (t): void => {
 
 test("All packages allowed, OR licenses", (t): void => {
     const packages: Array<Package> = [
-        { name: "test-01", path: "test-01", version: "1.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" },
-        { name: "test-02", path: "test-02", version: "2.0.0", license: "(BSD-2-Clause OR MIT)", repository: "company/project" },
-        { name: "test-03", path: "test-03", version: "3.0.0", license: "(MIT OR BSD-2-Clause OR Apache-2.0)", repository: "company/project" },
+        {
+            name: "test-01",
+            path: "test-01",
+            version: "1.0.0",
+            license: "(MIT OR Apache-2.0)",
+            repository: "company/project",
+        },
+        {
+            name: "test-02",
+            path: "test-02",
+            version: "2.0.0",
+            license: "(BSD-2-Clause OR MIT)",
+            repository: "company/project",
+        },
+        {
+            name: "test-03",
+            path: "test-03",
+            version: "3.0.0",
+            license: "(MIT OR BSD-2-Clause OR Apache-2.0)",
+            repository: "company/project",
+        },
         { name: "test-04", path: "test-04", version: "4.0.0", license: "ISC", repository: "company/project" },
     ];
 
@@ -96,9 +114,27 @@ test("All packages allowed, OR licenses", (t): void => {
 
 test("Some packages not allowed, OR licenses", (t): void => {
     const packages: Array<Package> = [
-        { name: "test-01", path: "test-01", version: "1.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" },
-        { name: "test-02", path: "test-02", version: "2.0.0", license: "(BSD-2-Clause OR MIT)", repository: "company/project" },
-        { name: "test-03", path: "test-03", version: "3.0.0", license: "(MIT OR BSD-2-Clause OR Apache-2.0)", repository: "company/project" },
+        {
+            name: "test-01",
+            path: "test-01",
+            version: "1.0.0",
+            license: "(MIT OR Apache-2.0)",
+            repository: "company/project",
+        },
+        {
+            name: "test-02",
+            path: "test-02",
+            version: "2.0.0",
+            license: "(BSD-2-Clause OR MIT)",
+            repository: "company/project",
+        },
+        {
+            name: "test-03",
+            path: "test-03",
+            version: "3.0.0",
+            license: "(MIT OR BSD-2-Clause OR Apache-2.0)",
+            repository: "company/project",
+        },
         { name: "test-04", path: "test-04", version: "4.0.0", license: "ISC", repository: "company/project" },
     ];
 

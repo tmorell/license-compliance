@@ -18,15 +18,29 @@ test.afterEach((): void => {
 
 test.serial("Detail", (t): void => {
     const packages: Array<Package> = [
-        { name: "pack-01", path: "pack-01", version: "1.1.0", license: "MIT", repository: "company/project", licenseFile: "node_modules/pack-01/LICENSE" },
+        {
+            name: "pack-01",
+            path: "pack-01",
+            version: "1.1.0",
+            license: "MIT",
+            repository: "company/project",
+            licenseFile: "node_modules/pack-01/LICENSE",
+        },
         { name: "pack-02", path: "pack-02", version: "2.0.0", license: "ISC", repository: "company/project" },
-        { name: "pack-03", path: "pack-03", version: "2.0.0", license: "(MIT OR Apache-2.0)", repository: "company/project" },
+        {
+            name: "pack-03",
+            path: "pack-03",
+            version: "2.0.0",
+            license: "(MIT OR Apache-2.0)",
+            repository: "company/project",
+        },
     ];
 
     const text = new Text();
     text.detail(packages);
 
-    t.true(stubConsole.calledWithExactly(`Packages
+    t.true(
+        stubConsole.calledWithExactly(`Packages
 ├─ ${chalk.blue("pack-01")}@${chalk.green("1.1.0")}
 │  ├─ Licenses: MIT
 │  ├─ License file: node_modules/pack-01/LICENSE
@@ -42,7 +56,8 @@ test.serial("Detail", (t): void => {
    ├─ License file: UNKNOWN
    ├─ Path: pack-03
    └─ Repository: company/project
-`));
+`),
+    );
 });
 
 test.serial("Summary", (t): void => {
@@ -55,9 +70,11 @@ test.serial("Summary", (t): void => {
     const text = new Text();
     text.summary(licenses);
 
-    t.true(stubConsole.calledWithExactly(`Licenses
+    t.true(
+        stubConsole.calledWithExactly(`Licenses
 ├─ MIT: 15
 ├─ ${chalk.red("UNKNOWN")}: 5
 └─ ISC: 1
-`));
+`),
+    );
 });

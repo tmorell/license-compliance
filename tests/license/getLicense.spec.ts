@@ -28,7 +28,7 @@ test("In-line single license with no LICENSE", async (t): Promise<void> => {
     const license = await getLicense(pack, packPath);
     t.is(license.name, "MIT");
     t.is(license.status, LicenseStatus.valid);
-    t.is(license.path, undefined);
+    t.is(license.path, null);
 });
 
 test("In-line single license with CUSTOM LICENSE", async (t): Promise<void> => {
@@ -48,7 +48,7 @@ test("In-line single license with CUSTOM LICENSE not found", async (t): Promise<
     const license = await getLicense(pack, packPath);
     t.is(license.name, Literals.CUSTOM);
     t.is(license.status, LicenseStatus.custom);
-    t.is(license.path, undefined);
+    t.is(license.path, null);
 });
 
 test("Array valid licenses", async (t): Promise<void> => {
@@ -58,7 +58,7 @@ test("Array valid licenses", async (t): Promise<void> => {
     const license = await getLicense(pack, packPath);
     t.is(license.name, "(MIT OR Apache-2.0)");
     t.is(license.status, LicenseStatus.valid);
-    t.is(license.path, undefined);
+    t.is(license.path, null);
 });
 
 test("Array invalid licenses", async (t): Promise<void> => {
@@ -68,7 +68,7 @@ test("Array invalid licenses", async (t): Promise<void> => {
     const license = await getLicense(pack, packPath);
     t.is(license.name, Literals.UNKNOWN);
     t.is(license.status, LicenseStatus.unknown);
-    t.is(license.path, undefined);
+    t.is(license.path, null);
 });
 
 test("Array is empty", async (t): Promise<void> => {
@@ -78,7 +78,7 @@ test("Array is empty", async (t): Promise<void> => {
     const license = await getLicense(pack, packPath);
     t.is(license.name, Literals.UNKNOWN);
     t.is(license.status, LicenseStatus.unknown);
-    t.is(license.path, undefined);
+    t.is(license.path, null);
 });
 
 test("Array with single entry", async (t): Promise<void> => {
@@ -88,7 +88,7 @@ test("Array with single entry", async (t): Promise<void> => {
     const license = await getLicense(pack, packPath);
     t.is(license.name, "MIT");
     t.is(license.status, LicenseStatus.valid);
-    t.is(license.path, undefined);
+    t.is(license.path, null);
 });
 
 test("No license", async (t): Promise<void> => {
@@ -98,7 +98,7 @@ test("No license", async (t): Promise<void> => {
     const license = await getLicense(pack, packPath);
     t.is(license.name, Literals.UNKNOWN);
     t.is(license.status, LicenseStatus.unknown);
-    t.is(license.path, undefined);
+    t.is(license.path, null);
 });
 
 test("License type", async (t): Promise<void> => {
@@ -108,5 +108,5 @@ test("License type", async (t): Promise<void> => {
     const license = await getLicense(pack, packPath);
     t.is(license.name, "MIT");
     t.is(license.status, LicenseStatus.valid);
-    t.is(license.path, undefined);
+    t.is(license.path, null);
 });

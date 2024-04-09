@@ -1,6 +1,9 @@
 import { Configuration, Package } from "./interfaces";
 
-export function excludePackages(packages: Array<Package>, configuration: Pick<Configuration, "exclude">): Array<Package> {
+export function excludePackages(
+    packages: Array<Package>,
+    configuration: Pick<Configuration, "exclude">,
+): Array<Package> {
     const { exclude: excludeFilters } = configuration;
     if (excludeFilters.length === 0) {
         return packages;

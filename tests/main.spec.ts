@@ -8,19 +8,28 @@ import { Text } from "../src/formatters/text";
 import { Configuration, Package } from "../src/interfaces";
 import * as license from "../src/license";
 import { main } from "../src/main";
+import * as nodeModules from "../src/node-modules";
 import * as npm from "../src/npm";
 import * as reports from "../src/reports";
 import { Summary } from "../src/reports/summary";
 
 test.beforeEach((): void => {
     sinon.stub(process.stdout, "write");
+    sinon.stub(process.stderr, "write");
 });
 
 test.afterEach((): void => {
     sinon.restore();
 });
 
+test.serial("node_modules not found", async (t): Promise<void> => {
+    sinon.stub(nodeModules, "getNodeModulesPath").returns(null);
+    const r = await main();
+    t.false(r);
+});
+
 test.serial("Invalid arguments", async (t): Promise<void> => {
+    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
     sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(null));
 
     const r = await main();
@@ -30,6 +39,7 @@ test.serial("Invalid arguments", async (t): Promise<void> => {
 
 test.serial("No packages installed", async (t): Promise<void> => {
     const packages = new Array<Package>();
+    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
     sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration()));
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages)); // No packages were found
 
@@ -40,8 +50,15 @@ test.serial("No packages installed", async (t): Promise<void> => {
 
 test.serial("Get licenses summary", async (t): Promise<void> => {
     const packages = new Array<Package>();
-    packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
+    packages.push({
+        name: "package-01",
+        path: "pack-01",
+        version: "1.0.0",
+        license: "MIT",
+        repository: "company/project",
+    });
 
+    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
     sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration()));
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
@@ -56,11 +73,22 @@ test.serial("Get licenses summary", async (t): Promise<void> => {
 
 test.serial("Not allowed licenses", async (t): Promise<void> => {
     const packages = new Array<Package>();
-    packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
+    packages.push({
+        name: "package-01",
+        path: "pack-01",
+        version: "1.0.0",
+        license: "MIT",
+        repository: "company/project",
+    });
 
-    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration({
-        allow: ["Apache-2.0"], // Simulate a policy that will fail the compliance checkup
-    })));
+    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
+    sinon.stub(configuration, "getConfiguration").returns(
+        Promise.resolve(
+            getMockConfiguration({
+                allow: ["Apache-2.0"], // Simulate a policy that will fail the compliance checkup
+            }),
+        ),
+    );
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
     sinon.stub(license, "onlyAllow").returns(packages); // Packages with not allowed licenses found
@@ -74,11 +102,22 @@ test.serial("Not allowed licenses", async (t): Promise<void> => {
 
 test.serial("Success", async (t): Promise<void> => {
     const packages = new Array<Package>();
-    packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
+    packages.push({
+        name: "package-01",
+        path: "pack-01",
+        version: "1.0.0",
+        license: "MIT",
+        repository: "company/project",
+    });
 
-    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration({
-        allow: ["MIT"],
-    })));
+    sinon.stub(configuration, "getConfiguration").returns(
+        Promise.resolve(
+            getMockConfiguration({
+                allow: ["MIT"],
+            }),
+        ),
+    );
+    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
     sinon.stub(license, "onlyAllow").returns(new Array<Package>());
@@ -89,11 +128,22 @@ test.serial("Success", async (t): Promise<void> => {
 
 test.serial("Success query", async (t): Promise<void> => {
     const packages = new Array<Package>();
-    packages.push({ name: "package-01", path: "pack-01", version: "1.0.0", license: "MIT", repository: "company/project" });
+    packages.push({
+        name: "package-01",
+        path: "pack-01",
+        version: "1.0.0",
+        license: "MIT",
+        repository: "company/project",
+    });
 
-    sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration({
-        query: ["MIT"],
-    })));
+    sinon.stub(configuration, "getConfiguration").returns(
+        Promise.resolve(
+            getMockConfiguration({
+                query: ["MIT"],
+            }),
+        ),
+    );
+    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
     sinon.stub(filters, "queryPackages").returns(new Array<Package>());
@@ -103,14 +153,17 @@ test.serial("Success query", async (t): Promise<void> => {
 });
 
 function getMockConfiguration(overrideConfiguration?: Partial<Configuration>): Configuration {
-    return Object.assign({
-        allow: [],
-        development: false,
-        direct: false,
-        exclude: [],
-        format: Formatter.text,
-        production: false,
-        query: [],
-        report: Report.summary,
-    }, overrideConfiguration);
+    return Object.assign(
+        {
+            allow: [],
+            development: false,
+            direct: false,
+            exclude: [],
+            format: Formatter.text,
+            production: false,
+            query: [],
+            report: Report.summary,
+        },
+        overrideConfiguration,
+    );
 }

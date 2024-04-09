@@ -7,6 +7,8 @@ import { Formatter, Report } from "../../src/enumerations";
 import { Configuration } from "../../src/interfaces";
 import * as program from "../../src/program";
 
+const NODE_MODULES = "node_modules";
+
 declare type Config = unknown;
 
 declare type CosmiconfigResult = {
@@ -41,7 +43,7 @@ test.serial("Default configuration", async (t): Promise<void> => {
     sinon.stub(program, "processArgs").returns(<Configuration>{});
 
     // Get configuration
-    const config = await getConfiguration();
+    const config = await getConfiguration(NODE_MODULES);
 
     t.not(config, null);
     t.is(config?.allow.length, 0);
@@ -57,19 +59,21 @@ test.serial("Invalid inline configuration", async (t): Promise<void> => {
     // No inline configuration
     const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve({
-        config: {
-            format: "some-format",
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                format: "some-format",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
 
     // No command line args
     sinon.stub(program, "processArgs").returns(<Configuration>{});
 
     // Get configuration
-    const config = await getConfiguration();
+    const config = await getConfiguration(NODE_MODULES);
 
     t.is(config, null);
 });
@@ -78,21 +82,23 @@ test.serial("Inline configuration, not extended", async (t): Promise<void> => {
     // No inline configuration
     const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve({
-        config: {
-            production: true,
-            allow: ["MIT", "ISC"],
-            format: Formatter.json.toLowerCase(),
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                production: true,
+                allow: ["MIT", "ISC"],
+                format: Formatter.json.toLowerCase(),
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
 
     // No command line args
     sinon.stub(program, "processArgs").returns(<Configuration>{});
 
     // Get configuration
-    const config = await getConfiguration();
+    const config = await getConfiguration(NODE_MODULES);
 
     t.not(config, null);
     t.is(config?.allow.length, 2);
@@ -110,19 +116,21 @@ test.serial("Inline configuration, invalid extended file", async (t): Promise<vo
     // Inline configuration
     const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve({
-        config: {
-            allow: ["Apache-2.0"],
-            report: Report.detailed.toLowerCase(),
-            extends: "@acme/some-invalid-file",
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                allow: ["Apache-2.0"],
+                report: Report.detailed.toLowerCase(),
+                extends: "@acme/some-invalid-file",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
     sinon.stub(explorer, "load").throws("ENOENT: no such file or directory");
 
     // Get configuration
-    const config = await getConfiguration();
+    const config = await getConfiguration(NODE_MODULES);
 
     t.is(config, null);
 });
@@ -131,22 +139,24 @@ test.serial("Inline configuration, extended null", async (t): Promise<void> => {
     // Inline configuration
     const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve({
-        config: {
-            allow: ["Apache-2.0"],
-            report: Report.detailed.toLowerCase(),
-            extends: "@acme/license-policy",
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                allow: ["Apache-2.0"],
+                report: Report.detailed.toLowerCase(),
+                extends: "@acme/license-policy",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
     sinon.stub(explorer, "load").returns(Promise.resolve(null));
 
     // No command line args
     sinon.stub(program, "processArgs").returns(<Configuration>{});
 
     // Get configuration
-    const config = await getConfiguration();
+    const config = await getConfiguration(NODE_MODULES);
 
     t.not(config, null);
     t.is(config?.allow.length, 1);
@@ -163,30 +173,34 @@ test.serial("Inline configuration, extended", async (t): Promise<void> => {
     // Inline configuration
     const explorer: Explorer = createExplorer();
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
-    sinon.stub(explorer, "search").returns(Promise.resolve({
-        config: {
-            allow: ["Apache-2.0"],
-            report: Report.detailed.toLowerCase(),
-            extends: "@acme/license-policy",
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
-    sinon.stub(explorer, "load").returns(Promise.resolve({
-        config: {
-            allow: ["MIT", "ISC"],
-            format: Formatter.json.toLowerCase(),
-            production: true,
-        },
-        filepath: "some-path",
-        isEmpty: false,
-    }));
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                allow: ["Apache-2.0"],
+                report: Report.detailed.toLowerCase(),
+                extends: "@acme/license-policy",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+    sinon.stub(explorer, "load").returns(
+        Promise.resolve({
+            config: {
+                allow: ["MIT", "ISC"],
+                format: Formatter.json.toLowerCase(),
+                production: true,
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
 
     // No command line args
     sinon.stub(program, "processArgs").returns(<Configuration>{ direct: true });
 
     // Get configuration
-    const config = await getConfiguration();
+    const config = await getConfiguration(NODE_MODULES);
 
     t.not(config, null);
     t.is(config?.allow.length, 1);

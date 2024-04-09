@@ -73,8 +73,17 @@ export function onlyAllow(packages: Array<Package>, configuration: Pick<Configur
     const invalidPackages = new Array<Package>();
     const spdxLicense = argsToSpdxLicense(configuration.allow);
     for (const pack of packages) {
-        const matches = pack.license !== Literals.UNKNOWN && pack.license !== Literals.CUSTOM && satisfies(spdxLicense, pack.license);
-        debug(chalk.blue(pack.name), "/", pack.license, "=>", matches ? chalk.green(spdxLicense) : chalk.red(spdxLicense));
+        const matches =
+            pack.license !== Literals.UNKNOWN &&
+            pack.license !== Literals.CUSTOM &&
+            satisfies(spdxLicense, pack.license);
+        debug(
+            chalk.blue(pack.name),
+            "/",
+            pack.license,
+            "=>",
+            matches ? chalk.green(spdxLicense) : chalk.red(spdxLicense),
+        );
         if (!matches) {
             invalidPackages.push(pack);
         }
@@ -125,7 +134,7 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
     if (Array.isArray(pack.licenses)) {
         return {
             name: getLicenseFromArray(pack.licenses),
-            path: undefined,
+            path: null,
             status: LicenseStatus.valid,
         };
     }
@@ -133,17 +142,17 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
     // Could not determinate the license
     return {
         name: Literals.UNKNOWN,
-        path: undefined,
+        path: null,
         status: LicenseStatus.unknown,
     };
 }
 
-async function getCustomLicensePath(packPath: string, license: string): Promise<string | undefined> {
+async function getCustomLicensePath(packPath: string, license: string): Promise<string | null> {
     const licPath = path.join(packPath, license.substring(SEE_LICENSE_IN.length).trim());
     if (await util.fileExists(licPath)) {
         return licPath;
     }
-    return undefined;
+    return null;
 }
 
 function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
@@ -156,12 +165,12 @@ function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
     return argsToSpdxLicense(licenses.map((value): string => value.type.trim()));
 }
 
-async function getLicensePath(packPath: string): Promise<string | undefined> {
+async function getLicensePath(packPath: string): Promise<string | null> {
     const data = await util.readdir(packPath);
     for (const fileName of data) {
         if (fileName.toLowerCase().startsWith(LICENSE_FILE)) {
             return path.join(packPath, fileName);
         }
     }
-    return undefined;
+    return null;
 }

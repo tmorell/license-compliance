@@ -56,20 +56,24 @@ export class Xunit implements Formatter {
             "@tests": totalNumberOfFailures,
             "@errors": 0,
             "@failures": totalNumberOfFailures,
-            testsuite: detailedList.map((license): XUnitTestSuite => ({
-                "@name": license.name,
-                "@tests": license.packages.length,
-                "@errors": 0,
-                "@failures": license.packages.length,
-                testcase: license.packages.map((packageInformation): XUnitTestCase => ({
-                    "@name": `${packageInformation.name}@${packageInformation.version}`,
-                    "@path": packageInformation.path,
-                    failure: {
-                        "@type": this.TEST_CASE_ERROR_TYPE,
-                        "#text": `Package "${packageInformation.name}@${packageInformation.version}" uses non compliant license "${packageInformation.license}"`,
-                    },
-                })),
-            })),
+            testsuite: detailedList.map(
+                (license): XUnitTestSuite => ({
+                    "@name": license.name,
+                    "@tests": license.packages.length,
+                    "@errors": 0,
+                    "@failures": license.packages.length,
+                    testcase: license.packages.map(
+                        (packageInformation): XUnitTestCase => ({
+                            "@name": `${packageInformation.name}@${packageInformation.version}`,
+                            "@path": packageInformation.path,
+                            failure: {
+                                "@type": this.TEST_CASE_ERROR_TYPE,
+                                "#text": `Package "${packageInformation.name}@${packageInformation.version}" uses non compliant license "${packageInformation.license}"`,
+                            },
+                        }),
+                    ),
+                }),
+            ),
         };
     }
 
@@ -79,19 +83,23 @@ export class Xunit implements Formatter {
             "@tests": licenses.length,
             "@errors": 0,
             "@failures": licenses.length,
-            testsuite: licenses.map((license): XUnitTestSuite => ({
-                "@name": license.name,
-                "@tests": 1,
-                "@errors": 0,
-                "@failures": 1,
-                testcase: [{
+            testsuite: licenses.map(
+                (license): XUnitTestSuite => ({
                     "@name": license.name,
-                    failure: {
-                        "@type": this.TEST_CASE_ERROR_TYPE,
-                        "#text": `${license.count} package${license.count > 1 ? "s" : ""} use non compliant license "${license.name}"`,
-                    },
-                }],
-            })),
+                    "@tests": 1,
+                    "@errors": 0,
+                    "@failures": 1,
+                    testcase: [
+                        {
+                            "@name": license.name,
+                            failure: {
+                                "@type": this.TEST_CASE_ERROR_TYPE,
+                                "#text": `${license.count} package${license.count > 1 ? "s" : ""} use non compliant license "${license.name}"`,
+                            },
+                        },
+                    ],
+                }),
+            ),
         };
     }
 
@@ -99,25 +107,22 @@ export class Xunit implements Formatter {
      * Loop through a list of packages and group them by license name
      */
     private groupPackagesByLicense(packages: Array<Package>): Array<LicenseDetail> {
-        return packages.reduce<Array<LicenseDetail>>(
-            (licenses, packageInformation): Array<LicenseDetail> => {
-                const licenseIndex = licenses.findIndex((license): boolean => license.name === packageInformation.license);
+        return packages.reduce<Array<LicenseDetail>>((licenses, packageInformation): Array<LicenseDetail> => {
+            const licenseIndex = licenses.findIndex((license): boolean => license.name === packageInformation.license);
 
-                if (licenseIndex >= 0) {
-                    // if the license was already in the iterator, push the current package to its list
-                    licenses[licenseIndex].packages.push(packageInformation);
-                } else {
-                    // otherwise add an item with the license name
-                    licenses.push({
-                        name: packageInformation.license,
-                        packages: [packageInformation],
-                    });
-                }
+            if (licenseIndex >= 0) {
+                // if the license was already in the iterator, push the current package to its list
+                licenses[licenseIndex].packages.push(packageInformation);
+            } else {
+                // otherwise add an item with the license name
+                licenses.push({
+                    name: packageInformation.license,
+                    packages: [packageInformation],
+                });
+            }
 
-                return licenses;
-            },
-            [],
-        );
+            return licenses;
+        }, []);
     }
 
     private serializeObjectToXml(object: Record<string, RecursiveXmlValue | XUnitTestSuites>): string {
