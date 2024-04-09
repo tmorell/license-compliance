@@ -18,10 +18,10 @@ jobs:
     strategy:
       matrix:
         node_version:
-          - "14"
-          - "16"
           - "18"
+          - "19"
           - "20"
+          - "21"
     name: Node ${{ matrix.node_version }}
     steps:
       - name: Checkout
@@ -44,23 +44,23 @@ jobs:
         run: npm run test:ci
 
       - name: Circular reference
-        if: ${{ matrix.node_version == '16' }}
+        if: ${{ matrix.node_version == '21' }}
         run: npm run circular
 
       - name: Lint
-        if: ${{ matrix.node_version == '16' }}
+        if: ${{ matrix.node_version == '21' }}
         run: npm run lint
 
       - name: Prettier
-        if: ${{ matrix.node_version == '16' }}
+        if: ${{ matrix.node_version == '21' }}
         run: npm run prettier
 
       - name: Coverage
-        if: ${{ matrix.node_version == '16' }}
+        if: ${{ matrix.node_version == '21' }}
         run: npm run coverage:ci
 
       - name: SonarCloud Scan
-        if: ${{ matrix.node_version == '16' }}
+        if: ${{ matrix.node_version == '21' }}
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
