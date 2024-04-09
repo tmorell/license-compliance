@@ -8,18 +8,19 @@ import path from "path";
  *
  * @returns The node_modules relative path if found; otherwise, null.
  */
-export function getNodeModulesPath(): string | null {
+export function getNodeModulesPath(workingDir = process.cwd()): string | null {
     const NODE_MODULES = "node_modules";
-    let nodeModulesPath = NODE_MODULES;
-    for (let i = 0; i < process.cwd().split(path.sep).length - 1; i++) {
-        if (fs.existsSync(nodeModulesPath)) {
-            return nodeModulesPath;
+    const segments = workingDir.split("/");
+    segments[0] = "/";
+    for (let i = segments.length; i >= 1; i--) {
+        const searchPath = path.join(...segments.slice(0, i), NODE_MODULES);
+        if (fs.existsSync(searchPath)) {
+            return searchPath;
         }
-        nodeModulesPath = path.join("..", nodeModulesPath);
     }
     console.error(
         chalk.red(
-            `'${NODE_MODULES}' could not be found up the directory tree '${process.cwd()}'${EOL}Please make sure that the packages are installed.`,
+            `'${NODE_MODULES}' could not be found up the directory tree '${workingDir}'${EOL}Please make sure that the packages are installed.`,
         ),
     );
     return null;

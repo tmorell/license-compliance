@@ -20,10 +20,12 @@ const NODE_MODULES = "node_modules";
 export async function getInstalledPackages(
     configuration: Pick<Configuration, "direct" | "development" | "production">,
     nodeModulesPath: string,
+    packageJsonPath = "",
 ): Promise<Array<Package>> {
     const packages: Array<Package> = new Array<Package>();
-    const pack = await util.readPackageJson(PACKAGE_JSON);
+    const pack = await util.readPackageJson(path.join(packageJsonPath, PACKAGE_JSON));
     if (!pack) {
+        console.error(chalk.red(`Could not find '${PACKAGE_JSON}' at '${packageJsonPath}'`));
         return new Array<Package>();
     }
 
