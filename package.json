@@ -37,7 +37,7 @@
         "@types/debug": "4.1.12",
         "@types/joi": "17.2.3",
         "@types/node": "20.9.0",
-        "@types/sinon": "17.0.1",
+        "@types/sinon": "17.0.3",
         "@types/spdx-expression-parse": "3.0.5",
         "@types/spdx-satisfies": "0.1.2",
         "@typescript-eslint/eslint-plugin": "6.10.0",
