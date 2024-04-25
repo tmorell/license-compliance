@@ -2,6 +2,7 @@ import chalk from "chalk";
 import commander from "commander";
 
 import { Formatter, Report } from "./enumerations";
+import { parseExclude } from "./filters";
 import { Configuration } from "./interfaces";
 import { isLicenseValid } from "./license";
 
@@ -37,7 +38,11 @@ export function processArgs(): Configuration {
 
     verifyIncompatibleArguments();
 
-    return program.opts();
+    const rawConfiguration = program.opts();
+    return <Configuration>{
+        ...rawConfiguration,
+        exclude: rawConfiguration.exclude ? parseExclude(rawConfiguration.exclude) : undefined,
+    };
 }
 
 function help(errorMessage: string): void {
