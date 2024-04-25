@@ -38,11 +38,13 @@ export function processArgs(): Configuration {
 
     verifyIncompatibleArguments();
 
-    const rawConfiguration = program.opts();
-    return <Configuration>{
-        ...rawConfiguration,
-        exclude: rawConfiguration.exclude ? parseExclude(rawConfiguration.exclude) : undefined,
-    };
+    const { exclude, ...rawConfiguration } = program.opts();
+    return exclude
+        ? <Configuration>{
+              ...rawConfiguration,
+              exclude: parseExclude(exclude),
+          }
+        : <Configuration>rawConfiguration;
 }
 
 function help(errorMessage: string): void {
