@@ -22,8 +22,12 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     // Get extended configuration
     const extendsPath = configInline?.extends;
     if (extendsPath) {
+        const absPath = path.isAbsolute(extendsPath)
+            ? extendsPath
+            : path.join(nodeModulesPath, extendsPath, "index.js");
+
         try {
-            const c = await explorer.load(path.join(nodeModulesPath, extendsPath, "index.js"));
+            const c = await explorer.load(absPath);
             configExtended = <Partial<Configuration>>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
