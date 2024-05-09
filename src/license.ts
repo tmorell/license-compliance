@@ -6,7 +6,7 @@ import chalk from "chalk";
 import Debug from "debug";
 import path from "path";
 import parse from "spdx-expression-parse";
-import spdxSatisfiesOriginal from "spdx-satisfies";
+import spdxSatisfies from "spdx-satisfies";
 
 import { LicenseStatus, Literals } from "./enumerations";
 import { Configuration, License, NpmPackage, OldLicenseFormat, Package } from "./interfaces";
@@ -14,7 +14,7 @@ import * as util from "./util";
 
 const satisfies = (spdxLicense: string, str: string) => {
     try {
-        return spdxSatisfiesOriginal(spdxLicense, str);
+        return spdxSatisfies(spdxLicense, str);
     } catch (error) {
         debug(`failed to parse license identifier "${str}"`, error);
         return false;
