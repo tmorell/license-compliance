@@ -12,9 +12,9 @@ import { LicenseStatus, Literals } from "./enumerations";
 import { Configuration, License, NpmPackage, OldLicenseFormat, Package } from "./interfaces";
 import * as util from "./util";
 
-const satisfies = (spdxLicense: string, str: string) => {
+const satisfies = (allowedLicenses: string, str: string) => {
     try {
-        return spdxSatisfies(spdxLicense, str);
+        return spdxSatisfies(allowedLicenses, str);
     } catch (error) {
         debug(`failed to parse license identifier "${str}"`, error);
         return false;
