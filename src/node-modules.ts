@@ -10,7 +10,7 @@ import path from "path";
  */
 export function getNodeModulesPath(workingDir = process.cwd()): string | null {
     const NODE_MODULES = "node_modules";
-    const segments = workingDir.split("/");
+    const segments = workingDir.split(path.sep);
     segments[0] = "/";
     for (let i = segments.length; i >= 1; i--) {
         const searchPath = path.join(...segments.slice(0, i), NODE_MODULES);
