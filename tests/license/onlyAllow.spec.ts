@@ -144,3 +144,21 @@ test("Some packages not allowed, OR licenses", (t): void => {
     t.is(invalid.length, 1);
     t.is(invalid[0].name, "test-04");
 });
+
+test("Doesn't choke on invalid SPDX", (t): void => {
+    const packages: Array<Package> = [
+        {
+            name: "test-01",
+            path: "test-01",
+            version: "1.0.0",
+            license: "MIT or Apache-2.0",
+            repository: "company/project",
+        },
+    ];
+
+    // Arguments
+    const invalid = onlyAllow(packages, { allow: ["MIT"] });
+
+    t.is(invalid.length, 1);
+    t.is(invalid[0].name, "test-01");
+});
