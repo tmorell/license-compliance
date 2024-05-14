@@ -145,6 +145,39 @@ test("Some packages not allowed, OR licenses", (t): void => {
     t.is(invalid[0].name, "test-04");
 });
 
+test("Allow UNKNOWN", (t): void => {
+    const packages: Array<Package> = [
+        {
+            name: "test-01",
+            path: "test-01",
+            version: "1.0.0",
+            license: "UNKNOWN",
+            repository: "company/project",
+        },
+        {
+            name: "test-02",
+            path: "test-02",
+            version: "2.0.0",
+            license: "(BSD-2-Clause OR MIT)",
+            repository: "company/project",
+        },
+        {
+            name: "test-03",
+            path: "test-03",
+            version: "1.0.0",
+            license: "(UNKNOWN OR MIT)",
+            repository: "company/project",
+        },
+    ];
+
+    // Arguments
+    const invalid = onlyAllow(packages, { allow: ["Apache-2.0", "UNKNOWN", "ISC"] });
+
+    t.is(invalid.length, 2);
+    t.is(invalid[0].name, "test-02");
+    t.is(invalid[1].name, "test-03"); // This license does is not valid
+});
+
 test("Doesn't choke on invalid SPDX", (t): void => {
     const packages: Array<Package> = [
         {
