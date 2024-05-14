@@ -21,12 +21,12 @@ export function processArgs(): Configuration {
         .option<Array<string>>(
             "-q, --query <licenses>",
             "Semicolon separated list of licenses to query. Must conform to SPDX specifications.",
-            verifyQuery,
+            verifyLicense("query"),
         )
         .option<Array<string>>(
             "-a, --allow <licenses>",
             "Semicolon separated list of allowed licenses. Must conform to SPDX specifications.",
-            verifyAllow,
+            verifyLicense("allow"),
         )
         .option<Array<string | RegExp>>(
             "-e, --exclude <packages>",
@@ -45,30 +45,19 @@ function help(errorMessage: string): void {
     console.info(program.help());
 }
 
-function verifyAllow(value: string): Array<string> {
-    return value
-        .split(";")
-        .map((license): string => license.trim())
-        .filter((license): boolean => !!license)
-        .map((license): string => {
-            if (!isLicenseValid(license)) {
-                help(`Invalid --allow option "${license}"`);
-            }
-            return license;
-        });
-}
-
-function verifyQuery(value: string): Array<string> {
-    return value
-        .split(";")
-        .map((license): string => license.trim())
-        .filter((license): boolean => !!license)
-        .map((license): string => {
-            if (!isLicenseValid(license) && license !== "UNKNOWN") {
-                help(`Invalid --query option "${license}"`);
-            }
-            return license;
-        });
+function verifyLicense(arg: string): (value: string) => Array<string> {
+    return (value: string): Array<string> => {
+        return value
+            .split(";")
+            .map((license): string => license.trim())
+            .filter((license): boolean => !!license)
+            .map((license): string => {
+                if (!isLicenseValid(license) && license !== "UNKNOWN") {
+                    help(`Invalid --${arg} option "${license}"`);
+                }
+                return license;
+            });
+    };
 }
 
 function verifyExclude(value: string): Array<string | RegExp> {

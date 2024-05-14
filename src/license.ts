@@ -81,11 +81,12 @@ export function onlyAllow(packages: Array<Package>, configuration: Pick<Configur
 
     const invalidPackages = new Array<Package>();
     const spdxLicense = argsToSpdxLicense(configuration.allow);
+    const allowUnknown = configuration.allow.findIndex((value): boolean => value === Literals.UNKNOWN) >= 0;
     for (const pack of packages) {
         const matches =
-            pack.license !== Literals.UNKNOWN &&
             pack.license !== Literals.CUSTOM &&
-            satisfies(spdxLicense, pack.license);
+            (satisfies(spdxLicense, pack.license) || (pack.license === Literals.UNKNOWN && allowUnknown));
+
         debug(
             chalk.blue(pack.name),
             "/",
@@ -131,7 +132,7 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
         };
     }
 
-    if (pack.license && pack.license.type) {
+    if (pack.license?.type) {
         return {
             name: pack.license.type,
             path: licensePath,
