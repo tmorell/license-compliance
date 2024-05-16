@@ -213,6 +213,32 @@ test.serial("Inline configuration, extended", async (t): Promise<void> => {
     t.is(config?.report, Report.detailed);
 });
 
+test.serial("Validates 'allow'", async (t): Promise<void> => {
+    // Inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                allow: ["Invalid SPDX"],
+                report: Report.detailed.toLowerCase(),
+                extends: "@acme/license-policy",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+    sinon.stub(explorer, "load").returns(Promise.resolve(null));
+
+    // No command line args
+    sinon.stub(program, "processArgs").returns(<Configuration>{});
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.is(config, null);
+});
+
 function createExplorer(): Explorer {
     return {
         search: (): Promise<CosmiconfigResult> => Promise.resolve(null),
