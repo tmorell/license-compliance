@@ -4,14 +4,15 @@ import joi from "joi";
 import path from "path";
 
 import { Formatter, Report } from "./enumerations";
-import { Configuration, ExtendableConfiguration } from "./interfaces";
+import { parseExclude } from "./filters";
+import { Configuration, ExtendableConfiguration, RawConfiguration } from "./interfaces";
 import { processArgs } from "./program";
 import { toPascal } from "./util";
 
 const packageName = "license-compliance";
 
 export async function getConfiguration(nodeModulesPath: string): Promise<Configuration | null> {
-    let configExtended: Partial<Configuration> = {};
+    let configExtended: Partial<RawConfiguration> = {};
     let configInline: ExtendableConfiguration = {};
 
     // Get inline configuration
@@ -24,7 +25,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     if (extendsPath) {
         try {
             const c = await explorer.load(path.join(nodeModulesPath, extendsPath, "index.js"));
-            configExtended = <Partial<Configuration>>c?.config || {};
+            configExtended = <Partial<RawConfiguration>>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
             console.error(chalk.red("Extended configuration error:"), error);
@@ -38,7 +39,12 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         allow: mergedConfiguration.allow || [],
         development: !!mergedConfiguration.development || false,
         direct: mergedConfiguration.direct || false,
-        exclude: mergedConfiguration.exclude || [],
+        exclude:
+            mergedConfiguration.exclude === undefined
+                ? undefined
+                : typeof mergedConfiguration.exclude === "function"
+                  ? mergedConfiguration.exclude
+                  : parseExclude(mergedConfiguration.exclude),
         format: <Formatter>toPascal(mergedConfiguration.format) || Formatter.text,
         production: !!mergedConfiguration.production || false,
         query: mergedConfiguration.query || [],
@@ -51,7 +57,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
             allow: joi.array().items(joi.string()),
             development: joi.boolean(),
             direct: joi.boolean(),
-            exclude: joi.array(),
+            exclude: joi.function().arity(1),
             format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text, Formatter.xunit),
             production: joi.boolean(),
             query: joi.array().items(joi.string()),

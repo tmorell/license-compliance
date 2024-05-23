@@ -12,7 +12,7 @@ export function getDefaultConfiguration(): Configuration {
         allow: [],
         development: false,
         direct: false,
-        exclude: [],
+        exclude: undefined,
         production: false,
         format: Formatter.text,
         query: [],

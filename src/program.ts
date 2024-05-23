@@ -2,6 +2,7 @@ import chalk from "chalk";
 import commander from "commander";
 
 import { Formatter, Report } from "./enumerations";
+import { parseExclude } from "./filters";
 import { Configuration } from "./interfaces";
 import { isLicenseValid } from "./license";
 
@@ -37,7 +38,13 @@ export function processArgs(): Configuration {
 
     verifyIncompatibleArguments();
 
-    return program.opts();
+    const { exclude, ...rawConfiguration } = program.opts();
+    return exclude
+        ? <Configuration>{
+              ...rawConfiguration,
+              exclude: parseExclude(exclude),
+          }
+        : <Configuration>rawConfiguration;
 }
 
 function help(errorMessage: string): void {
