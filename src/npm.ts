@@ -6,6 +6,7 @@ import { Configuration, Package } from "./interfaces";
 import { getLicense } from "./license";
 import { getRepository } from "./repository";
 import * as util from "./util";
+import resolvePackagePath from "resolve-package-path";
 
 const debug = Debug("license-compliance:npm");
 const PACKAGE_JSON = "package.json";
@@ -65,38 +66,17 @@ function alreadyAnalyzed(packages: Array<Package>, pack: Package): boolean {
  * First, it verifies if there is a specific package version installed within the parent's node_module folder.
  * If not found, then it verifies if the package is installed in the root node_modules folder.
  *
- * @param {string} parentName Name of the parent package. Required to analyze packages with sub-folders.
  * @param {string} packageName Name of the package.
  * @param {(string | undefined)} parentNodeModulesPath Path of the parent package.
- * @returns {(Promise<string | undefined>)} Promise with the path where the package was found; undefined if not found.
+ * @returns {(string | undefined>)} Path where the package was found; undefined if not found.
  */
-async function getInstalledPath(
-    parentName: string,
+function getInstalledPath(
     packageName: string,
     parentNodeModulesPath: string,
-    rootNodeModulesPath: string,
-): Promise<string | null> {
-    // Verify if present in parent's node_modules
-    let packagePath = path.join(parentNodeModulesPath, packageName);
-    if (await util.fileExists(packagePath)) {
-        return packagePath;
-    }
-
-    // Verify if present in sibling node_modules
-    const pathComposite = [parentNodeModulesPath, "..", ".."];
-    for (let i = 0; i < parentName.split("/").length - 1; i++) {
-        pathComposite.push("..");
-    }
-    pathComposite.push(packageName);
-    packagePath = path.join(...pathComposite);
-    if (await util.fileExists(packagePath)) {
-        return packagePath;
-    }
-
-    // Verify if present in root node_module
-    packagePath = path.join(rootNodeModulesPath, packageName);
-    if (await util.fileExists(packagePath)) {
-        return packagePath;
+): string | null {
+    const resolved = resolvePackagePath(packageName, parentNodeModulesPath);
+    if (resolved) {
+        return path.dirname(resolved);
     }
 
     return null;
@@ -150,7 +130,7 @@ async function getPackage(
     rootNodeModulesPath: string,
     packages: Array<Package>,
 ): Promise<void> {
-    const packagePath = await getInstalledPath(parentName, dependency, parentNodeModulesPath, rootNodeModulesPath);
+    const packagePath = await getInstalledPath(dependency, parentNodeModulesPath);
     if (packagePath === null) {
         console.error(chalk.red(`Package "${dependency}" was not found. Confirm that all modules are installed.`));
         return;

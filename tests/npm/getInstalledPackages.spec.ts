@@ -29,7 +29,9 @@ test.serial("Get packages, empty package.json", async (t): Promise<void> => {
     const packages = await getInstalledPackages(
         getDefaultConfiguration(),
         path.join(__dirname, "..", "mock-packages", "installation-empty"),
+        path.join(__dirname, "..", "mock-packages", "installation-empty"),
     );
+
     t.is(packages.length, 0);
 });
 

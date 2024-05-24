@@ -12,6 +12,7 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
+        "skipLibCheck": true,
         "noUnusedLocals": false,
         "noUnusedParameters": false,
         "outDir": "lib",

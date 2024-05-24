@@ -26,6 +26,7 @@
         "cosmiconfig": "9.0.0",
         "debug": "4.3.4",
         "joi": "17.12.3",
+        "resolve-package-path": "^4.0.3",
         "spdx-expression-parse": "4.0.0",
         "spdx-satisfies": "5.0.1",
         "tslib": "2.6.2",
