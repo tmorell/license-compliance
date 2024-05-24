@@ -2,11 +2,11 @@ import chalk from "chalk";
 import Debug from "debug";
 import path from "path";
 
+import resolvePackagePath from "resolve-package-path";
 import { Configuration, Package } from "./interfaces";
 import { getLicense } from "./license";
 import { getRepository } from "./repository";
 import * as util from "./util";
-import resolvePackagePath from "resolve-package-path";
 
 const debug = Debug("license-compliance:npm");
 const PACKAGE_JSON = "package.json";
@@ -68,12 +68,9 @@ function alreadyAnalyzed(packages: Array<Package>, pack: Package): boolean {
  *
  * @param {string} packageName Name of the package.
  * @param {(string | undefined)} parentNodeModulesPath Path of the parent package.
- * @returns {(string | undefined>)} Path where the package was found; undefined if not found.
+ * @returns {(string | null>)} Path where the package was found; null if not found.
  */
-function getInstalledPath(
-    packageName: string,
-    parentNodeModulesPath: string,
-): string | null {
+function getInstalledPath(packageName: string, parentNodeModulesPath: string): string | null {
     const resolved = resolvePackagePath(packageName, parentNodeModulesPath);
     if (resolved) {
         return path.dirname(resolved);
