@@ -24,7 +24,7 @@
         "chalk": "4.1.2",
         "commander": "12.0.0",
         "cosmiconfig": "9.0.0",
-        "debug": "4.3.4",
+        "debug": "4.3.6",
         "joi": "17.13.1",
         "spdx-expression-parse": "4.0.0",
         "spdx-satisfies": "5.0.1",
