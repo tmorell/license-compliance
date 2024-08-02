@@ -48,10 +48,10 @@
         "eslint-plugin-etc": "2.0.3",
         "eslint-plugin-import": "2.29.1",
         "madge": "7.0.0",
-        "nyc": "15.1.0",
+        "nyc": "17.0.0",
         "prettier": "^3.2.5",
-        "prettier-plugin-organize-imports": "^3.2.4",
-        "sinon": "17.0.2",
+        "prettier-plugin-organize-imports": "4.0.0",
+        "sinon": "18.0.0",
         "ts-node": "10.9.2",
         "tsc-watch": "6.2.0",
         "typescript": "5.5.4"
