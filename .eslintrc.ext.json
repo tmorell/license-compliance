@@ -1,5 +1,8 @@
 {
     "rules": {
+        "@stylistic/js/brace-style": "error",
+        "@stylistic/js/comma-spacing": "error",
+        "@stylistic/js/semi": "error",
         "@typescript-eslint/array-type": [
             "error",
             {
@@ -7,8 +10,6 @@
             }
         ],
         "@typescript-eslint/ban-tslint-comment": "error",
-        "@typescript-eslint/brace-style": "error",
-        "@typescript-eslint/comma-spacing": "error",
         "@typescript-eslint/consistent-indexed-object-style": "error",
         "@typescript-eslint/consistent-type-assertions": [
             "error",
@@ -37,14 +38,6 @@
                 "accessibility": "no-public"
             }
         ],
-        "@typescript-eslint/member-delimiter-style": [
-            "error",
-            {
-                "multiline": {
-                    "delimiter": "semi"
-                }
-            }
-        ],
         "@typescript-eslint/no-confusing-non-null-assertion": "error",
         "@typescript-eslint/no-dupe-class-members": "error",
         "@typescript-eslint/no-dynamic-delete": "error",
@@ -69,12 +62,10 @@
         "@typescript-eslint/prefer-for-of": "error",
         "@typescript-eslint/prefer-function-type": "error",
         "@typescript-eslint/prefer-literal-enum-member": "error",
-        "@typescript-eslint/semi": "error",
         "@typescript-eslint/unified-signatures": "error",
         "comma-dangle": ["error", "always-multiline"],
         "eqeqeq": "error",
         "function-paren-newline": ["error", "consistent"],
-        "import/no-duplicates": "error",
         "key-spacing": "error",
         "keyword-spacing": [
             "error",
@@ -88,6 +79,7 @@
         ],
         "linebreak-style": ["error", "unix"],
         "max-classes-per-file": "error",
+        "no-duplicate-imports": "error",
         "no-async-promise-executor": "error",
         "no-await-in-loop": "error",
         "no-loss-of-precision": "error",
