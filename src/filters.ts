@@ -1,26 +1,18 @@
-import { Configuration, Package } from "./interfaces";
+import { Configuration, Package, PackageFilter } from "./interfaces";
 
 export function excludePackages(
     packages: Array<Package>,
     configuration: Pick<Configuration, "exclude">,
 ): Array<Package> {
-    const { exclude: excludeFilters } = configuration;
-    if (excludeFilters.length === 0) {
-        return packages;
-    }
+    const { exclude: excludeFilter } = configuration;
+    return excludeFilter ? packages.filter((pkg): boolean => !excludeFilter(pkg)) : packages;
+}
 
-    return packages.filter((pack): boolean => {
-        for (const filter of excludeFilters) {
-            if (typeof filter === "string") {
-                if (pack.name === filter) {
-                    return false;
-                }
-            } else if (filter.test(pack.name)) {
-                return false;
-            }
-        }
-        return true;
-    });
+export function parseExclude(exclude: Array<string | RegExp>): PackageFilter {
+    return (pack: Package): boolean =>
+        exclude.some((filter): boolean => {
+            return typeof filter === "string" ? pack.name === filter : filter.test(pack.name);
+        });
 }
 
 export function queryPackages(packages: Array<Package>, configuration: Pick<Configuration, "query">): Array<Package> {

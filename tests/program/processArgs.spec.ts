@@ -1,6 +1,7 @@
 import test from "ava";
 import * as sinon from "sinon";
 
+import { Package, PackageFilter } from "interfaces";
 import { Formatter, Report } from "../../src/enumerations";
 import { processArgs } from "../../src/program";
 
@@ -80,11 +81,12 @@ test("Exclude", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--exclude", "pack-01;/^@company/;pack-02"]);
 
     const configuration = processArgs();
+    const exclude = <PackageFilter>configuration.exclude;
 
-    t.is(configuration.exclude.length, 3);
-    t.is(configuration.exclude[0], "pack-01");
-    t.deepEqual(configuration.exclude[1], /^@company/);
-    t.is(configuration.exclude[2], "pack-02");
+    t.is(exclude(<Package>{ name: "@company/blah" }), true);
+    t.is(exclude(<Package>{ name: "pack-01" }), true);
+    t.is(exclude(<Package>{ name: "pack-02" }), true);
+    t.is(exclude(<Package>{ name: "pack-03" }), false);
 });
 
 test("Format", (t): void => {

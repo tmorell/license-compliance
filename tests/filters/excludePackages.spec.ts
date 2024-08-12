@@ -1,7 +1,7 @@
 import test from "ava";
 import * as sinon from "sinon";
 
-import { excludePackages } from "../../src/filters";
+import { excludePackages, parseExclude } from "../../src/filters";
 import { Package } from "../../src/interfaces";
 
 test.after((): void => {
@@ -12,7 +12,7 @@ test("No filters", (t): void => {
     const packages = getPackages();
 
     // Arguments
-    const filtered = excludePackages(packages, { exclude: [] });
+    const filtered = excludePackages(packages, { exclude: parseExclude([]) });
 
     t.is(filtered.length, 5);
 });
@@ -21,7 +21,7 @@ test("By package names", (t): void => {
     const packages = getPackages();
 
     // Arguments
-    const filtered = excludePackages(packages, { exclude: ["test-01", "@company/test-02"] });
+    const filtered = excludePackages(packages, { exclude: parseExclude(["test-01", "@company/test-02"]) });
 
     t.is(filtered.length, 3);
     t.is(filtered[0].name, "@company/test-01");
@@ -33,7 +33,7 @@ test("Regex", (t): void => {
     const packages = getPackages();
 
     // Arguments
-    const filtered = excludePackages(packages, { exclude: [/^@company/] });
+    const filtered = excludePackages(packages, { exclude: parseExclude([/^@company/]) });
 
     t.is(filtered.length, 3);
     t.is(filtered[0].name, "test-01");
@@ -45,11 +45,20 @@ test("Regex and string", (t): void => {
     const packages = getPackages();
 
     // Arguments
-    const filtered = excludePackages(packages, { exclude: [/^@company/, "test-02"] });
+    const filtered = excludePackages(packages, { exclude: parseExclude([/^@company/, "test-02"]) });
 
-    t.is(filtered.length, 2);
     t.is(filtered[0].name, "test-01");
     t.is(filtered[1].name, "test-03");
+});
+
+test("Filter function", (t): void => {
+    const packages = getPackages();
+
+    // Arguments
+    const filtered = packages.filter((pkg: Package): boolean => pkg.name === "test-02");
+
+    t.is(filtered.length, 1);
+    t.is(filtered[0].name, "test-02");
 });
 
 function getPackages(): Array<Package> {

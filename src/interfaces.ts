@@ -1,17 +1,30 @@
 import { Formatter, LicenseStatus, Report } from "./enumerations";
 
-export interface Configuration {
+export type PackageFilter = (pkg: Package) => boolean;
+
+export interface RawConfiguration {
     allow: Array<string>;
     development: boolean;
     direct: boolean;
-    exclude: Array<string | RegExp>;
+    exclude: PackageFilter | Array<string | RegExp>;
     format: Formatter;
     production: boolean;
     query: Array<string>;
     report: Report;
 }
 
-export interface ExtendableConfiguration extends Partial<Configuration> {
+export interface Configuration {
+    allow: Array<string>;
+    development: boolean;
+    direct: boolean;
+    exclude?: PackageFilter;
+    format: Formatter;
+    production: boolean;
+    query: Array<string>;
+    report: Report;
+}
+
+export interface ExtendableConfiguration extends Partial<RawConfiguration> {
     extends?: string;
 }
 
