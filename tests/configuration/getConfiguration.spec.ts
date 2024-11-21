@@ -213,6 +213,52 @@ test.serial("Inline configuration, extended", async (t): Promise<void> => {
     t.is(config?.report, Report.detailed);
 });
 
+test.serial.only("Inline configuration, extended from local filesystem path", async (t): Promise<void> => {
+    // Inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                allow: ["Apache-2.0"],
+                report: Report.detailed.toLowerCase(),
+                extends: "/Users/someone/.license-compliance/index.js",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+
+    const loadStub = sinon.stub(explorer, "load").returns(
+        Promise.resolve({
+            config: {
+                allow: ["MIT", "ISC"],
+                format: Formatter.json.toLowerCase(),
+                production: true,
+            },
+            filepath: "/Users/someone/.license-compliance/index.js",
+            isEmpty: false,
+        }),
+    );
+
+    // No command line args
+    sinon.stub(program, "processArgs").returns(<Configuration>{ direct: true });
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.true(loadStub.calledOnceWith("/Users/someone/.license-compliance/index.js"));
+    t.not(config, null);
+    t.is(config?.allow.length, 1);
+    t.is(config?.allow[0], "Apache-2.0");
+    t.false(config?.development);
+    t.true(config?.direct);
+    t.is(config?.exclude.length, 0);
+    t.true(config?.production);
+    t.is(config?.format, Formatter.json);
+    t.is(config?.report, Report.detailed);
+});
+
 function createExplorer(): Explorer {
     return {
         search: (): Promise<CosmiconfigResult> => Promise.resolve(null),
