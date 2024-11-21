@@ -49,7 +49,7 @@ test.serial("Default configuration", async (t): Promise<void> => {
     t.is(config?.allow.length, 0);
     t.false(config?.development);
     t.false(config?.direct);
-    t.is(config?.exclude.length, 0);
+    t.is(config?.exclude, undefined);
     t.false(config?.production);
     t.is(config?.format, Formatter.text);
     t.is(config?.report, Report.summary);
@@ -106,7 +106,7 @@ test.serial("Inline configuration, not extended", async (t): Promise<void> => {
     t.is(config?.allow[1], "ISC");
     t.false(config?.development);
     t.false(config?.direct);
-    t.is(config?.exclude.length, 0);
+    t.is(config?.exclude, undefined);
     t.true(config?.production);
     t.is(config?.format, Formatter.json);
     t.is(config?.report, Report.summary);
@@ -163,7 +163,7 @@ test.serial("Inline configuration, extended null", async (t): Promise<void> => {
     t.is(config?.allow[0], "Apache-2.0");
     t.false(config?.development);
     t.false(config?.direct);
-    t.is(config?.exclude.length, 0);
+    t.is(config?.exclude, undefined);
     t.false(config?.production);
     t.is(config?.format, Formatter.text);
     t.is(config?.report, Report.detailed);
@@ -207,7 +207,7 @@ test.serial("Inline configuration, extended", async (t): Promise<void> => {
     t.is(config?.allow[0], "Apache-2.0");
     t.false(config?.development);
     t.true(config?.direct);
-    t.is(config?.exclude.length, 0);
+    t.is(config?.exclude, undefined);
     t.true(config?.production);
     t.is(config?.format, Formatter.json);
     t.is(config?.report, Report.detailed);
