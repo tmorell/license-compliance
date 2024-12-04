@@ -33,7 +33,7 @@
     },
     "description": "License compliance checker",
     "devDependencies": {
-        "@eslint/compat": "1.2.2",
+        "@eslint/compat": "1.2.4",
         "@eslint/eslintrc": "3.1.0",
         "@eslint/js": "9.14.0",
         "@stylistic/eslint-plugin-js": "2.10.1",
