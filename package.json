@@ -51,7 +51,7 @@
         "eslint-config-prettier": "9.1.0",
         "madge": "8.0.0",
         "nyc": "17.1.0",
-        "prettier": "3.3.3",
+        "prettier": "3.4.2",
         "prettier-plugin-organize-imports": "4.1.0",
         "sinon": "19.0.2",
         "ts-node": "10.9.2",
