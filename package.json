@@ -36,7 +36,7 @@
         "@eslint/compat": "1.2.2",
         "@eslint/eslintrc": "3.1.0",
         "@eslint/js": "9.14.0",
-        "@stylistic/eslint-plugin-js": "2.10.1",
+        "@stylistic/eslint-plugin-js": "2.12.1",
         "@types/cosmiconfig": "6.0.3",
         "@types/debug": "4.1.12",
         "@types/joi": "17.2.3",
