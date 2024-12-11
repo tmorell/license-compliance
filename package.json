@@ -40,7 +40,7 @@
         "@types/cosmiconfig": "6.0.3",
         "@types/debug": "4.1.12",
         "@types/joi": "17.2.3",
-        "@types/node": "22.8.7",
+        "@types/node": "22.10.2",
         "@types/sinon": "17.0.3",
         "@types/spdx-expression-parse": "3.0.5",
         "@types/spdx-satisfies": "0.1.2",
