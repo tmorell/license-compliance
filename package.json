@@ -91,6 +91,11 @@
             ".ts"
         ]
     },
+    "overrides": {
+        "madge": {
+            "typescript": "$typescript"
+        }
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/tmorell/license-compliance.git"
