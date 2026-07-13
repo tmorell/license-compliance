@@ -25,9 +25,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Please complete the following information):**
 
--   OS: [e.g. Ubuntu 16.04]
--   Version [e.g. 0.1.0]
--   Node: [e.g. v8.16.2]
+- OS: [e.g. Ubuntu 16.04]
+- Version [e.g. 0.1.0]
+- Node: [e.g. v8.16.2]
 
 **Additional context**
 Add any other context about the problem here.
