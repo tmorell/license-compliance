@@ -24,7 +24,7 @@
         "strictFunctionTypes": true,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
-        "target": "ES2019",
+        "target": "es2025",
         "types": ["node"]
     },
     "exclude": ["test/**/*.ts", "lib", "types"],
