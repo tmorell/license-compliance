@@ -44,23 +44,23 @@ jobs:
         run: npm run test:ci
 
       - name: Circular reference
-        if: ${{ matrix.node_version == '21' }}
+        if: ${{ matrix.node_version == '20' }}
         run: npm run circular
 
       - name: Lint
-        if: ${{ matrix.node_version == '21' }}
+        if: ${{ matrix.node_version == '20' }}
         run: npm run lint
 
       - name: Prettier
-        if: ${{ matrix.node_version == '21' }}
+        if: ${{ matrix.node_version == '20' }}
         run: npm run prettier
 
       - name: Coverage
-        if: ${{ matrix.node_version == '21' }}
+        if: ${{ matrix.node_version == '20' }}
         run: npm run coverage:ci
 
       - name: SonarCloud Scan
-        if: ${{ matrix.node_version == '21' }}
+        if: ${{ matrix.node_version == '20' }}
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
