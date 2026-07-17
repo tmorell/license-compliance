@@ -9,6 +9,7 @@ import { spdxToArray } from "../../src/license";
     { spdx: "Apache-2.0", licenses: ["Apache-2.0"] },
     { spdx: "(MIT)", licenses: ["MIT"] },
     { spdx: "(MIT OR ISC)", licenses: ["MIT", "ISC"] },
+    { spdx: "(BSD-2-Clause OR MIT OR Apache-2.0)", licenses: ["BSD-2-Clause", "MIT", "Apache-2.0"] },
     // With extra spaces
     { spdx: " ISC", licenses: ["ISC"] },
     { spdx: "BSD ", licenses: ["BSD"] },
