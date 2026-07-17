@@ -16,6 +16,7 @@ export async function main(): Promise<boolean> {
     if (!nodeModulesPath) {
         return false;
     }
+    debug("Path", nodeModulesPath);
 
     // Get configuration
     const configuration = await getConfiguration(nodeModulesPath);
@@ -29,6 +30,7 @@ export async function main(): Promise<boolean> {
     if (packages.length === 0) {
         return true;
     }
+    debug("Packages", packages);
 
     // Filter out excluded packages
     packages = excludePackages(packages, configuration);

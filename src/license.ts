@@ -14,7 +14,7 @@ import * as util from "./util";
 
 const satisfies = (allowedLicenses: string, license: string): boolean => {
     try {
-        return spdxSatisfies(allowedLicenses, license);
+        return spdxSatisfies(allowedLicenses, spdxToArray(license));
     } catch (error) {
         debug(`Failed to parse license identifier "${license}"`, error);
         return false;
@@ -99,6 +99,22 @@ export function onlyAllow(packages: Array<Package>, configuration: Pick<Configur
         }
     }
     return invalidPackages;
+}
+
+export function spdxToArray(license: string): Array<string> {
+    license = license.trim();
+    const s = license.startsWith("(");
+    const e = license.endsWith(")");
+    if (s !== e) {
+        return [Literals.UNKNOWN];
+    }
+    if (!s) {
+        return [license];
+    }
+    license = license.substring(1, license.length - 1);
+    return license.split(" OR ").map((value: string): string => {
+        return value.trim();
+    });
 }
 
 function argsToSpdxLicense(licenses: Array<string>): string {
