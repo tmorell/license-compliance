@@ -77,15 +77,15 @@ Packages
 
 ## Options
 
--   `-p, --production` Analyzes only production dependencies.
--   `-d, --development` Analyzes only development dependencies.
--   `-t, --direct` Analyzes only direct dependencies (depth = 1).
--   `-f, --format <format>` Report format, csv, text, json, or xunit (default = "text").
--   `-r, --report <report>` Report type, summary or detailed (default = "summary").
--   `-a, --allow <licenses>` Semicolon separated list of allowed licenses.
--   `-e, --exclude <packages>` Semicolon separated list of package names to be excluded from the analysis. Regex expressions are supported.
--   `-q, --query <licenses>` Semicolon separated list of licenses.
--   `-h, --help` Display help for command
+- `-p, --production` Analyzes only production dependencies.
+- `-d, --development` Analyzes only development dependencies.
+- `-t, --direct` Analyzes only direct dependencies (depth = 1).
+- `-f, --format <format>` Report format, csv, text, json, or xunit (default = "text").
+- `-r, --report <report>` Report type, summary or detailed (default = "summary").
+- `-a, --allow <licenses>` Semicolon separated list of allowed licenses.
+- `-e, --exclude <packages>` Semicolon separated list of package names to be excluded from the analysis. Regex expressions are supported.
+- `-q, --query <licenses>` Semicolon separated list of licenses.
+- `-h, --help` Display help for command
 
 > `<licenses>` must conform to [SPDX](https://spdx.org/licenses) specifications.
 
@@ -97,8 +97,8 @@ In some scenarios there might be the need to exclude certain packages from the a
 
 This will:
 
--   Exclude all packages that match the regular expression **/^@the-project/**. Regular expressions must start and end with "/".
--   Exclude a package named **some-package**.
+- Exclude all packages that match the regular expression **/^@the-project/**. Regular expressions must start and end with "/".
+- Exclude a package named **some-package**.
 
 ## As Part of Your CI
 

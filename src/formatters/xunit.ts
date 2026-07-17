@@ -56,24 +56,20 @@ export class Xunit implements Formatter {
             "@tests": totalNumberOfFailures,
             "@errors": 0,
             "@failures": totalNumberOfFailures,
-            testsuite: detailedList.map(
-                (license): XUnitTestSuite => ({
-                    "@name": license.name,
-                    "@tests": license.packages.length,
-                    "@errors": 0,
-                    "@failures": license.packages.length,
-                    testcase: license.packages.map(
-                        (packageInformation): XUnitTestCase => ({
-                            "@name": `${packageInformation.name}@${packageInformation.version}`,
-                            "@path": packageInformation.path,
-                            failure: {
-                                "@type": this.TEST_CASE_ERROR_TYPE,
-                                "#text": `Package "${packageInformation.name}@${packageInformation.version}" uses non compliant license "${packageInformation.license}"`,
-                            },
-                        }),
-                    ),
-                }),
-            ),
+            testsuite: detailedList.map((license): XUnitTestSuite => ({
+                "@name": license.name,
+                "@tests": license.packages.length,
+                "@errors": 0,
+                "@failures": license.packages.length,
+                testcase: license.packages.map((packageInformation): XUnitTestCase => ({
+                    "@name": `${packageInformation.name}@${packageInformation.version}`,
+                    "@path": packageInformation.path,
+                    failure: {
+                        "@type": this.TEST_CASE_ERROR_TYPE,
+                        "#text": `Package "${packageInformation.name}@${packageInformation.version}" uses non compliant license "${packageInformation.license}"`,
+                    },
+                })),
+            })),
         };
     }
 
@@ -83,23 +79,21 @@ export class Xunit implements Formatter {
             "@tests": licenses.length,
             "@errors": 0,
             "@failures": licenses.length,
-            testsuite: licenses.map(
-                (license): XUnitTestSuite => ({
-                    "@name": license.name,
-                    "@tests": 1,
-                    "@errors": 0,
-                    "@failures": 1,
-                    testcase: [
-                        {
-                            "@name": license.name,
-                            failure: {
-                                "@type": this.TEST_CASE_ERROR_TYPE,
-                                "#text": `${license.count} package${license.count > 1 ? "s" : ""} use non compliant license "${license.name}"`,
-                            },
+            testsuite: licenses.map((license): XUnitTestSuite => ({
+                "@name": license.name,
+                "@tests": 1,
+                "@errors": 0,
+                "@failures": 1,
+                testcase: [
+                    {
+                        "@name": license.name,
+                        failure: {
+                            "@type": this.TEST_CASE_ERROR_TYPE,
+                            "#text": `${license.count} package${license.count > 1 ? "s" : ""} use non compliant license "${license.name}"`,
                         },
-                    ],
-                }),
-            ),
+                    },
+                ],
+            })),
         };
     }
 
@@ -141,10 +135,10 @@ export class Xunit implements Formatter {
 
     private escapeString(text: string): string {
         return text
-            .replace(/&/g, "&amp;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&apos;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
+            .replaceAll("&", "&amp;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&apos;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;");
     }
 }

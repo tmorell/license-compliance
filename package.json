@@ -22,41 +22,39 @@
     },
     "dependencies": {
         "chalk": "4.1.2",
-        "commander": "12.1.0",
-        "cosmiconfig": "9.0.0",
-        "debug": "4.3.7",
-        "joi": "17.13.3",
-        "spdx-expression-parse": "4.0.0",
-        "spdx-satisfies": "5.0.1",
+        "commander": "14.0.3",
+        "cosmiconfig": "9.0.2",
+        "debug": "4.4.3",
+        "joi": "18.2.3",
+        "spdx-expression-parse": "5.0.0",
+        "spdx-satisfies": "6.0.0",
         "tslib": "2.8.1",
         "xmlbuilder": "15.1.1"
     },
     "description": "License compliance checker",
     "devDependencies": {
-        "@eslint/compat": "1.2.2",
-        "@eslint/eslintrc": "3.1.0",
-        "@eslint/js": "9.14.0",
-        "@stylistic/eslint-plugin-js": "2.10.1",
-        "@types/cosmiconfig": "6.0.3",
-        "@types/debug": "4.1.12",
-        "@types/joi": "17.2.3",
-        "@types/node": "22.8.7",
-        "@types/sinon": "17.0.3",
-        "@types/spdx-expression-parse": "3.0.5",
-        "@types/spdx-satisfies": "0.1.2",
-        "@typescript-eslint/eslint-plugin": "8.12.2",
-        "@typescript-eslint/parser": "8.12.2",
-        "ava": "6.2.0",
-        "eslint": "9.14.0",
-        "eslint-config-prettier": "9.1.0",
+        "@eslint/compat": "2.1.0",
+        "@eslint/eslintrc": "3.3.6",
+        "@eslint/js": "10.0.1",
+        "@stylistic/eslint-plugin-js": "4.4.1",
+        "@types/debug": "4.1.13",
+        "@types/node": "26.1.1",
+        "@types/sinon": "22.0.0",
+        "@types/spdx-expression-parse": "4.0.0",
+        "@types/spdx-satisfies": "6.0.0",
+        "@typescript-eslint/eslint-plugin": "8.64.0",
+        "@typescript-eslint/parser": "8.64.0",
+        "ava": "7.0.0",
+        "eslint": "10.7.0",
+        "eslint-config-prettier": "10.1.8",
         "madge": "8.0.0",
-        "nyc": "17.1.0",
-        "prettier": "3.3.3",
-        "prettier-plugin-organize-imports": "4.1.0",
-        "sinon": "19.0.2",
+        "nyc": "18.0.0",
+        "prettier": "3.9.5",
+        "prettier-plugin-organize-imports": "4.3.0",
+        "sinon": "22.0.0",
         "ts-node": "10.9.2",
-        "tsc-watch": "6.2.0",
-        "typescript": "5.6.3"
+        "tsc-watch": "7.2.1",
+        "typescript": "6.0.3"
     },
     "engines": {
         "node": ">=18.20.1"
@@ -93,6 +91,11 @@
             ".ts"
         ]
     },
+    "overrides": {
+        "madge": {
+            "typescript": "$typescript"
+        }
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/tmorell/license-compliance.git"
@@ -112,5 +115,5 @@
         "test:ci": "npm run nyc",
         "test:watch": "ava --watch"
     },
-    "version": "3.0.1"
+    "version": "4.0.0"
 }

@@ -12,12 +12,11 @@ const packageName = "license-compliance";
 
 export async function getConfiguration(nodeModulesPath: string): Promise<Configuration | null> {
     let configExtended: Partial<Configuration> = {};
-    let configInline: ExtendableConfiguration = {};
 
     // Get inline configuration
     const explorer = cosmiconfig(packageName, { searchStrategy: "global" });
     const configResult = await explorer.search();
-    configInline = <ExtendableConfiguration>configResult?.config;
+    const configInline = <ExtendableConfiguration>configResult?.config;
 
     // Get extended configuration
     const extendsPath = configInline?.extends;
