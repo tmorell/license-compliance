@@ -38,7 +38,7 @@ Licenses
 Verify compliance by providing list of allowed licenses.
 
 ```bash
-$ license-compliance --production --allow "MIT;ISC"
+$ license-compliance --production --allow "MIT;ISC" --report detailed
 
 Packages
 ├─ spdx-exceptions@2.2.0
