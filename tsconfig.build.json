@@ -2,7 +2,7 @@
     "compilerOptions": {
         "rootDir": "./src"
     },
-    "exclude": ["lib", "tests/**/*"],
+    "exclude": ["tests/**/*"],
     "extends": "./tsconfig.json",
     "include": ["src/**/*"]
 }
