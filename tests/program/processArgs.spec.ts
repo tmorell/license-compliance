@@ -40,12 +40,12 @@ test("Allow, valid licenses", (t): void => {
 
 test("Allow, invalid licenses", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--allow", "MIT;ISC;Apache 2.0"]);
-    const stubProcess = sinon.stub(process, "exit");
 
-    processArgs();
+    const error = t.throws((): void => {
+        processArgs();
+    });
 
-    t.true(stubProcess.calledTwice);
-    stubProcess.restore();
+    t.true(error.message.includes("error: option '-a, --allow <licenses>' argument 'MIT;ISC;Apache 2.0' is invalid"));
 });
 
 test("Development", (t): void => {
@@ -103,12 +103,15 @@ test("Format", (t): void => {
 
 test("Format, bad param", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--format", "bad-param"]);
-    const stubProcess = sinon.stub(process, "exit");
 
-    processArgs();
+    const error = t.throws((): void => {
+        processArgs();
+    });
 
-    t.true(stubProcess.calledTwice);
-    stubProcess.restore();
+    t.is(
+        error?.message,
+        "error: option '-f, --format <format>' argument 'bad-param' is invalid. Allowed choices are csv, json, text, xunit.",
+    );
 });
 
 test("Production", (t): void => {
@@ -127,12 +130,12 @@ test("Production", (t): void => {
 
 test("Production and development", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--production", "--development"]);
-    const stubProcess = sinon.stub(process, "exit");
 
-    processArgs();
+    const error = t.throws((): void => {
+        processArgs();
+    });
 
-    t.true(stubProcess.calledTwice);
-    stubProcess.restore();
+    t.is(error?.message, "error: option '-d, --development' cannot be used with option '-p, --production'");
 });
 
 test("Query UNKNOWN", (t): void => {
@@ -147,22 +150,22 @@ test("Query UNKNOWN", (t): void => {
 
 test("Query and allow", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--allow", "MIT", "--query", "MIT"]);
-    const stubProcess = sinon.stub(process, "exit");
 
-    processArgs();
+    const error = t.throws((): void => {
+        processArgs();
+    });
 
-    t.true(stubProcess.calledTwice);
-    stubProcess.restore();
+    t.is(error?.message, "error: option '-a, --allow <licenses>' cannot be used with option '-q, --query <licenses>'");
 });
 
 test("Query, invalid licenses", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--query", "MIT;ISC;Apache 2.0"]);
-    const stubProcess = sinon.stub(process, "exit");
 
-    processArgs();
+    const error = t.throws((): void => {
+        processArgs();
+    });
 
-    t.true(stubProcess.calledTwice);
-    stubProcess.restore();
+    t.true(error.message.includes("error: option '-q, --query <licenses>' argument 'MIT;ISC;Apache 2.0' is invalid."));
 });
 
 test("Report", (t): void => {
@@ -181,10 +184,26 @@ test("Report", (t): void => {
 
 test("Report, bad param", (t): void => {
     sinon.stub(process, "argv").value(["", "", "--report", "bad-param"]);
-    const stubProcess = sinon.stub(process, "exit");
 
-    processArgs();
+    const error = t.throws((): void => {
+        processArgs();
+    });
 
-    t.true(stubProcess.calledTwice);
-    stubProcess.restore();
+    t.is(
+        error?.message,
+        "error: option '-r, --report <report>' argument 'bad-param' is invalid. Allowed choices are detailed, summary.",
+    );
+});
+
+test("Invalid RegEx", (t): void => {
+    sinon.stub(process, "argv").value(["", "", "--exclude", "/[a-z/"]);
+
+    const error = t.throws((): void => {
+        processArgs();
+    });
+
+    t.is(
+        error?.message,
+        "error: option '-e, --exclude <packages>' argument '/[a-z/' is invalid. Invalid regular expression pattern.",
+    );
 });
