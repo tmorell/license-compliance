@@ -193,7 +193,7 @@ function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
 }
 
 async function getLicensePath(packPath: string): Promise<string | null> {
-    const data = await util.readdir(packPath);
+    const data = await util.readDir(packPath);
     for (const fileName of data) {
         if (fileName.toLowerCase().startsWith(LICENSE_FILE)) {
             return path.join(packPath, fileName);
