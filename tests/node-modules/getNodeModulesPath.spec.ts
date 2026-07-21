@@ -15,27 +15,27 @@ test.after((): void => {
     sinon.restore();
 });
 
-test("Find at cwd", (t): void => {
-    const nodeModulesPath = getNodeModulesPath();
+test("Find at cwd", async (t): Promise<void> => {
+    const nodeModulesPath = await getNodeModulesPath();
     t.is(nodeModulesPath, path.join(process.cwd(), NODE_MODULES));
 });
 
-test("Find cwd down the tree", (t): void => {
+test("Find cwd down the tree", async (t): Promise<void> => {
     // 'node_modules' does not exist at 'array-license-01', found at cwd
     const searchPath = path.join(process.cwd(), "tests", "mock-packages", "array-license-01");
-    const nodeModulesPath = getNodeModulesPath(searchPath);
+    const nodeModulesPath = await getNodeModulesPath(searchPath);
     t.is(nodeModulesPath, path.join(process.cwd(), NODE_MODULES));
 });
 
-test("Find cwd up the tree", (t): void => {
+test("Find cwd up the tree", async (t): Promise<void> => {
     // 'node_modules' found at 'installation-full'
     const searchPath = path.join(process.cwd(), "tests", "mock-packages", "installation-full");
-    const nodeModulesPath = getNodeModulesPath(searchPath);
+    const nodeModulesPath = await getNodeModulesPath(searchPath);
     t.is(nodeModulesPath, path.join(searchPath, NODE_MODULES));
 });
 
-test("Not found", (t): void => {
+test("Not found", async (t): Promise<void> => {
     const searchPath = path.join(path.sep);
-    const nodeModulesPath = getNodeModulesPath(searchPath);
+    const nodeModulesPath = await getNodeModulesPath(searchPath);
     t.is(nodeModulesPath, null);
 });

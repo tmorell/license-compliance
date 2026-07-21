@@ -1,5 +1,5 @@
 import fs from "fs";
-import util from "util";
+import { readFile } from "node:fs/promises";
 
 import { NpmPackage } from "./interfaces";
 
@@ -7,10 +7,6 @@ export function fileExists(filePath: string): Promise<boolean> {
     return new Promise<boolean>((resolve): void => {
         fs.access(filePath, fs.constants.F_OK, (error): void => (error ? resolve(false) : resolve(true)));
     });
-}
-
-export function readdir(path: string): Promise<Array<string>> {
-    return util.promisify(fs.readdir)(path, "utf8");
 }
 
 /**
@@ -23,7 +19,7 @@ export async function readPackageJson(packagePath: string): Promise<NpmPackage |
     if (!(await fileExists(packagePath))) {
         return null;
     }
-    const data = await util.promisify(fs.readFile)(packagePath, "utf8");
+    const data = await readFile(packagePath, "utf8");
     if (data) {
         return JSON.parse(data);
     }
