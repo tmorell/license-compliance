@@ -12,7 +12,7 @@ const debug = Debug("license-compliance:main");
 
 export async function main(): Promise<boolean> {
     // Get node_modules path
-    const nodeModulesPath = getNodeModulesPath();
+    const nodeModulesPath = await getNodeModulesPath();
     if (!nodeModulesPath) {
         return false;
     }

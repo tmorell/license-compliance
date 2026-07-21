@@ -23,13 +23,13 @@ test.afterEach((): void => {
 });
 
 test.serial("node_modules not found", async (t): Promise<void> => {
-    sinon.stub(nodeModules, "getNodeModulesPath").returns(null);
+    sinon.stub(nodeModules, "getNodeModulesPath").resolves(null);
     const r = await main();
     t.false(r);
 });
 
 test.serial("Invalid arguments", async (t): Promise<void> => {
-    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
+    sinon.stub(nodeModules, "getNodeModulesPath").resolves("/");
     sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(null));
 
     const r = await main();
@@ -39,7 +39,7 @@ test.serial("Invalid arguments", async (t): Promise<void> => {
 
 test.serial("No packages installed", async (t): Promise<void> => {
     const packages = new Array<Package>();
-    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
+    sinon.stub(nodeModules, "getNodeModulesPath").resolves("/");
     sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration()));
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages)); // No packages were found
 
@@ -58,7 +58,7 @@ test.serial("Get licenses summary", async (t): Promise<void> => {
         repository: "company/project",
     });
 
-    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
+    sinon.stub(nodeModules, "getNodeModulesPath").resolves("/");
     sinon.stub(configuration, "getConfiguration").returns(Promise.resolve(getMockConfiguration()));
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
@@ -81,7 +81,7 @@ test.serial("Not allowed licenses", async (t): Promise<void> => {
         repository: "company/project",
     });
 
-    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
+    sinon.stub(nodeModules, "getNodeModulesPath").resolves("/");
     sinon.stub(configuration, "getConfiguration").returns(
         Promise.resolve(
             getMockConfiguration({
@@ -117,7 +117,7 @@ test.serial("Success", async (t): Promise<void> => {
             }),
         ),
     );
-    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
+    sinon.stub(nodeModules, "getNodeModulesPath").resolves("/");
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
     sinon.stub(license, "onlyAllow").returns(new Array<Package>());
@@ -143,7 +143,7 @@ test.serial("Success query", async (t): Promise<void> => {
             }),
         ),
     );
-    sinon.stub(nodeModules, "getNodeModulesPath").returns("/");
+    sinon.stub(nodeModules, "getNodeModulesPath").resolves("/");
     sinon.stub(npm, "getInstalledPackages").returns(Promise.resolve(packages));
     sinon.stub(filters, "excludePackages").returns(packages);
     sinon.stub(filters, "queryPackages").returns(new Array<Package>());
