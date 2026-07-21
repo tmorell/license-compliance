@@ -34,6 +34,20 @@ test.afterEach((): void => {
     sinon.restore();
 });
 
+test.serial("Command lined args failed", async (t): Promise<void> => {
+    // No inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+
+    // Command line args
+    sinon.stub(program, "processArgs").throws("error");
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.is(config, null);
+});
+
 test.serial("Default configuration", async (t): Promise<void> => {
     // No inline configuration
     const explorer: Explorer = createExplorer();

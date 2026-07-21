@@ -31,8 +31,16 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         }
     }
 
+    // Get args configuration
+    let config: Configuration;
+    try {
+        config = processArgs();
+    } catch {
+        return null;
+    }
+
     // Merge configurations: CLI > inline > extended
-    const mergedConfiguration = Object.assign(configExtended, <Partial<Configuration>>configInline, processArgs());
+    const mergedConfiguration = Object.assign(configExtended, <Partial<Configuration>>configInline, config);
     const configuration = {
         allow: mergedConfiguration.allow || [],
         development: !!mergedConfiguration.development || false,
