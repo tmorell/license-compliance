@@ -1,6 +1,7 @@
 import test from "ava";
 import * as sinon from "sinon";
 
+import { version } from "../../package.json";
 import { Formatter, Report } from "../../src/enumerations";
 import { processArgs } from "../../src/program";
 
@@ -219,6 +220,20 @@ test("Help", (t): void => {
 
     t.true(stubProcess.calledOnce);
     t.is(error?.message, "(outputHelp)");
+
+    stubProcess.restore();
+});
+
+test("Version", (t): void => {
+    sinon.stub(process, "argv").value(["", "", "--version"]);
+    const stubProcess = sinon.stub(process, "exit");
+
+    const error = t.throws((): void => {
+        processArgs();
+    });
+
+    t.true(stubProcess.calledOnce);
+    t.is(error?.message, version);
 
     stubProcess.restore();
 });
