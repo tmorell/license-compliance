@@ -4,6 +4,7 @@
 
 import chalk from "chalk";
 import Debug from "debug";
+import { readdir } from "node:fs/promises";
 import path from "path";
 import parse from "spdx-expression-parse";
 import spdxSatisfies from "spdx-satisfies";
@@ -193,7 +194,7 @@ function getLicenseFromArray(licenses: Array<OldLicenseFormat>): string {
 }
 
 async function getLicensePath(packPath: string): Promise<string | null> {
-    const data = await util.readDir(packPath);
+    const data = await readdir(packPath, "utf8");
     for (const fileName of data) {
         if (fileName.toLowerCase().startsWith(LICENSE_FILE)) {
             return path.join(packPath, fileName);
