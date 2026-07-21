@@ -22,8 +22,8 @@ export interface License {
 }
 
 export interface NpmPackage {
-    dependencies?: Array<[string, string]>;
-    devDependencies?: Array<[string, string]>;
+    dependencies?: Record<string, string>;
+    devDependencies?: Record<string, string>;
     license: string | OldLicenseFormat;
     licenses: Array<OldLicenseFormat>;
     name: string;
