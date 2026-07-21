@@ -113,7 +113,7 @@ async function getInstalledPath(
  */
 async function readPackages(
     parentName: string,
-    dependencies: Array<[string, string]>,
+    dependencies: Record<string, string>,
     depth: number,
     parentNodeModulesPath: string,
     configuration: Pick<Configuration, "direct">,
