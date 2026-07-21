@@ -1,5 +1,6 @@
 import commander from "commander";
 
+import { version } from "../package.json";
 import { Formatter, Report } from "./enumerations";
 import { Configuration } from "./interfaces";
 import { isLicenseValid } from "./license";
@@ -8,16 +9,17 @@ let program: commander.Command;
 
 export function processArgs(): Configuration {
     program = new commander.Command();
-    // Force exit on `--help` avoiding buble up
+    // Force exit on `--help` and `--version` avoiding bubble up
     program
         .exitOverride((err: commander.CommanderError): void => {
-            if (err.code === "commander.helpDisplayed") {
+            if (err.code === "commander.helpDisplayed" || err.code === "commander.version") {
                 process.exit(0);
             }
             throw err;
         })
         .name("license-compliance")
         .description("Analyzes licenses of installed NPM packages, assisting with compliance.")
+        .version(version, "-v, --version", "Display license-compliance version")
         .option("-p, --production", "Analyzes only production dependencies.")
         .addOption(
             new commander.Option("-d, --development", "Analyzes only development dependencies.").conflicts(

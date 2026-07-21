@@ -85,6 +85,7 @@ Packages
 - `-a, --allow <licenses>` Semicolon separated list of allowed licenses.
 - `-e, --exclude <packages>` Semicolon separated list of package names to be excluded from the analysis. Regex expressions are supported.
 - `-q, --query <licenses>` Semicolon separated list of licenses.
+- `-v, --version` Display license-compliance version
 - `-h, --help` Display help for command
 
 > `<licenses>` must conform to [SPDX](https://spdx.org/licenses) specifications.
