@@ -80,7 +80,8 @@ export function onlyAllow(packages: Array<Package>, configuration: Pick<Configur
     }
 
     const invalidPackages = new Array<Package>();
-    const spdxLicense = argsToSpdxLicense(configuration.allow);
+    const allowedLicenses = configuration.allow.filter((value: string): boolean => value !== Literals.UNKNOWN);
+    const spdxLicense = argsToSpdxLicense(allowedLicenses);
     const allowUnknown = configuration.allow.findIndex((value): boolean => value === Literals.UNKNOWN) >= 0;
     for (const pack of packages) {
         const matches =

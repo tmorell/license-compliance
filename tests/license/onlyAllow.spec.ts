@@ -148,6 +148,7 @@ test("Some packages not allowed, OR licenses", (t): void => {
 test("Allow UNKNOWN", (t): void => {
     const packages: Array<Package> = [
         {
+            // Valid: Matches UNKNOWN
             name: "test-01",
             path: "test-01",
             version: "1.0.0",
@@ -155,6 +156,7 @@ test("Allow UNKNOWN", (t): void => {
             repository: "company/project",
         },
         {
+            // Invalid: No match at all
             name: "test-02",
             path: "test-02",
             version: "2.0.0",
@@ -162,10 +164,19 @@ test("Allow UNKNOWN", (t): void => {
             repository: "company/project",
         },
         {
+            // Invalid: License itself is invalid
             name: "test-03",
             path: "test-03",
             version: "1.0.0",
             license: "(UNKNOWN OR MIT)",
+            repository: "company/project",
+        },
+        {
+            // Valid: Matches ISC
+            name: "test-04",
+            path: "test-04",
+            version: "1.0.0",
+            license: "ISC",
             repository: "company/project",
         },
     ];

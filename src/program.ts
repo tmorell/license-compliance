@@ -1,7 +1,7 @@
 import commander from "commander";
 
 import { version } from "../package.json";
-import { Formatter, Report } from "./enumerations";
+import { Formatter, Literals, Report } from "./enumerations";
 import { Configuration } from "./interfaces";
 import { isLicenseValid } from "./license";
 
@@ -71,7 +71,7 @@ function verifyLicense(value: string): Array<string> {
         .map((license): string => license.trim())
         .filter((license): boolean => !!license)
         .map((license): string => {
-            if (!isLicenseValid(license) && license !== "UNKNOWN") {
+            if (!isLicenseValid(license) && license !== Literals.UNKNOWN) {
                 throw new commander.InvalidArgumentError("Licenses must adhere to the SPDX specification.");
             }
             return license;
