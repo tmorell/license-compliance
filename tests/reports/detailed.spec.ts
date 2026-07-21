@@ -24,9 +24,15 @@ test.serial("Summary", (t): void => {
     report.process(packages);
     const sorted = report.packages;
 
+    // Sorted
     t.is(sorted[0].name, "pack-abc");
     t.is(sorted[1].name, "pack-mno");
     t.is(sorted[2].name, "pack-xyz");
+
+    // Original not mutated
+    t.is(packages[0].name, "pack-mno");
+    t.is(packages[1].name, "pack-abc");
+    t.is(packages[2].name, "pack-xyz");
 });
 
 test.serial("With errors", (t): void => {

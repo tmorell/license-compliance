@@ -14,7 +14,6 @@ export class Summary implements Reporter {
         this.licenses.sort((a, b): number => {
             return b.count - a.count;
         });
-
         this.formatter.summary(this.licenses);
     }
 

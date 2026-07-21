@@ -8,12 +8,10 @@ export class Detailed implements Reporter {
     constructor(private readonly formatter: Formatter) {}
 
     process(packages: Array<Package>): void {
-        this.sorted = packages;
-        this.sorted.sort((a, b): number => {
+        this.sorted = packages.toSorted((a, b): number => {
             return a.name > b.name ? 1 : -1;
         });
-
-        this.formatter.detail(packages);
+        this.formatter.detail(this.sorted);
     }
 
     get packages(): Array<Package> {
