@@ -25,9 +25,10 @@ interface Explorer {
     readonly clearCaches: () => void;
 }
 
+let stubStderr: sinon.SinonStub;
 test.beforeEach((): void => {
     sinon.stub(process.stdout, "write");
-    sinon.stub(process.stderr, "write");
+    stubStderr = sinon.stub(process.stderr, "write");
 });
 
 test.afterEach((): void => {
@@ -181,6 +182,58 @@ test.serial("Inline configuration, extended null", async (t): Promise<void> => {
     t.false(config?.production);
     t.is(config?.format, Formatter.text);
     t.is(config?.report, Report.detailed);
+});
+
+test.serial("Transversal execution", async (t): Promise<void> => {
+    // Inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                allow: ["Apache-2.0"],
+                report: Report.detailed.toLowerCase(),
+                extends: "../@acme/license-policy",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+
+    // No command line args
+    sinon.stub(program, "processArgs").returns(<Configuration>{});
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.is(config, null);
+});
+
+test.serial("Non-existing extend package", async (t): Promise<void> => {
+    // Inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(explorer, "load").throws(Object.assign(new Error("File not found"), { code: "ENOENT" }));
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                allow: ["Apache-2.0"],
+                report: Report.detailed.toLowerCase(),
+                extends: "@acme/license-policy",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+
+    // No command line args
+    sinon.stub(program, "processArgs").returns(<Configuration>{});
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+    t.is(config, null);
+    t.true(stubStderr.calledOnce);
+    t.true(stubStderr.calledWithMatch("was not found"));
 });
 
 test.serial("Inline configuration, extended", async (t): Promise<void> => {
