@@ -3,6 +3,7 @@ import js from "@eslint/js";
 import stylisticJs from "@stylistic/eslint-plugin-js";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import avaPlugin from "eslint-plugin-ava";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -28,6 +29,7 @@ export default [
         plugins: {
             "@typescript-eslint": typescriptEslint,
             "@stylistic/js": stylisticJs,
+            ava: avaPlugin,
         },
         languageOptions: {
             parser: tsParser,
