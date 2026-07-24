@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import Debug from "debug";
-import path from "path";
+import path from "node:path";
 
 import { Configuration, Package } from "./interfaces";
 import { getLicense } from "./license";

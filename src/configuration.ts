@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { cosmiconfig } from "cosmiconfig";
 import joi from "joi";
-import path from "path";
+import path from "node:path";
 
 import { EOL } from "os";
 import { Formatter, Report } from "./enumerations";

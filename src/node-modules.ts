@@ -2,7 +2,7 @@ import chalk from "chalk";
 import fs from "node:fs";
 import { access } from "node:fs/promises";
 import { EOL } from "node:os";
-import path from "path";
+import path from "node:path";
 
 /**
  * Get the relative node_modules path up the directory tree.

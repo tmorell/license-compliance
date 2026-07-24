@@ -1,5 +1,5 @@
 import test from "ava";
-import path from "path";
+import path from "node:path";
 import * as sinon from "sinon";
 
 import { getNodeModulesPath } from "../../src/node-modules";
