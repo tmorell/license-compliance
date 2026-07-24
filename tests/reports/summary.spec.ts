@@ -29,12 +29,12 @@ test.serial("Summary", (t): void => {
     report.process(packages);
     const licenses = report.summary;
 
-    t.is(licenses[0].name, "MIT");
-    t.is(licenses[0].count, 5);
+    t.is(licenses[0].name, "Apache-2.0");
+    t.is(licenses[0].count, 1);
     t.is(licenses[1].name, "ISC");
     t.is(licenses[1].count, 2);
-    t.is(licenses[2].name, "Apache-2.0");
-    t.is(licenses[2].count, 1);
+    t.is(licenses[2].name, "MIT");
+    t.is(licenses[2].count, 5);
 });
 
 test.serial("With errors", (t): void => {
@@ -47,8 +47,8 @@ test.serial("With errors", (t): void => {
     report.process(packages);
     const licenses = report.summary;
 
-    t.is(licenses[0].name, "MIT");
+    t.is(licenses[0].name, "ISC");
     t.is(licenses[0].count, 1);
-    t.is(licenses[1].name, "ISC");
+    t.is(licenses[1].name, "MIT");
     t.is(licenses[1].count, 1);
 });
