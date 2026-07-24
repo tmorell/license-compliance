@@ -7,7 +7,7 @@ import { EOL } from "os";
 import { Formatter, Report } from "./enumerations";
 import { Configuration, ExtendableConfiguration } from "./interfaces";
 import { processArgs } from "./program";
-import { toPascal } from "./util";
+import { isPathTraversalSafe, toPascal } from "./util";
 
 const packageName = "license-compliance";
 
@@ -23,15 +23,8 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     const extendsPath = configInline?.extends;
     if (extendsPath) {
         try {
-            // Resolve absolute paths to eliminate relative segment tricks (e.g., /../)
-            const absoluteNodeModules = path.resolve(nodeModulesPath);
-            const absoluteTargetPath = path.resolve(absoluteNodeModules, extendsPath, "index.js");
-
-            // Determine the path of the target relative to node_modules
-            const relativePath = path.relative(absoluteNodeModules, absoluteTargetPath);
-
-            // Block traversal if the relative path steps back ('..') or attempts to resolve to an absolute root
-            if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+            const [ok, confPath] = isPathTraversalSafe(nodeModulesPath, path.join(extendsPath, "index.js"));
+            if (!ok) {
                 console.error(
                     chalk.red("Error:"),
                     `Extended configuration path "${extendsPath}" resolves outside of node_modules.`,
@@ -39,7 +32,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
                 return null;
             }
 
-            const c = await explorer.load(absoluteTargetPath);
+            const c = await explorer.load(confPath);
             configExtended = <Partial<Configuration>>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
