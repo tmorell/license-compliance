@@ -1,7 +1,18 @@
 import fs from "fs";
 import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 import { NpmPackage } from "./interfaces";
+
+export function isPathTraversalSafe(nodeModulesPath: string, filePath: string): [boolean, string] {
+    const absoluteNodeModules = path.resolve(nodeModulesPath);
+    const absoluteTargetPath = path.resolve(nodeModulesPath, filePath);
+    const relativePath = path.relative(absoluteNodeModules, absoluteTargetPath);
+    if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+        return [false, ""];
+    }
+    return [true, absoluteTargetPath];
+}
 
 export function fileExists(filePath: string): Promise<boolean> {
     return new Promise<boolean>((resolve): void => {

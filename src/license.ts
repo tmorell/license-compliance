@@ -5,7 +5,7 @@
 import chalk from "chalk";
 import Debug from "debug";
 import { readdir } from "node:fs/promises";
-import path from "path";
+import path from "node:path";
 import parse from "spdx-expression-parse";
 import spdxSatisfies from "spdx-satisfies";
 
@@ -176,7 +176,10 @@ async function extractLicense(pack: NpmPackage, packPath: string): Promise<Licen
 }
 
 async function getCustomLicensePath(packPath: string, license: string): Promise<string | null> {
-    const licPath = path.join(packPath, license.substring(SEE_LICENSE_IN.length).trim());
+    const [ok, licPath] = util.isPathTraversalSafe(packPath, license.substring(SEE_LICENSE_IN.length).trim());
+    if (!ok) {
+        return "Path Transversal found (blocked)";
+    }
     if (await util.fileExists(licPath)) {
         return licPath;
     }
