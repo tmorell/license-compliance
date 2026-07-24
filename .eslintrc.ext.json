@@ -63,6 +63,7 @@
         "@typescript-eslint/prefer-function-type": "error",
         "@typescript-eslint/prefer-literal-enum-member": "error",
         "@typescript-eslint/unified-signatures": "error",
+        "ava/no-only-test": "error",
         "comma-dangle": ["error", "always-multiline"],
         "eqeqeq": "error",
         "function-paren-newline": ["error", "consistent"],

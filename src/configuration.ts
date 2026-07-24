@@ -1,12 +1,13 @@
 import chalk from "chalk";
 import { cosmiconfig } from "cosmiconfig";
 import joi from "joi";
-import path from "path";
+import path from "node:path";
 
+import { EOL } from "os";
 import { Formatter, Report } from "./enumerations";
 import { Configuration, ExtendableConfiguration } from "./interfaces";
 import { processArgs } from "./program";
-import { toPascal } from "./util";
+import { isPathTraversalSafe, toPascal } from "./util";
 
 const packageName = "license-compliance";
 
@@ -22,11 +23,30 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     const extendsPath = configInline?.extends;
     if (extendsPath) {
         try {
-            const c = await explorer.load(path.join(nodeModulesPath, extendsPath, "index.js"));
+            const [ok, confPath] = isPathTraversalSafe(nodeModulesPath, path.join(extendsPath, "index.js"));
+            if (!ok) {
+                console.error(
+                    chalk.red("Error:"),
+                    `Extended configuration path "${extendsPath}" resolves outside of node_modules.`,
+                );
+                return null;
+            }
+
+            const c = await explorer.load(confPath);
             configExtended = <Partial<Configuration>>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
-            console.error(chalk.red("Extended configuration error:"), error);
+            if (error instanceof Error && "code" in error && error.code === "ENOENT") {
+                console.error(
+                    chalk.red("Error:"),
+                    `The extended configuration module '${extendsPath}' was not found.${EOL}Please make sure that the configuration package is installed.`,
+                );
+            } else {
+                console.error(
+                    chalk.red("Error:"),
+                    `Could not load the extended configuration module '${extendsPath}'.`,
+                );
+            }
             return null;
         }
     }

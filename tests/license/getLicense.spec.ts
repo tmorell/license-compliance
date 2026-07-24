@@ -1,5 +1,5 @@
 import test from "ava";
-import * as path from "path";
+import path from "node:path";
 
 import { LicenseStatus, Literals } from "../../src/enumerations";
 import { NpmPackage } from "../../src/interfaces";
@@ -28,26 +28,6 @@ test("In-line single license with no LICENSE", async (t): Promise<void> => {
     const license = await getLicense(pack, packPath);
     t.is(license.name, "MIT");
     t.is(license.status, LicenseStatus.valid);
-    t.is(license.path, null);
-});
-
-test("In-line single license with CUSTOM LICENSE", async (t): Promise<void> => {
-    const packPath = path.join(__dirname, "..", "mock-packages", "single-license-04");
-    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
-
-    const license = await getLicense(pack, packPath);
-    t.is(license.name, Literals.CUSTOM);
-    t.is(license.status, LicenseStatus.custom);
-    t.is(license.path, path.join(packPath, "MY-CUSTOM-LICENSE"));
-});
-
-test("In-line single license with CUSTOM LICENSE not found", async (t): Promise<void> => {
-    const packPath = path.join(__dirname, "..", "mock-packages", "single-license-05");
-    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
-
-    const license = await getLicense(pack, packPath);
-    t.is(license.name, Literals.CUSTOM);
-    t.is(license.status, LicenseStatus.custom);
     t.is(license.path, null);
 });
 
@@ -108,5 +88,46 @@ test("License type", async (t): Promise<void> => {
     const license = await getLicense(pack, packPath);
     t.is(license.name, "MIT");
     t.is(license.status, LicenseStatus.valid);
+    t.is(license.path, null);
+});
+
+test("CUSTOM LICENSE valid at root", async (t): Promise<void> => {
+    const packPath = path.join(__dirname, "..", "mock-packages", "custom-license-root");
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
+
+    const license = await getLicense(pack, packPath);
+    t.is(license.name, Literals.CUSTOM);
+    t.is(license.status, LicenseStatus.custom);
+    t.is(license.path, path.join(packPath, "MY-CUSTOM-LICENSE"));
+    t.regex(license.path + "", /mock-packages\/custom-license-root\/MY-CUSTOM-LICENSE/);
+});
+
+test("CUSTOM LICENSE valid nested", async (t): Promise<void> => {
+    const packPath = path.join(__dirname, "..", "mock-packages", "custom-license-nested");
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
+
+    const license = await getLicense(pack, packPath);
+    t.is(license.name, Literals.CUSTOM);
+    t.is(license.status, LicenseStatus.custom);
+    t.regex(license.path + "", /mock-packages\/custom-license-nested\/docs\/MY-CUSTOM-LICENSE/);
+});
+
+test("CUSTOM LICENSE path transversal found", async (t): Promise<void> => {
+    const packPath = path.join(__dirname, "..", "mock-packages", "custom-license-transversal");
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
+
+    const license = await getLicense(pack, packPath);
+    t.is(license.name, Literals.CUSTOM);
+    t.is(license.status, LicenseStatus.custom);
+    t.is(license.path, "Path Transversal found (blocked)");
+});
+
+test("CUSTOM LICENSE not existent", async (t): Promise<void> => {
+    const packPath = path.join(__dirname, "..", "mock-packages", "custom-license-non-existent");
+    const pack = <NpmPackage>util.readJson(path.join(packPath, "package.json"));
+
+    const license = await getLicense(pack, packPath);
+    t.is(license.name, Literals.CUSTOM);
+    t.is(license.status, LicenseStatus.custom);
     t.is(license.path, null);
 });
