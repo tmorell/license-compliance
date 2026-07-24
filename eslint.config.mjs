@@ -1,6 +1,7 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
-import stylisticJs from "@stylistic/eslint-plugin-js";
+// import stylisticJs from "@stylistic/eslint-plugin-js";
+import stylistic from "@stylistic/eslint-plugin";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import avaPlugin from "eslint-plugin-ava";
@@ -28,7 +29,8 @@ export default [
     {
         plugins: {
             "@typescript-eslint": typescriptEslint,
-            "@stylistic/js": stylisticJs,
+            // "@stylistic/js": stylisticJs,
+            "@stylistic": stylistic,
             ava: avaPlugin,
         },
         languageOptions: {
