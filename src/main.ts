@@ -43,7 +43,7 @@ export async function main(): Promise<boolean> {
         const invalidPackages = onlyAllow(packages, configuration);
         if (invalidPackages.length > 0) {
             // If any non-compliant package is found, process the list and return with error code
-            console.error(chalk.red("Not compliant packages found"));
+            console.error(chalk.red("Error:"), "Not compliant packages found");
             report.process(invalidPackages);
             return false;
         }

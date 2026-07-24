@@ -25,9 +25,8 @@ export async function getNodeModulesPath(workingDir = process.cwd()): Promise<st
         }
     }
     console.error(
-        chalk.red(
-            `'${NODE_MODULES}' could not be found up the directory tree '${workingDir}'${EOL}Please make sure that the packages are installed.`,
-        ),
+        chalk.red("Error:"),
+        `'${NODE_MODULES}' could not be found up the directory tree '${workingDir}'${EOL}Please make sure that the packages are installed.`,
     );
     return null;
 }

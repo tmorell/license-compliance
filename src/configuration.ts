@@ -86,7 +86,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         })
         .validate(configuration);
     if (result.error) {
-        console.error(chalk.red("Configuration error:"), result.error.message);
+        console.error(chalk.red("Error:"), result.error.message);
         return null;
     }
 
