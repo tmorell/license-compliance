@@ -1,4 +1,6 @@
+import chalk from "chalk";
 import commander from "commander";
+import { EOL } from "node:os";
 
 import { version } from "../package.json";
 import { Formatter, Literals, Report } from "./enumerations";
@@ -60,6 +62,11 @@ export function processArgs(): Configuration {
             "Semicolon separated list of packages to be excluded from analysis. Regex expressions are supported.",
             verifyExclude,
         )
+        .configureOutput({
+            writeErr: (str: string): void => {
+                process.stdout.write(`${chalk.red("Error:")} ${str.substring(7)}`);
+            },
+        })
         .parse();
 
     return program.opts();
@@ -72,7 +79,7 @@ function verifyLicense(value: string): Array<string> {
         .filter((license): boolean => !!license)
         .map((license): string => {
             if (!isLicenseValid(license) && license !== Literals.UNKNOWN) {
-                throw new commander.InvalidArgumentError("Licenses must adhere to the SPDX specification.");
+                throw new commander.InvalidArgumentError(`${EOL}Licenses must adhere to the SPDX specification.`);
             }
             return license;
         });

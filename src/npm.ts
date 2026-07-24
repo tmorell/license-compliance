@@ -25,7 +25,7 @@ export async function getInstalledPackages(
     const packages: Array<Package> = new Array<Package>();
     const pack = await util.readPackageJson(path.join(packageJsonPath, PACKAGE_JSON));
     if (!pack) {
-        console.error(chalk.red(`Could not find '${PACKAGE_JSON}' at '${packageJsonPath}'`));
+        console.error(chalk.red("Error:"), `Could not find '${PACKAGE_JSON}' at '${packageJsonPath}'`);
         return new Array<Package>();
     }
 
@@ -152,12 +152,15 @@ async function getPackage(
 ): Promise<void> {
     const packagePath = await getInstalledPath(parentName, dependency, parentNodeModulesPath, rootNodeModulesPath);
     if (packagePath === null) {
-        console.error(chalk.red(`Package "${dependency}" was not found. Confirm that all modules are installed.`));
+        console.error(
+            chalk.red("Error:"),
+            `Package "${dependency}" was not found. Confirm that all modules are installed.`,
+        );
         return;
     }
     const file = await util.readPackageJson(path.join(packagePath, PACKAGE_JSON));
     if (!file) {
-        console.error(chalk.red(`Package "${dependency}" is empty and cannot be analyzed.`));
+        console.error(chalk.red("Error:"), `Package "${dependency}" is empty and cannot be analyzed.`);
         return;
     }
     const license = await getLicense(file, packagePath);
