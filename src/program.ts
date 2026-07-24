@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import commander from "commander";
-import { EOL } from "os";
+import { EOL } from "node:os";
 
 import { version } from "../package.json";
 import { Formatter, Literals, Report } from "./enumerations";

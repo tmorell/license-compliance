@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { EOL } from "os";
+import { EOL } from "node:os";
 
 import { Literals } from "../enumerations";
 import { Package } from "../interfaces";

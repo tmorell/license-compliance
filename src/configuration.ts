@@ -3,7 +3,7 @@ import { cosmiconfig } from "cosmiconfig";
 import joi from "joi";
 import path from "node:path";
 
-import { EOL } from "os";
+import { EOL } from "node:os";
 import { Formatter, Report } from "./enumerations";
 import { Configuration, ExtendableConfiguration } from "./interfaces";
 import { processArgs } from "./program";
