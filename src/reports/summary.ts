@@ -3,34 +3,25 @@ import { Package } from "../interfaces";
 import { Reporter } from "./reporter";
 
 export class Summary implements Reporter {
-    private readonly licenses = new Array<{ name: string; count: number }>();
+    private licenses = new Array<{ name: string; count: number }>();
 
     constructor(private readonly formatter: Formatter) {}
 
     process(packages: Array<Package>): void {
+        const lic = new Map<string, number>();
         for (const pack of packages) {
-            this.increase(pack.license);
+            lic.set(pack.license, (lic.get(pack.license) || 0) + 1);
         }
-        this.licenses.sort((a, b): number => {
-            return b.count - a.count;
-        });
+
+        this.licenses = Array.from(lic, ([name, count]): { name: string; count: number } => ({
+            name,
+            count,
+        })).sort((a, b): number => a.name.localeCompare(b.name));
+
         this.formatter.summary(this.licenses);
     }
 
     get summary(): Array<{ name: string; count: number }> {
         return this.licenses;
-    }
-
-    private increase(name: string): void {
-        for (const license of this.licenses) {
-            if (license.name === name) {
-                license.count += 1;
-                return;
-            }
-        }
-        this.licenses.push({
-            name,
-            count: 1,
-        });
     }
 }
