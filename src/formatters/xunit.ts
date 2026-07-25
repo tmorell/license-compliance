@@ -1,7 +1,7 @@
 import xmlbuilder from "xmlbuilder";
 
-import { Package } from "../interfaces";
-import { Formatter } from "./formatter";
+import { Package } from "../interfaces.js";
+import { Formatter } from "./formatter.js";
 
 interface LicenseDetail {
     name: string;

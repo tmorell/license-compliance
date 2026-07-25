@@ -1,8 +1,8 @@
 import test from "ava";
-import * as sinon from "sinon";
+import sinon from "sinon";
 
-import { queryPackages } from "../../src/filters";
-import { Package } from "../../src/interfaces";
+import { queryPackages } from "../../src/filters.js";
+import { Package } from "../../src/interfaces.js";
 
 test.after((): void => {
     sinon.restore();

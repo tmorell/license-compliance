@@ -1,8 +1,8 @@
 import test from "ava";
-import * as sinon from "sinon";
+import sinon from "sinon";
 
-import { Csv } from "../../src/formatters/csv";
-import { Package } from "../../src/interfaces";
+import { Csv } from "../../src/formatters/csv.js";
+import { Package } from "../../src/interfaces.js";
 
 let stubConsole: sinon.SinonStub;
 

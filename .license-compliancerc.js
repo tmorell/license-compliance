@@ -1,10 +1,10 @@
-module.exports = {
-    // allow: ["MIT"],
-    // development: false,
-    // direct: false,
+export default {
+    allow: ["MIT", "0BSD", "BSD-3-Clause"],
+    development: false,
+    direct: true,
     exclude: [/^spdx/, "yaml"],
     // extends: "@acme/license-policy",
     format: "text",
-    // production: true,
+    production: true,
     report: "summary",
 };

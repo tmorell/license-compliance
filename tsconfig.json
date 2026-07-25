@@ -17,6 +17,7 @@
         "paths": {
             "*": ["./src/*"]
         },
+        "rootDir": "./",
         "removeComments": true,
         "sourceMap": true,
         "strict": true,
@@ -28,5 +29,9 @@
         "types": ["node"]
     },
     "exclude": ["lib", "types", "node_modules"],
-    "include": ["src/**/*", "tests/**/*"]
+    "include": ["src/**/*", "tests/**/*"],
+    "ts-node": {
+        "esm": true,
+        "transpileOnly": true
+    }
 }

@@ -1,10 +1,13 @@
 import test from "ava";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { LicenseStatus, Literals } from "../../src/enumerations";
-import { NpmPackage } from "../../src/interfaces";
-import { getLicense } from "../../src/license";
-import * as util from "../util";
+import { LicenseStatus, Literals } from "../../src/enumerations.js";
+import { NpmPackage } from "../../src/interfaces.js";
+import { getLicense } from "../../src/license.js";
+import * as util from "../util.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 [
     { name: "single-license-01", test: "LICENSE" },

@@ -1,19 +1,5 @@
 {
     "author": "Teo Morell <teomorell@gmail.com>",
-    "ava": {
-        "extensions": [
-            "ts"
-        ],
-        "files": [
-            "!tests/util.ts"
-        ],
-        "require": [
-            "ts-node/register"
-        ],
-        "tap": false,
-        "timeout": "10s",
-        "verbose": false
-    },
     "bin": {
         "license-compliance": "./bin/cli.js"
     },
@@ -45,11 +31,12 @@
         "@typescript-eslint/eslint-plugin": "8.65.0",
         "@typescript-eslint/parser": "8.65.0",
         "ava": "7.0.0",
+        "c8": "12.0.0",
         "eslint": "10.8.0",
         "eslint-config-prettier": "10.1.8",
         "eslint-plugin-ava": "16.0.1",
+        "esmock": "2.7.6",
         "madge": "8.0.0",
-        "nyc": "18.0.0",
         "prettier": "3.9.6",
         "prettier-plugin-organize-imports": "4.3.0",
         "sinon": "22.1.0",
@@ -79,25 +66,6 @@
     "license": "MIT",
     "main": "./lib/index.js",
     "name": "license-compliance",
-    "nyc": {
-        "all": true,
-        "cache": false,
-        "exclude": [
-            "eslint.config.mjs",
-            ".eslintrc.ext.json",
-            ".license-compliancerc.js",
-            "**/*.d.ts",
-            "**/*.spec.ts",
-            "coverage",
-            "baseline",
-            "tests/util.ts",
-            "bin/cli.js",
-            "src/index.ts"
-        ],
-        "extension": [
-            ".ts"
-        ]
-    },
     "overrides": {
         "madge": {
             "typescript": "$typescript"
@@ -110,19 +78,19 @@
     "scripts": {
         "all": "npm run build && npm run circular && npm run lint && npm run prettier && npm run test:ci",
         "build": "npm run cleanup && tsc -p tsconfig.build.json",
+        "c8": "c8 ava",
         "circular": "madge --extensions ts --circular src",
-        "cleanup": "rm -rf ./lib ./.nyc_output ./coverage",
-        "coverage": "nyc report --reporter=html && npx open-cli ./coverage/index.html ",
-        "coverage:ci": "nyc report --reporter=lcov",
+        "cleanup": "rm -rf ./lib ./coverage",
+        "coverage": "c8 report --reporter=html && npx open-cli ./coverage/index.html ",
+        "coverage:ci": "c8 report --reporter=lcov",
         "debug:watch": "DEBUG=license-compliance:* DEBUG_COLORS=true tsc-watch --onSuccess 'node ./lib/index.js'",
         "lint": "eslint",
-        "nyc": "nyc ava",
         "prettier": "prettier --check .",
         "test": "ava",
-        "test:ci": "npm run nyc",
+        "test:ci": "npm run c8",
         "test:watch": "ava --watch"
     },
-    "type": "commonjs",
+    "type": "module",
     "types": "./lib/index.d.ts",
     "version": "4.0.0"
 }

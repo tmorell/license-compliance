@@ -9,9 +9,9 @@ import path from "node:path";
 import parse from "spdx-expression-parse";
 import spdxSatisfies from "spdx-satisfies";
 
-import { LicenseStatus, Literals } from "./enumerations";
-import { Configuration, License, NpmPackage, OldLicenseFormat, Package } from "./interfaces";
-import * as util from "./util";
+import { LicenseStatus, Literals } from "./enumerations.js";
+import { Configuration, License, NpmPackage, OldLicenseFormat, Package } from "./interfaces.js";
+import * as util from "./util.js";
 
 const satisfies = (allowedLicenses: string, license: string): boolean => {
     try {

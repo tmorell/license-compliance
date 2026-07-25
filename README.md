@@ -127,7 +127,7 @@ Sharable configurations allow you to publish your compliance rules and share the
 1. Create an npm package with an index.js file and export an object containing your settings. For example:
 
 ```javascript
-module.exports = {
+export default {
     allow: ["MIT", "ISC"],
     exclude: [/^@acme/],
     format: "text",
@@ -140,7 +140,7 @@ module.exports = {
 3. Add a configuration file `.license-compliancerc.js` to the root of your project.
 
 ```javascript
-module.exports = {
+export default {
     extends: "{name of your package with the configuration rules}",
 };
 ```

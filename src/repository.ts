@@ -1,7 +1,7 @@
 // Reference: https://docs.npmjs.com/files/package.json#repository
 
-import { Literals } from "./enumerations";
-import { Repository } from "./interfaces";
+import { Literals } from "./enumerations.js";
+import { Repository } from "./interfaces.js";
 
 export function getRepository(value: Repository | string | undefined): string {
     if (typeof value === "object" && value.url && typeof value.url === "string") {

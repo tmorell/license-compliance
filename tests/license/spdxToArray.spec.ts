@@ -1,7 +1,7 @@
 import test from "ava";
 
-import { Literals } from "../../src/enumerations";
-import { spdxToArray } from "../../src/license";
+import { Literals } from "../../src/enumerations.js";
+import { spdxToArray } from "../../src/license.js";
 
 [
     // Valid

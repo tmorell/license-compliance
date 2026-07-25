@@ -1,7 +1,5 @@
-import { main } from "./main";
+import { main } from "./main.js";
 
-(async (): Promise<void> => {
-    if (!(await main())) {
-        process.exitCode = 1;
-    }
-})();
+if (!(await main())) {
+    process.exitCode = 1;
+}

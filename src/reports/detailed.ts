@@ -1,6 +1,6 @@
-import { Formatter } from "../formatters";
-import { Package } from "../interfaces";
-import { Reporter } from "./reporter";
+import { Formatter } from "../formatters/index.js";
+import { Package } from "../interfaces.js";
+import { Reporter } from "./reporter.js";
 
 export class Detailed implements Reporter {
     private sorted!: Array<Package>;

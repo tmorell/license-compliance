@@ -1,2 +1,2 @@
-export * from "./factory";
-export * from "./formatter";
+export * from "./factory.js";
+export * from "./formatter.js";

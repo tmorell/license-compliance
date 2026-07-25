@@ -1,8 +1,8 @@
 import test from "ava";
 import path from "node:path";
-import * as sinon from "sinon";
+import sinon from "sinon";
 
-import { getNodeModulesPath } from "../../src/node-modules";
+import { getNodeModulesPath } from "../../src/node-modules.js";
 
 const NODE_MODULES = "node_modules";
 

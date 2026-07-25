@@ -1,9 +1,9 @@
 import test from "ava";
-import * as sinon from "sinon";
+import sinon from "sinon";
 
-import { version } from "../../package.json";
-import { Formatter, Report } from "../../src/enumerations";
-import { processArgs } from "../../src/program";
+import packInfo from "../../package.json" with { type: "json" };
+import { Formatter, Report } from "../../src/enumerations.js";
+import { processArgs } from "../../src/program.js";
 
 test.before((): void => {
     sinon.stub(process.stdout, "write");
@@ -233,7 +233,7 @@ test("Version", (t): void => {
     });
 
     t.true(stubProcess.calledOnce);
-    t.is(error?.message, version);
+    t.is(error?.message, packInfo.version);
 
     stubProcess.restore();
 });

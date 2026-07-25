@@ -1,5 +1,5 @@
-import { Package } from "../interfaces";
-import { Formatter } from "./formatter";
+import { Package } from "../interfaces.js";
+import { Formatter } from "./formatter.js";
 
 export class Json implements Formatter {
     detail(packages: Array<Package>): void {

@@ -2,10 +2,10 @@ import chalk from "chalk";
 import Debug from "debug";
 import path from "node:path";
 
-import { Configuration, Package } from "./interfaces";
-import { getLicense } from "./license";
-import { getRepository } from "./repository";
-import * as util from "./util";
+import { Configuration, Package } from "./interfaces.js";
+import { getLicense } from "./license.js";
+import { getRepository } from "./repository.js";
+import * as util from "./util.js";
 
 const debug = Debug("license-compliance:npm");
 const PACKAGE_JSON = "package.json";

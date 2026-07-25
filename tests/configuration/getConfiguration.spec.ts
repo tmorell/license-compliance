@@ -1,11 +1,10 @@
 import test from "ava";
-import * as cosmiconfig from "cosmiconfig";
-import * as sinon from "sinon";
+import cosmiconfig from "cosmiconfig";
+import esmock from "esmock";
+import sinon from "sinon";
 
-import { getConfiguration } from "../../src/configuration";
-import { Formatter, Report } from "../../src/enumerations";
-import { Configuration } from "../../src/interfaces";
-import * as program from "../../src/program";
+import { Formatter, Report } from "../../src/enumerations.js";
+import { Configuration } from "../../src/interfaces.js";
 
 const NODE_MODULES = "node_modules";
 
@@ -41,7 +40,13 @@ test.serial("Command lined args failed", async (t): Promise<void> => {
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
 
     // Command line args
-    sinon.stub(program, "processArgs").throws("error");
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => {
+                throw new Error("error");
+            },
+        },
+    });
 
     // Get configuration
     const config = await getConfiguration(NODE_MODULES);
@@ -55,7 +60,11 @@ test.serial("Default configuration", async (t): Promise<void> => {
     sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
 
     // No command line args
-    sinon.stub(program, "processArgs").returns(<Configuration>{});
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{},
+        },
+    });
 
     // Get configuration
     const config = await getConfiguration(NODE_MODULES);
@@ -85,7 +94,11 @@ test.serial("Invalid inline configuration", async (t): Promise<void> => {
     );
 
     // No command line args
-    sinon.stub(program, "processArgs").returns(<Configuration>{});
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{},
+        },
+    });
 
     // Get configuration
     const config = await getConfiguration(NODE_MODULES);
@@ -110,7 +123,11 @@ test.serial("Inline configuration, not extended", async (t): Promise<void> => {
     );
 
     // No command line args
-    sinon.stub(program, "processArgs").returns(<Configuration>{});
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{},
+        },
+    });
 
     // Get configuration
     const config = await getConfiguration(NODE_MODULES);
@@ -144,6 +161,8 @@ test.serial("Inline configuration, invalid extended file", async (t): Promise<vo
     );
     sinon.stub(explorer, "load").throws("ENOENT: no such file or directory");
 
+    const { getConfiguration } = await esmock("../../src/configuration.js");
+
     // Get configuration
     const config = await getConfiguration(NODE_MODULES);
 
@@ -168,7 +187,11 @@ test.serial("Inline configuration, extended null", async (t): Promise<void> => {
     sinon.stub(explorer, "load").returns(Promise.resolve(null));
 
     // No command line args
-    sinon.stub(program, "processArgs").returns(<Configuration>{});
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{},
+        },
+    });
 
     // Get configuration
     const config = await getConfiguration(NODE_MODULES);
@@ -201,7 +224,11 @@ test.serial("Transversal execution", async (t): Promise<void> => {
     );
 
     // No command line args
-    sinon.stub(program, "processArgs").returns(<Configuration>{});
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{},
+        },
+    });
 
     // Get configuration
     const config = await getConfiguration(NODE_MODULES);
@@ -227,7 +254,11 @@ test.serial("Non-existing extend package", async (t): Promise<void> => {
     );
 
     // No command line args
-    sinon.stub(program, "processArgs").returns(<Configuration>{});
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{},
+        },
+    });
 
     // Get configuration
     const config = await getConfiguration(NODE_MODULES);
@@ -263,8 +294,12 @@ test.serial("Inline configuration, extended", async (t): Promise<void> => {
         }),
     );
 
-    // No command line args
-    sinon.stub(program, "processArgs").returns(<Configuration>{ direct: true });
+    // Command line args
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{ direct: true },
+        },
+    });
 
     // Get configuration
     const config = await getConfiguration(NODE_MODULES);

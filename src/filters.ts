@@ -1,4 +1,4 @@
-import { Configuration, Package } from "./interfaces";
+import { Configuration, Package } from "./interfaces.js";
 
 export function excludePackages(
     packages: Array<Package>,
