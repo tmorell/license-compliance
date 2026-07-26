@@ -1,8 +1,8 @@
 import test from "ava";
-import * as sinon from "sinon";
+import sinon from "sinon";
 
-import { Package } from "../../src/interfaces";
-import { onlyAllow } from "../../src/license";
+import { Package } from "../../src/interfaces.js";
+import { onlyAllow } from "../../src/license.js";
 
 test.after((): void => {
     sinon.restore();

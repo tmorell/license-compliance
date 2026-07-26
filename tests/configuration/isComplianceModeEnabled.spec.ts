@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { isComplianceModeEnabled } from "../../src/configuration";
+import { isComplianceModeEnabled } from "../../src/configuration.js";
 
 test.serial("Running compliance checkup when allow is set", (t): void => {
     const complianceMode = isComplianceModeEnabled({

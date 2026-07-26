@@ -1,8 +1,8 @@
-import { Formatter as FormatterName, Report } from "../enumerations";
-import { Factory as FormatFactory } from "../formatters";
-import { Detailed } from "./detailed";
-import { Reporter } from "./reporter";
-import { Summary } from "./summary";
+import { Formatter as FormatterName, Report } from "../enumerations.js";
+import { Factory as FormatFactory } from "../formatters/index.js";
+import { Detailed } from "./detailed.js";
+import { Reporter } from "./reporter.js";
+import { Summary } from "./summary.js";
 
 export class Factory {
     static getInstance(type: Report, format: FormatterName): Reporter {

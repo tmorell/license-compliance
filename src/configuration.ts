@@ -1,13 +1,13 @@
 import chalk from "chalk";
-import { cosmiconfig } from "cosmiconfig";
+import cosmiconfigPkg from "cosmiconfig";
 import joi from "joi";
 import path from "node:path";
 
 import { EOL } from "node:os";
-import { Formatter, Report } from "./enumerations";
-import { Configuration, ExtendableConfiguration } from "./interfaces";
-import { processArgs } from "./program";
-import { isPathTraversalSafe, toPascal } from "./util";
+import { Formatter, Report } from "./enumerations.js";
+import { Configuration, ExtendableConfiguration } from "./interfaces.js";
+import { processArgs } from "./program.js";
+import { isPathTraversalSafe, toPascal } from "./util.js";
 
 const packageName = "license-compliance";
 
@@ -15,7 +15,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     let configExtended: Partial<Configuration> = {};
 
     // Get inline configuration
-    const explorer = cosmiconfig(packageName, { searchStrategy: "global" });
+    const explorer = cosmiconfigPkg.cosmiconfig(packageName, { searchStrategy: "global" });
     const configResult = await explorer.search();
     const configInline = <ExtendableConfiguration>configResult?.config;
 

@@ -1,9 +1,9 @@
 import chalk from "chalk";
 import { EOL } from "node:os";
 
-import { Literals } from "../enumerations";
-import { Package } from "../interfaces";
-import { Formatter } from "./formatter";
+import { Literals } from "../enumerations.js";
+import { Package } from "../interfaces.js";
+import { Formatter } from "./formatter.js";
 
 export class Text implements Formatter {
     detail(packages: Array<Package>): void {

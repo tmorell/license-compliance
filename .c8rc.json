@@ -1,0 +1,8 @@
+{
+    "all": true,
+    "clean": true,
+    "exclude": ["src/index.ts", "src/interfaces.ts", "src/reports/reporter.ts"],
+    "extension": [".ts"],
+    "include": ["src/**/*.ts"],
+    "src": ["./src"]
+}

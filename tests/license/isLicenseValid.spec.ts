@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { isLicenseValid } from "../../src/license";
+import { isLicenseValid } from "../../src/license.js";
 
 ["MIT", "ISC", "Apache-2.0"].forEach((value): void => {
     test(`Valid license ${value}`, (t): void => {

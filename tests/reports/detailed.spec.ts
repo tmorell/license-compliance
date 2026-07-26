@@ -1,9 +1,9 @@
 import test from "ava";
-import * as sinon from "sinon";
+import sinon from "sinon";
 
-import { Text } from "../../src/formatters/text";
-import { Package } from "../../src/interfaces";
-import { Detailed } from "../../src/reports/detailed";
+import { Text } from "../../src/formatters/text.js";
+import { Package } from "../../src/interfaces.js";
+import { Detailed } from "../../src/reports/detailed.js";
 
 test.beforeEach((): void => {
     sinon.stub(process.stdout, "write");

@@ -1,11 +1,13 @@
 import test from "ava";
 import path from "node:path";
-import * as sinon from "sinon";
+import { fileURLToPath } from "node:url";
+import sinon from "sinon";
 
-import { Literals } from "../../src/enumerations";
-import { getInstalledPackages } from "../../src/npm";
-import { getDefaultConfiguration } from "../util";
+import { Literals } from "../../src/enumerations.js";
+import { getInstalledPackages } from "../../src/npm.js";
+import { getDefaultConfiguration } from "../util.js";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const NODE_MODULES = "node_modules";
 
 test.before((): void => {

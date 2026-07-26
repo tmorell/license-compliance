@@ -2,7 +2,7 @@ import fs from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-import { NpmPackage } from "./interfaces";
+import { NpmPackage } from "./interfaces.js";
 
 export function isPathTraversalSafe(nodeModulesPath: string, filePath: string): [boolean, string] {
     const absoluteNodeModules = path.resolve(nodeModulesPath);

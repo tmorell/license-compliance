@@ -1,8 +1,8 @@
 import test from "ava";
-import * as sinon from "sinon";
+import sinon from "sinon";
 
-import { Xunit } from "../../src/formatters/xunit";
-import { Package } from "../../src/interfaces";
+import { Xunit } from "../../src/formatters/xunit.js";
+import { Package } from "../../src/interfaces.js";
 
 let stubConsole: sinon.SinonStub;
 

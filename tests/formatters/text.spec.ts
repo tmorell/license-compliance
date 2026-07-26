@@ -1,10 +1,10 @@
 import test from "ava";
 import chalk from "chalk";
-import * as sinon from "sinon";
+import sinon from "sinon";
 
-import { Literals } from "../../src/enumerations";
-import { Text } from "../../src/formatters/text";
-import { Package } from "../../src/interfaces";
+import { Literals } from "../../src/enumerations.js";
+import { Text } from "../../src/formatters/text.js";
+import { Package } from "../../src/interfaces.js";
 
 let stubConsole: sinon.SinonStub;
 

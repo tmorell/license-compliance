@@ -1,6 +1,6 @@
-import { Formatter } from "../formatters";
-import { Package } from "../interfaces";
-import { Reporter } from "./reporter";
+import { Formatter } from "../formatters/index.js";
+import { Package } from "../interfaces.js";
+import { Reporter } from "./reporter.js";
 
 export class Summary implements Reporter {
     private licenses = new Array<{ name: string; count: number }>();

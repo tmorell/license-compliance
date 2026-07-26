@@ -1,11 +1,11 @@
 import test from "ava";
 
-import { Formatter } from "../../src/enumerations";
-import { Csv } from "../../src/formatters/csv";
-import { Factory } from "../../src/formatters/factory";
-import { Json } from "../../src/formatters/json";
-import { Text } from "../../src/formatters/text";
-import { Xunit } from "../../src/formatters/xunit";
+import { Formatter } from "../../src/enumerations.js";
+import { Csv } from "../../src/formatters/csv.js";
+import { Factory } from "../../src/formatters/factory.js";
+import { Json } from "../../src/formatters/json.js";
+import { Text } from "../../src/formatters/text.js";
+import { Xunit } from "../../src/formatters/xunit.js";
 
 test("Csv", (t): void => {
     const formatter = Factory.getInstance(Formatter.csv);

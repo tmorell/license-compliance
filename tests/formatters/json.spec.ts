@@ -1,8 +1,8 @@
 import test from "ava";
-import * as sinon from "sinon";
+import sinon from "sinon";
 
-import { Json } from "../../src/formatters/json";
-import { Package } from "../../src/interfaces";
+import { Json } from "../../src/formatters/json.js";
+import { Package } from "../../src/interfaces.js";
 
 let stubConsole: sinon.SinonStub;
 let spyJson: sinon.SinonSpy;

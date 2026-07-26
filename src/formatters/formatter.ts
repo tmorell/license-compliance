@@ -1,4 +1,4 @@
-import { Package } from "../interfaces";
+import { Package } from "../interfaces.js";
 
 export interface Formatter {
     detail(packages: Array<Package>): void;

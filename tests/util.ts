@@ -1,7 +1,7 @@
 import * as fs from "fs";
 
-import { Formatter, Report } from "../src/enumerations";
-import { Configuration } from "../src/interfaces";
+import { Formatter, Report } from "../src/enumerations.js";
+import { Configuration } from "../src/interfaces.js";
 
 export function readJson(path: string): unknown {
     return JSON.parse(fs.readFileSync(path, "utf8"));

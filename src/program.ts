@@ -1,19 +1,19 @@
 import chalk from "chalk";
-import commander from "commander";
+import { Command, CommanderError, InvalidArgumentError, Option } from "commander";
 import { EOL } from "node:os";
 
-import { version } from "../package.json";
-import { Formatter, Literals, Report } from "./enumerations";
-import { Configuration } from "./interfaces";
-import { isLicenseValid } from "./license";
+import packInfo from "../package.json" with { type: "json" };
+import { Formatter, Literals, Report } from "./enumerations.js";
+import { Configuration } from "./interfaces.js";
+import { isLicenseValid } from "./license.js";
 
-let program: commander.Command;
+let command: Command;
 
 export function processArgs(): Configuration {
-    program = new commander.Command();
+    command = new Command();
     // Force exit on `--help` and `--version` avoiding bubble up
-    program
-        .exitOverride((err: commander.CommanderError): void => {
+    command
+        .exitOverride((err: CommanderError): void => {
             if (err.code === "commander.helpDisplayed" || err.code === "commander.version") {
                 process.exit(0);
             }
@@ -21,28 +21,22 @@ export function processArgs(): Configuration {
         })
         .name("license-compliance")
         .description("Analyzes licenses of installed NPM packages, assisting with compliance.")
-        .version(version, "-v, --version", "Display license-compliance version")
+        .version(packInfo.version, "-v, --version", "Display license-compliance version")
         .option("-p, --production", "Analyzes only production dependencies.")
-        .addOption(
-            new commander.Option("-d, --development", "Analyzes only development dependencies.").conflicts(
-                "production",
-            ),
-        )
+        .addOption(new Option("-d, --development", "Analyzes only development dependencies.").conflicts("production"))
         .option("-t, --direct", "Analyzes only direct dependencies (depth = 1).")
         .addOption(
-            new commander.Option(
-                "-f, --format <format>",
-                "Report format, csv, text, or json (default = text).",
-            ).choices(Object.keys(Formatter)),
+            new Option("-f, --format <format>", "Report format, csv, text, or json (default = text).").choices(
+                Object.keys(Formatter),
+            ),
         )
         .addOption(
-            new commander.Option(
-                "-r, --report <report>",
-                "Report type, summary or detailed (default = summary).",
-            ).choices(Object.keys(Report)),
+            new Option("-r, --report <report>", "Report type, summary or detailed (default = summary).").choices(
+                Object.keys(Report),
+            ),
         )
         .addOption(
-            new commander.Option(
+            new Option(
                 "-a, --allow <licenses>",
                 "Semicolon separated list of allowed licenses. Must conform to SPDX specifications.",
             )
@@ -50,7 +44,7 @@ export function processArgs(): Configuration {
                 .argParser(verifyLicense),
         )
         .addOption(
-            new commander.Option(
+            new Option(
                 "-q, --query <licenses>",
                 "Semicolon separated list of licenses to query. Must conform to SPDX specifications.",
             )
@@ -69,7 +63,7 @@ export function processArgs(): Configuration {
         })
         .parse();
 
-    return program.opts();
+    return command.opts();
 }
 
 function verifyLicense(value: string): Array<string> {
@@ -79,7 +73,7 @@ function verifyLicense(value: string): Array<string> {
         .filter((license): boolean => !!license)
         .map((license): string => {
             if (!isLicenseValid(license) && license !== Literals.UNKNOWN) {
-                throw new commander.InvalidArgumentError(`${EOL}Licenses must adhere to the SPDX specification.`);
+                throw new InvalidArgumentError(`${EOL}Licenses must adhere to the SPDX specification.`);
             }
             return license;
         });
@@ -96,7 +90,7 @@ function verifyExclude(value: string): Array<string | RegExp> {
                 try {
                     return new RegExp(pattern);
                 } catch {
-                    throw new commander.InvalidArgumentError("Invalid regular expression pattern.");
+                    throw new InvalidArgumentError("Invalid regular expression pattern.");
                 }
             }
             return exclude;
