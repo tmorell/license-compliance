@@ -4,10 +4,10 @@ import joi from "joi";
 import path from "node:path";
 
 import { EOL } from "node:os";
-import { Formatter, Report } from "./enumerations.js";
+import { Format, Report } from "./enumerations.js";
 import { Configuration, ExtendableConfiguration } from "./interfaces.js";
 import { processArgs } from "./program.js";
-import { isPathTraversalSafe, toPascal } from "./util.js";
+import { isPathTraversalSafe } from "./util.js";
 
 const packageName = "license-compliance";
 
@@ -66,10 +66,10 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         development: !!mergedConfiguration.development || false,
         direct: mergedConfiguration.direct || false,
         exclude: mergedConfiguration.exclude || [],
-        format: <Formatter>toPascal(mergedConfiguration.format) || Formatter.text,
+        format: <Format>mergedConfiguration.format || Format.text,
         production: !!mergedConfiguration.production || false,
         query: mergedConfiguration.query || [],
-        report: <Report>toPascal(mergedConfiguration.report) || Report.summary,
+        report: <Report>mergedConfiguration.report || Report.summary,
     };
 
     // Validate configuration
@@ -79,7 +79,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
             development: joi.boolean(),
             direct: joi.boolean(),
             exclude: joi.array(),
-            format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text, Formatter.xunit),
+            format: joi.string().valid(Format.csv, Format.json, Format.text, Format.xunit),
             production: joi.boolean(),
             query: joi.array().items(joi.string()),
             report: joi.string().valid(Report.detailed, Report.summary),

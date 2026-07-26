@@ -2,7 +2,7 @@ import test from "ava";
 import sinon from "sinon";
 
 import packInfo from "../../package.json" with { type: "json" };
-import { Formatter, Report } from "../../src/enumerations.js";
+import { Format, Report } from "../../src/enumerations.js";
 import { processArgs } from "../../src/program.js";
 
 test.before((): void => {
@@ -97,7 +97,7 @@ test("Format", (t): void => {
     t.true(configuration.development === undefined);
     t.true(configuration.direct === undefined);
     t.true(configuration.exclude === undefined);
-    t.true(configuration.format === Formatter.json.toLowerCase());
+    t.true(configuration.format === Format.json);
     t.true(configuration.production === undefined);
     t.true(configuration.report === undefined);
 });

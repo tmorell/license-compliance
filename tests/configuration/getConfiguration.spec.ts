@@ -3,7 +3,7 @@ import cosmiconfig from "cosmiconfig";
 import esmock from "esmock";
 import sinon from "sinon";
 
-import { Formatter, Report } from "../../src/enumerations.js";
+import { Format, Report } from "../../src/enumerations.js";
 import { Configuration } from "../../src/interfaces.js";
 
 const NODE_MODULES = "node_modules";
@@ -75,7 +75,7 @@ test.serial("Default configuration", async (t): Promise<void> => {
     t.false(config?.direct);
     t.is(config?.exclude.length, 0);
     t.false(config?.production);
-    t.is(config?.format, Formatter.text);
+    t.is(config?.format, Format.text);
     t.is(config?.report, Report.summary);
 });
 
@@ -115,7 +115,7 @@ test.serial("Inline configuration, not extended", async (t): Promise<void> => {
             config: {
                 production: true,
                 allow: ["MIT", "ISC"],
-                format: Formatter.json.toLowerCase(),
+                format: Format.json.toLowerCase(),
             },
             filepath: "some-path",
             isEmpty: false,
@@ -140,7 +140,7 @@ test.serial("Inline configuration, not extended", async (t): Promise<void> => {
     t.false(config?.direct);
     t.is(config?.exclude.length, 0);
     t.true(config?.production);
-    t.is(config?.format, Formatter.json);
+    t.is(config?.format, Format.json);
     t.is(config?.report, Report.summary);
 });
 
@@ -203,7 +203,7 @@ test.serial("Inline configuration, extended null", async (t): Promise<void> => {
     t.false(config?.direct);
     t.is(config?.exclude.length, 0);
     t.false(config?.production);
-    t.is(config?.format, Formatter.text);
+    t.is(config?.format, Format.text);
     t.is(config?.report, Report.detailed);
 });
 
@@ -286,7 +286,7 @@ test.serial("Inline configuration, extended", async (t): Promise<void> => {
         Promise.resolve({
             config: {
                 allow: ["MIT", "ISC"],
-                format: Formatter.json.toLowerCase(),
+                format: Format.json.toLowerCase(),
                 production: true,
             },
             filepath: "some-path",
@@ -311,7 +311,7 @@ test.serial("Inline configuration, extended", async (t): Promise<void> => {
     t.true(config?.direct);
     t.is(config?.exclude.length, 0);
     t.true(config?.production);
-    t.is(config?.format, Formatter.json);
+    t.is(config?.format, Format.json);
     t.is(config?.report, Report.detailed);
 });
 

@@ -1,8 +1,8 @@
-export enum Formatter {
-    csv = "Csv",
-    json = "Json",
-    text = "Text",
-    xunit = "Xunit",
+export enum Format {
+    csv = "csv",
+    json = "json",
+    text = "text",
+    xunit = "xunit",
 }
 
 export enum LicenseStatus {
@@ -17,6 +17,6 @@ export enum Literals {
 }
 
 export enum Report {
-    detailed = "Detailed",
-    summary = "Summary",
+    detailed = "detailed",
+    summary = "summary",
 }

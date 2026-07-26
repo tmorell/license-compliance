@@ -3,7 +3,7 @@ import { Command, CommanderError, InvalidArgumentError, Option } from "commander
 import { EOL } from "node:os";
 
 import packInfo from "../package.json" with { type: "json" };
-import { Formatter, Literals, Report } from "./enumerations.js";
+import { Format, Literals, Report } from "./enumerations.js";
 import { Configuration } from "./interfaces.js";
 import { isLicenseValid } from "./license.js";
 
@@ -27,7 +27,7 @@ export function processArgs(): Configuration {
         .option("-t, --direct", "Analyzes only direct dependencies (depth = 1).")
         .addOption(
             new Option("-f, --format <format>", "Report format, csv, text, or json (default = text).").choices(
-                Object.keys(Formatter),
+                Object.keys(Format),
             ),
         )
         .addOption(

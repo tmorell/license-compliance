@@ -1,11 +1,11 @@
-import { Formatter, LicenseStatus, Report } from "./enumerations.js";
+import { Format, LicenseStatus, Report } from "./enumerations.js";
 
 export interface Configuration {
     allow: Array<string>;
     development: boolean;
     direct: boolean;
     exclude: Array<string | RegExp>;
-    format: Formatter;
+    format: Format;
     production: boolean;
     query: Array<string>;
     report: Report;

@@ -2,11 +2,11 @@ import test from "ava";
 import esmock from "esmock";
 import sinon from "sinon";
 
-import { Formatter, Report } from "../src/enumerations.js";
-import { Text } from "../src/formatters/text.js";
-import { Configuration, Package } from "../src/interfaces.js";
-import * as reports from "../src/reports/index.js";
-import { Summary } from "../src/reports/summary.js";
+import { Format, Report } from "../../src/enumerations.js";
+import { Text } from "../../src/formatters/text.js";
+import { Configuration, Package } from "../../src/interfaces.js";
+import * as reports from "../../src/reports/index.js";
+import { Summary } from "../../src/reports/summary.js";
 
 test.beforeEach((): void => {
     sinon.stub(process.stdout, "write");
@@ -18,8 +18,8 @@ test.afterEach((): void => {
 });
 
 test.serial("node_modules not found", async (t): Promise<void> => {
-    const { main } = await esmock("../src/main.js", {
-        "../src/node-modules.js": {
+    const { main } = await esmock("../../src/main.js", {
+        "../../src/node-modules.js": {
             getNodeModulesPath: (): Promise<string | null> => Promise.resolve(null),
         },
     });
@@ -29,11 +29,11 @@ test.serial("node_modules not found", async (t): Promise<void> => {
 });
 
 test.serial("Invalid arguments", async (t): Promise<void> => {
-    const { main } = await esmock("../src/main.js", {
-        "../src/node-modules.js": {
+    const { main } = await esmock("../../src/main.js", {
+        "../../src/node-modules.js": {
             getNodeModulesPath: (): Promise<string | null> => Promise.resolve("/"),
         },
-        "../src/configuration.js": {
+        "../../src/configuration.js": {
             getConfiguration: (): Promise<Configuration | null> => Promise.resolve(null),
         },
     });
@@ -45,14 +45,14 @@ test.serial("Invalid arguments", async (t): Promise<void> => {
 
 test.serial("No packages installed", async (t): Promise<void> => {
     const packages = new Array<Package>();
-    const { main } = await esmock("../src/main.js", {
-        "../src/node-modules.js": {
+    const { main } = await esmock("../../src/main.js", {
+        "../../src/node-modules.js": {
             getNodeModulesPath: (): Promise<string | null> => Promise.resolve("/"),
         },
-        "../src/configuration.js": {
+        "../../src/configuration.js": {
             getConfiguration: (): Promise<Configuration | null> => Promise.resolve(getMockConfiguration()),
         },
-        "../src/npm.js": {
+        "../../src/npm.js": {
             getInstalledPackages: (): Promise<Array<Package>> => Promise.resolve(packages),
         },
     });
@@ -73,27 +73,27 @@ test.serial("Get licenses summary", async (t): Promise<void> => {
     });
 
     const stubReport = sinon.stub(reports.Factory, "getInstance").returns(new Summary(new Text()));
-    const { main } = await esmock("../src/main.js", {
-        "../src/node-modules.js": {
+    const { main } = await esmock("../../src/main.js", {
+        "../../src/node-modules.js": {
             getNodeModulesPath: (): Promise<string | null> => Promise.resolve("/"),
         },
-        "../src/configuration.js": {
+        "../../src/configuration.js": {
             getConfiguration: (): Promise<Configuration | null> => Promise.resolve(getMockConfiguration()),
         },
-        "../src/npm.js": {
+        "../../src/npm.js": {
             getInstalledPackages: (): Promise<Array<Package>> => Promise.resolve(packages),
         },
-        "../src/filters.js": {
+        "../../src/filters.js": {
             excludePackages: (): Array<Package> => packages,
         },
-        "../src/license.js": {
+        "../../src/license.js": {
             onlyAllow: (): Array<Package> => packages,
         },
     });
 
     const r = await main();
 
-    t.true(stubReport.calledOnceWith(Report.summary, Formatter.text));
+    t.true(stubReport.calledOnceWith(Report.summary, Format.text));
     t.true(r);
 });
 
@@ -108,11 +108,11 @@ test.serial("Not allowed licenses", async (t): Promise<void> => {
     });
 
     const stubReport = sinon.stub(reports.Factory, "getInstance").returns(new Summary(new Text()));
-    const { main } = await esmock("../src/main.js", {
-        "../src/node-modules.js": {
+    const { main } = await esmock("../../src/main.js", {
+        "../../src/node-modules.js": {
             getNodeModulesPath: (): Promise<string | null> => Promise.resolve("/"),
         },
-        "../src/configuration.js": {
+        "../../src/configuration.js": {
             getConfiguration: (): Promise<Configuration | null> =>
                 Promise.resolve(
                     getMockConfiguration({
@@ -120,20 +120,20 @@ test.serial("Not allowed licenses", async (t): Promise<void> => {
                     }),
                 ),
         },
-        "../src/npm.js": {
+        "../../src/npm.js": {
             getInstalledPackages: (): Promise<Array<Package>> => Promise.resolve(packages),
         },
-        "../src/filters.js": {
+        "../../src/filters.js": {
             excludePackages: (): Array<Package> => packages,
         },
-        "../src/license.js": {
+        "../../src/license.js": {
             onlyAllow: (): Array<Package> => packages,
         },
     });
 
     const r = await main();
 
-    t.true(stubReport.calledOnceWith(Report.summary, Formatter.text));
+    t.true(stubReport.calledOnceWith(Report.summary, Format.text));
     t.false(r);
 });
 
@@ -147,11 +147,11 @@ test.serial("Success", async (t): Promise<void> => {
         repository: "company/project",
     });
 
-    const { main } = await esmock("../src/main.js", {
-        "../src/node-modules.js": {
+    const { main } = await esmock("../../src/main.js", {
+        "../../src/node-modules.js": {
             getNodeModulesPath: (): Promise<string | null> => Promise.resolve("/"),
         },
-        "../src/configuration.js": {
+        "../../src/configuration.js": {
             getConfiguration: (): Promise<Configuration | null> =>
                 Promise.resolve(
                     getMockConfiguration({
@@ -159,13 +159,13 @@ test.serial("Success", async (t): Promise<void> => {
                     }),
                 ),
         },
-        "../src/npm.js": {
+        "../../src/npm.js": {
             getInstalledPackages: (): Promise<Array<Package>> => Promise.resolve(packages),
         },
-        "../src/filters.js": {
+        "../../src/filters.js": {
             excludePackages: (): Array<Package> => packages,
         },
-        "../src/license.js": {
+        "../../src/license.js": {
             onlyAllow: (): Array<Package> => new Array<Package>(),
         },
     });
@@ -185,11 +185,11 @@ test.serial("Success query", async (t): Promise<void> => {
         repository: "company/project",
     });
 
-    const { main } = await esmock("../src/main.js", {
-        "../src/node-modules.js": {
+    const { main } = await esmock("../../src/main.js", {
+        "../../src/node-modules.js": {
             getNodeModulesPath: (): Promise<string | null> => Promise.resolve("/"),
         },
-        "../src/configuration.js": {
+        "../../src/configuration.js": {
             getConfiguration: (): Promise<Configuration | null> =>
                 Promise.resolve(
                     getMockConfiguration({
@@ -197,14 +197,14 @@ test.serial("Success query", async (t): Promise<void> => {
                     }),
                 ),
         },
-        "../src/npm.js": {
+        "../../src/npm.js": {
             getInstalledPackages: (): Promise<Array<Package>> => Promise.resolve(packages),
         },
-        "../src/filters.js": {
+        "../../src/filters.js": {
             excludePackages: (): Array<Package> => packages,
             queryPackages: (): Array<Package> => new Array<Package>(),
         },
-        "../src/license.js": {
+        "../../src/license.js": {
             onlyAllow: (): Array<Package> => new Array<Package>(),
         },
     });
@@ -221,7 +221,7 @@ function getMockConfiguration(overrideConfiguration?: Partial<Configuration>): C
             development: false,
             direct: false,
             exclude: [],
-            format: Formatter.text,
+            format: Format.text,
             production: false,
             query: [],
             report: Report.summary,
