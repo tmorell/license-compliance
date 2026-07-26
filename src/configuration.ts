@@ -84,7 +84,17 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
             query: joi.array().items(joi.string()),
             report: joi.string().valid(Report.detailed, Report.summary),
         })
-        .validate(configuration);
+        .messages({
+            "any.only": "extended option {{#label}} argument '{{#value}}' is invalid. Allowed choices are {{#valids}}.",
+        })
+        .validate(configuration, {
+            errors: {
+                wrap: {
+                    array: "",
+                    label: `'`,
+                },
+            },
+        });
     if (result.error) {
         console.error(chalk.red("Error:"), result.error.message);
         return null;
