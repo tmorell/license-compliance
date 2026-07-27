@@ -63,31 +63,34 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     const mergedConfiguration = Object.assign(configExtended, <Partial<Configuration>>configInline, config);
     const configuration = {
         allow: mergedConfiguration.allow || [],
-        development: !!mergedConfiguration.development || false,
-        direct: mergedConfiguration.direct || false,
+        development: mergedConfiguration.development,
+        direct: mergedConfiguration.direct,
         exclude: mergedConfiguration.exclude || [],
         format: <Format>mergedConfiguration.format || Format.text,
-        production: !!mergedConfiguration.production || false,
+        production: mergedConfiguration.production,
         query: mergedConfiguration.query || [],
         report: <Report>mergedConfiguration.report || Report.summary,
     };
+    console.log(configuration);
 
     // Validate configuration
     const result = joi
         .object({
             allow: joi.array().items(joi.string()),
-            development: joi.boolean(),
-            direct: joi.boolean(),
+            development: joi.boolean().strict(),
+            direct: joi.boolean().strict(),
             exclude: joi.array(),
             format: joi.string().valid(Format.csv, Format.json, Format.text, Format.xunit),
-            production: joi.boolean(),
+            production: joi.boolean().strict(),
             query: joi.array().items(joi.string()),
             report: joi.string().valid(Report.detailed, Report.summary),
         })
         .messages({
             "any.only": "extended option {{#label}} argument '{{#value}}' is invalid. Allowed choices are {{#valids}}.",
+            "boolean.base": "option {{#label}} argument '{{#value}}' is invalid. Expected boolean true or false.",
         })
         .validate(configuration, {
+            convert: false,
             errors: {
                 wrap: {
                     array: "",
@@ -100,6 +103,12 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         return null;
     }
 
+    // Default booleans
+    configuration.development = !!configuration.development;
+    configuration.direct = !!configuration.direct;
+    configuration.production = !!configuration.production;
+
+    console.log(configuration);
     return configuration;
 }
 
