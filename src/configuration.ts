@@ -4,10 +4,11 @@ import joi from "joi";
 import path from "node:path";
 
 import { EOL } from "node:os";
-import { Formatter, Report } from "./enumerations.js";
+import { Format, Report } from "./enumerations.js";
 import { Configuration, ExtendableConfiguration } from "./interfaces.js";
+import { isLicenseValid } from "./license.js";
 import { processArgs } from "./program.js";
-import { isPathTraversalSafe, toPascal } from "./util.js";
+import { isPathTraversalSafe } from "./util.js";
 
 const packageName = "license-compliance";
 
@@ -63,36 +64,69 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     const mergedConfiguration = Object.assign(configExtended, <Partial<Configuration>>configInline, config);
     const configuration = {
         allow: mergedConfiguration.allow || [],
-        development: !!mergedConfiguration.development || false,
-        direct: mergedConfiguration.direct || false,
+        development: mergedConfiguration.development,
+        direct: mergedConfiguration.direct,
         exclude: mergedConfiguration.exclude || [],
-        format: <Formatter>toPascal(mergedConfiguration.format) || Formatter.text,
-        production: !!mergedConfiguration.production || false,
+        format: <Format>mergedConfiguration.format || Format.text,
+        production: mergedConfiguration.production,
         query: mergedConfiguration.query || [],
-        report: <Report>toPascal(mergedConfiguration.report) || Report.summary,
+        report: <Report>mergedConfiguration.report || Report.summary,
     };
 
     // Validate configuration
     const result = joi
         .object({
-            allow: joi.array().items(joi.string()),
-            development: joi.boolean(),
-            direct: joi.boolean(),
+            allow: joiLicense("allow"),
+            development: joi.boolean().strict(),
+            direct: joi.boolean().strict(),
             exclude: joi.array(),
-            format: joi.string().valid(Formatter.csv, Formatter.json, Formatter.text, Formatter.xunit),
-            production: joi.boolean(),
-            query: joi.array().items(joi.string()),
+            format: joi.string().valid(Format.csv, Format.json, Format.text, Format.xunit),
+            production: joi.boolean().strict(),
+            query: joiLicense("query"),
             report: joi.string().valid(Report.detailed, Report.summary),
         })
-        .validate(configuration);
+        .messages({
+            "any.only": "extended option {{#label}} value '{{#value}}' is invalid. Allowed choices are {{#valids}}.",
+            "boolean.base": "extended option {{#label}} value '{{#value}}' is invalid. Expected boolean true or false.",
+        })
+        .validate(configuration, {
+            convert: false,
+            errors: {
+                wrap: {
+                    array: "",
+                    label: `'`,
+                },
+            },
+        });
     if (result.error) {
         console.error(chalk.red("Error:"), result.error.message);
         return null;
     }
+
+    // Default booleans
+    configuration.development = !!configuration.development;
+    configuration.direct = !!configuration.direct;
+    configuration.production = !!configuration.production;
 
     return configuration;
 }
 
 export function isComplianceModeEnabled(configuration: Pick<Configuration, "allow">): boolean {
     return Array.isArray(configuration.allow) && configuration.allow.length > 0;
+}
+
+function joiLicense(option: string): joi.ArraySchema<Array<string>> {
+    return joi
+        .array()
+        .items(joi.string())
+        .custom((licenses: Array<string>, helper): Array<string> | joi.ErrorReport => {
+            for (const license of licenses) {
+                if (!isLicenseValid(license)) {
+                    return helper.message({
+                        custom: `extended option ${option} value '${license}' is invalid.${EOL}Licenses must adhere to the SPDX specification.`,
+                    });
+                }
+            }
+            return licenses;
+        });
 }

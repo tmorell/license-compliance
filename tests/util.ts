@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import { Formatter, Report } from "../src/enumerations.js";
+import { Format, Report } from "../src/enumerations.js";
 import { Configuration } from "../src/interfaces.js";
 
 export function readJson(path: string): unknown {
@@ -14,7 +14,7 @@ export function getDefaultConfiguration(): Configuration {
         direct: false,
         exclude: [],
         production: false,
-        format: Formatter.text,
+        format: Format.text,
         query: [],
         report: Report.summary,
     };

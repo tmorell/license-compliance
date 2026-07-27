@@ -37,9 +37,9 @@ export async function readPackageJson(packagePath: string): Promise<NpmPackage |
     return null;
 }
 
-export function toPascal(value: string | undefined): string | undefined {
+export function toPascal(value: string): string {
     if (!value || value.length < 2) {
-        return value;
+        return value || "";
     }
     return value[0].toUpperCase() + value.substring(1);
 }
