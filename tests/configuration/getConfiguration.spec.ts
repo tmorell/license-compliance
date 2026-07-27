@@ -169,6 +169,36 @@ test.serial("Inline configuration, invalid extended file", async (t): Promise<vo
     t.is(config, null);
 });
 
+test.serial("Inline configuration, invalid license", async (t): Promise<void> => {
+    // Inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                allow: ["invalid-license"],
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+    sinon.stub(explorer, "load").returns(Promise.resolve(null));
+
+    // No command line args
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{},
+        },
+    });
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.is(config, null);
+    t.true(stubStderr.calledOnce);
+    t.true(stubStderr.calledWithMatch("extended option allow value 'invalid-license' is invalid."));
+});
+
 test.serial("Inline configuration, extended null", async (t): Promise<void> => {
     // Inline configuration
     const explorer: Explorer = createExplorer();

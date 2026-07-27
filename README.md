@@ -147,7 +147,7 @@ export default {
 
 > `extends` must reference a package within the project's `node_modules` folder, preventing path traversal.
 
-> The configuration file `.license-compliancerc.js` can also include other properties besides `extends`, allowing you to override the settings from the installed shared package. The command line in the CI will override any configuration; `CLI` > `Inline` > `Shared configuration package`.
+> The configuration file `.license-compliancerc.js` can also include other properties besides `extends`, allowing to override the settings from the installed shared package. The command line arguments override any configuration; priority `CLI` > `.license-compliancerc.js` > `shared configuration package`.
 
 # License
 

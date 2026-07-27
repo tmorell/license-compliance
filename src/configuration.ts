@@ -6,6 +6,7 @@ import path from "node:path";
 import { EOL } from "node:os";
 import { Format, Report } from "./enumerations.js";
 import { Configuration, ExtendableConfiguration } from "./interfaces.js";
+import { isLicenseValid } from "./license.js";
 import { processArgs } from "./program.js";
 import { isPathTraversalSafe } from "./util.js";
 
@@ -71,23 +72,22 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         query: mergedConfiguration.query || [],
         report: <Report>mergedConfiguration.report || Report.summary,
     };
-    console.log(configuration);
 
     // Validate configuration
     const result = joi
         .object({
-            allow: joi.array().items(joi.string()),
+            allow: joiLicense("allow"),
             development: joi.boolean().strict(),
             direct: joi.boolean().strict(),
             exclude: joi.array(),
             format: joi.string().valid(Format.csv, Format.json, Format.text, Format.xunit),
             production: joi.boolean().strict(),
-            query: joi.array().items(joi.string()),
+            query: joiLicense("query"),
             report: joi.string().valid(Report.detailed, Report.summary),
         })
         .messages({
-            "any.only": "extended option {{#label}} argument '{{#value}}' is invalid. Allowed choices are {{#valids}}.",
-            "boolean.base": "option {{#label}} argument '{{#value}}' is invalid. Expected boolean true or false.",
+            "any.only": "extended option {{#label}} value '{{#value}}' is invalid. Allowed choices are {{#valids}}.",
+            "boolean.base": "extended option {{#label}} value '{{#value}}' is invalid. Expected boolean true or false.",
         })
         .validate(configuration, {
             convert: false,
@@ -108,10 +108,25 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     configuration.direct = !!configuration.direct;
     configuration.production = !!configuration.production;
 
-    console.log(configuration);
     return configuration;
 }
 
 export function isComplianceModeEnabled(configuration: Pick<Configuration, "allow">): boolean {
     return Array.isArray(configuration.allow) && configuration.allow.length > 0;
+}
+
+function joiLicense(option: string): joi.ArraySchema<Array<string>> {
+    return joi
+        .array()
+        .items(joi.string())
+        .custom((licenses: Array<string>, helper): Array<string> | joi.ErrorReport => {
+            for (const license of licenses) {
+                if (!isLicenseValid(license)) {
+                    return helper.message({
+                        custom: `extended option ${option} value '${license}' is invalid.${EOL}Licenses must adhere to the SPDX specification.`,
+                    });
+                }
+            }
+            return licenses;
+        });
 }
