@@ -34,7 +34,6 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
             }
 
             const c = await explorer.load(confPath);
-            console.log("c", c);
             configExtended = <Partial<Configuration>>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
@@ -61,7 +60,25 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         return null;
     }
 
-    // Merge configurations: CLI > inline > extended
+    // Allow and query mutual overrides
+    if (configArgs.allow) {
+        if (configExtended) {
+            configExtended.query = [];
+        }
+        if (configInline) {
+            configInline.query = [];
+        }
+    }
+    if (configArgs.query) {
+        if (configExtended) {
+            configExtended.allow = [];
+        }
+        if (configInline) {
+            configInline.allow = [];
+        }
+    }
+
+    // Merge configurations: args > inline > extended
     const mergedConfiguration = { ...configExtended, ...(<Partial<Configuration>>configInline), ...configArgs };
     const configuration = {
         allow: mergedConfiguration.allow || [],
@@ -73,16 +90,6 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         query: mergedConfiguration.query || [],
         report: <Report>mergedConfiguration.report || Report.summary,
     };
-
-    // Allow and query overrides
-    console.log("allow", configArgs?.allow, configInline?.allow, configExtended?.allow);
-    console.log("query", configArgs?.query, configInline?.query, configExtended?.query);
-    if (configArgs.allow && (configInline.query || configExtended.query)) {
-        configuration.query = [];
-    }
-    if (configArgs.query && (configInline.allow || configExtended.allow)) {
-        configuration.allow = [];
-    }
 
     // Validate configuration
     const result = joi
@@ -118,8 +125,6 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     configuration.development = !!configuration.development;
     configuration.direct = !!configuration.direct;
     configuration.production = !!configuration.production;
-
-    console.log(configuration);
 
     return configuration;
 }
