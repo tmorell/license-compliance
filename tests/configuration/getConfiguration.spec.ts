@@ -345,6 +345,138 @@ test.serial("Inline configuration, extended", async (t): Promise<void> => {
     t.is(config?.report, Report.detailed);
 });
 
+test.serial("args allow override query (.license-compliancerc.js)", async (t): Promise<void> => {
+    // No inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                query: ["MIT", "ISC"],
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+
+    // Command line args
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{ allow: ["0BSD"] },
+        },
+    });
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.not(config, null);
+    t.is(config?.query.length, 0);
+    t.is(config?.allow.length, 1);
+    t.is(config?.allow[0], "0BSD");
+});
+
+test.serial("args query override allow (.license-compliancerc.js)", async (t): Promise<void> => {
+    // No inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                allow: ["MIT", "ISC"],
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+
+    // Command line args
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{ query: ["0BSD"] },
+        },
+    });
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.not(config, null);
+    t.is(config?.allow.length, 0);
+    t.is(config?.query.length, 1);
+    t.is(config?.query[0], "0BSD");
+});
+
+test.serial("args allow override query (extended)", async (t): Promise<void> => {
+    // No inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                extends: "@acme/license-policy",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+    sinon.stub(explorer, "load").returns(
+        Promise.resolve({
+            config: { query: ["MIT", "ISC"] },
+            filepath: "node_modules/@acme/license-policy/index.js",
+        }),
+    );
+
+    // Command line args
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{ allow: ["0BSD"] },
+        },
+    });
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.not(config, null);
+    t.is(config?.query.length, 0);
+    t.is(config?.allow.length, 1);
+    t.is(config?.allow[0], "0BSD");
+});
+
+test.serial("args query override allow (extended)", async (t): Promise<void> => {
+    // No inline configuration
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                extends: "@acme/license-policy",
+            },
+            filepath: "some-path",
+            isEmpty: false,
+        }),
+    );
+    sinon.stub(explorer, "load").returns(
+        Promise.resolve({
+            config: { allow: ["MIT", "ISC"] },
+            filepath: "node_modules/@acme/license-policy/index.js",
+        }),
+    );
+
+    // Command line args
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Configuration => <Configuration>{ query: ["0BSD"] },
+        },
+    });
+
+    // Get configuration
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.not(config, null);
+    t.is(config?.allow.length, 0);
+    t.is(config?.query.length, 1);
+    t.is(config?.query[0], "0BSD");
+});
+
 function createExplorer(): Explorer {
     return {
         search: (): Promise<CosmiconfigResult> => Promise.resolve(null),

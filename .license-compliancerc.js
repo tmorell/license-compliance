@@ -3,7 +3,7 @@ export default {
     development: true,
     direct: true,
     exclude: [/^spdx/, "yaml"],
-    // extends: "@tmorell/license-policy",
+    extends: "@tmorell/license-policy",
     format: "text",
     production: true,
     report: "summary",

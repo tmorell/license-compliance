@@ -34,6 +34,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
             }
 
             const c = await explorer.load(confPath);
+            console.log("c", c);
             configExtended = <Partial<Configuration>>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
@@ -53,15 +54,15 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     }
 
     // Get args configuration
-    let config: Configuration;
+    let configArgs: Configuration;
     try {
-        config = processArgs();
+        configArgs = processArgs();
     } catch {
         return null;
     }
 
     // Merge configurations: CLI > inline > extended
-    const mergedConfiguration = Object.assign(configExtended, <Partial<Configuration>>configInline, config);
+    const mergedConfiguration = { ...configExtended, ...(<Partial<Configuration>>configInline), ...configArgs };
     const configuration = {
         allow: mergedConfiguration.allow || [],
         development: mergedConfiguration.development,
@@ -72,6 +73,16 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         query: mergedConfiguration.query || [],
         report: <Report>mergedConfiguration.report || Report.summary,
     };
+
+    // Allow and query overrides
+    console.log("allow", configArgs?.allow, configInline?.allow, configExtended?.allow);
+    console.log("query", configArgs?.query, configInline?.query, configExtended?.query);
+    if (configArgs.allow && (configInline.query || configExtended.query)) {
+        configuration.query = [];
+    }
+    if (configArgs.query && (configInline.allow || configExtended.allow)) {
+        configuration.allow = [];
+    }
 
     // Validate configuration
     const result = joi
@@ -107,6 +118,8 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     configuration.development = !!configuration.development;
     configuration.direct = !!configuration.direct;
     configuration.production = !!configuration.production;
+
+    console.log(configuration);
 
     return configuration;
 }
