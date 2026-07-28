@@ -86,9 +86,10 @@
         "debug:watch": "DEBUG=license-compliance:* DEBUG_COLORS=true tsc-watch --onSuccess 'node ./lib/index.js'",
         "lint": "eslint",
         "prettier": "prettier --check .",
-        "test": "ava",
-        "test:ci": "npm run c8",
-        "test:watch": "ava --watch"
+        "test": "npm run typecheck && ava",
+        "test:ci": "npm run typecheck && npm run c8",
+        "test:watch": "ava --watch",
+        "typecheck": "tsc --noEmit"
     },
     "type": "module",
     "types": "./lib/index.d.ts",
