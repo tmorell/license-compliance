@@ -86,6 +86,7 @@ Packages
 - `-e, --exclude <packages>` Semicolon separated list of package names to be excluded from the analysis. Regex expressions are supported.
 - `-q, --query <licenses>` Semicolon separated list of licenses.
 - `-v, --version` Display license-compliance version
+- `-s, --show-config` Shows the configuration being used.
 - `-h, --help` Display help for command
 
 > `<licenses>` must conform to [SPDX](https://spdx.org/licenses) specifications.
@@ -148,6 +149,59 @@ export default {
 > `extends` must reference a package within the project's `node_modules` folder, preventing path traversal.
 
 > The configuration file `.license-compliancerc.js` can also include other properties besides `extends`, allowing to override the settings from the installed shared package. The command line arguments override any configuration; priority `CLI` > `.license-compliancerc.js` > `shared configuration package`.
+
+## Show Configuration
+
+There are three different sources to configure options, `args` > `inline (.license-compliancerc.js)` > `extended (module)`.
+`Show configuration` assists identifying or troubleshooting the source of the values. For example:
+
+args:
+
+```bash
+license-compliance -s -a "Apache-2.0"
+```
+
+.license-compliancerc.js:
+
+```javascript
+export default {
+    allow: ["MIT", "0BSD", "BSD-3-Clause"],
+    development: false,
+    direct: true,
+    extends: "@tmorell/license-policy",
+    format: "text",
+    production: true,
+    report: "summary",
+};
+```
+
+extended module:
+
+```javascript
+export default {
+    allow: ["MIT", "ISC"],
+    exclude: [/^@acme/],
+    format: "json",
+};
+```
+
+Outputs:
+
+```
+┌─────────────┬───────────────┬──────────────┬───────────────────────────┬────────────┐
+│ (index)     │ configuration │ args         │ inline                    │ extended   │
+├─────────────┼───────────────┼──────────────┼───────────────────────────┼────────────┤
+│ allow       │ 'Apache-2.0'  │ 'Apache-2.0' │ 'MIT, 0BSD, BSD-3-Clause' │ 'MIT, ISC' │
+│ development │ false         │ '-'          │ false                     │ '-'        │
+│ direct      │ true          │ '-'          │ true                      │ '-'        │
+│ exclude     │ '/^@acme/'    │ '-'          │ '-'                       │ '/^@acme/' │
+│ format      │ 'text'        │ '-'          │ 'text'                    │ 'json'     │
+│ production  │ true          │ '-'          │ true                      │ '-'        │
+│ query       │ '-'           │ '-'          │ '-'                       │ '-'        │
+│ report      │ 'summary'     │ '-'          │ 'summary'                 │ '-'        │
+│ showConfig  │ true          │ true         │ '-'                       │ '-'        │
+└─────────────┴───────────────┴──────────────┴───────────────────────────┴────────────┘
+```
 
 # License
 
