@@ -25,6 +25,7 @@ export function processArgs(): Configuration {
         .option("-p, --production", "Analyzes only production dependencies.")
         .addOption(new Option("-d, --development", "Analyzes only development dependencies.").conflicts("production"))
         .option("-t, --direct", "Analyzes only direct dependencies (depth = 1).")
+        .option("-s, --show-config", "Shows the configuration being used.")
         .addOption(
             new Option("-f, --format <format>", "Report format, csv, text, or json (default = text).").choices(
                 Object.keys(Format),

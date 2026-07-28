@@ -9,6 +9,7 @@ export interface Configuration {
     production: boolean;
     query: Array<string>;
     report: Report;
+    showConfig: boolean;
 }
 
 export interface ExtendableConfiguration extends Partial<Configuration> {

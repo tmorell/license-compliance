@@ -17,5 +17,6 @@ export function getDefaultConfiguration(): Configuration {
         format: Format.text,
         query: [],
         report: Report.summary,
+        showConfig: false,
     };
 }
