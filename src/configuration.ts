@@ -53,15 +53,33 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     }
 
     // Get args configuration
-    let config: Configuration;
+    let configArgs: Configuration;
     try {
-        config = processArgs();
+        configArgs = processArgs();
     } catch {
         return null;
     }
 
-    // Merge configurations: CLI > inline > extended
-    const mergedConfiguration = Object.assign(configExtended, <Partial<Configuration>>configInline, config);
+    // Allow and query mutual overrides
+    if (configArgs.allow) {
+        if (configExtended) {
+            configExtended.query = [];
+        }
+        if (configInline) {
+            configInline.query = [];
+        }
+    }
+    if (configArgs.query) {
+        if (configExtended) {
+            configExtended.allow = [];
+        }
+        if (configInline) {
+            configInline.allow = [];
+        }
+    }
+
+    // Merge configurations: args > inline > extended
+    const mergedConfiguration = { ...configExtended, ...(<Partial<Configuration>>configInline), ...configArgs };
     const configuration = {
         allow: mergedConfiguration.allow || [],
         development: mergedConfiguration.development,
