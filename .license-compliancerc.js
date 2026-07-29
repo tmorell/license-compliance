@@ -1,10 +1,11 @@
 export default {
     allow: ["MIT", "0BSD", "BSD-3-Clause"],
-    development: true,
+    development: false,
     direct: true,
-    exclude: [/^spdx/, "yaml"],
+    exclude: [],
     // extends: "@tmorell/license-policy",
     format: "text",
     production: true,
+    query: [],
     report: "summary",
 };

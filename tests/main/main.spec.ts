@@ -225,6 +225,7 @@ function getMockConfiguration(overrideConfiguration?: Partial<Configuration>): C
             production: false,
             query: [],
             report: Report.summary,
+            showConfig: false,
         },
         overrideConfiguration,
     );

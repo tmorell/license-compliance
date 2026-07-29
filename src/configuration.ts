@@ -89,6 +89,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         production: mergedConfiguration.production,
         query: mergedConfiguration.query || [],
         report: <Report>mergedConfiguration.report || Report.summary,
+        showConfig: mergedConfiguration.showConfig,
     };
 
     // Validate configuration
@@ -102,6 +103,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
             production: joi.boolean().strict(),
             query: joiLicense("query"),
             report: joi.string().valid(Report.detailed, Report.summary),
+            showConfig: joi.boolean().strict(),
         })
         .messages({
             "any.only": "extended option {{#label}} value '{{#value}}' is invalid. Allowed choices are {{#valids}}.",
@@ -125,12 +127,56 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     configuration.development = !!configuration.development;
     configuration.direct = !!configuration.direct;
     configuration.production = !!configuration.production;
+    configuration.showConfig = !!configuration.showConfig;
+
+    if (configuration.showConfig) {
+        showConfig(configExtended, <Partial<Configuration>>configInline, configArgs, configuration);
+    }
 
     return configuration;
 }
 
 export function isComplianceModeEnabled(configuration: Pick<Configuration, "allow">): boolean {
     return Array.isArray(configuration.allow) && configuration.allow.length > 0;
+}
+
+function showConfig(
+    extended: Partial<Configuration>,
+    inline: Partial<Configuration>,
+    args: Configuration,
+    configuration: Configuration,
+): void {
+    inline ??= {};
+    extended ??= {};
+    const keys = <
+        Array<keyof Configuration> //
+    >Object.keys({ ...extended, ...inline, ...args, ...configuration }).toSorted((a, b): number => a.localeCompare(b));
+    const tableData: Record<string, Record<string, string>> = {};
+    for (const key of keys) {
+        tableData[key] = {
+            configuration: formatValue(configuration[key]),
+            args: formatValue(args[key]),
+            inline: formatValue(inline[key]),
+            extended: formatValue(extended[key]),
+        };
+    }
+    console.table(tableData);
+}
+
+function formatValue(value: unknown): string {
+    if (value === undefined || value === null) {
+        return "-";
+    }
+    if (Array.isArray(value)) {
+        if (value.length === 0) {
+            return "-";
+        }
+        return value.map((v): string => (v instanceof RegExp ? v.toString() : v)).join(", ");
+    }
+    if (typeof value === "boolean") {
+        return <string>(<unknown>value);
+    }
+    return <string>value;
 }
 
 function joiLicense(option: string): joi.ArraySchema<Array<string>> {

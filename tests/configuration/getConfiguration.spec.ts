@@ -76,6 +76,7 @@ test.serial("Command args success", async (t): Promise<void> => {
                     production: true,
                     query: [],
                     report: Report.detailed,
+                    showConfig: true,
                 };
             },
         },
@@ -93,6 +94,7 @@ test.serial("Command args success", async (t): Promise<void> => {
     t.true(config.production);
     t.is(config.query.length, 0);
     t.is(config.report, Report.detailed);
+    t.is(config.showConfig, true);
 });
 
 // Inline only
@@ -582,6 +584,7 @@ function assertDefaultConfig(t: ExecutionContext<unknown>, config: Configuration
     t.false(config?.production);
     t.is(config?.query.length, 0);
     t.is(config?.report, Report.summary);
+    t.is(config?.showConfig, false);
 }
 
 function getDefaultConfig(): Configuration {
@@ -594,5 +597,6 @@ function getDefaultConfig(): Configuration {
         production: false,
         query: [],
         report: Report.summary,
+        showConfig: false,
     };
 }
