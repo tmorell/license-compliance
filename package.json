@@ -1,7 +1,7 @@
 {
     "author": "Teo Morell <teomorell@gmail.com>",
     "bin": {
-        "license-compliance": "./bin/cli.js"
+        "license-compliance": "bin/cli.js"
     },
     "bugs": {
         "url": "https://github.com/tmorell/license-compliance/issues"
@@ -93,5 +93,5 @@
     },
     "type": "module",
     "types": "./lib/index.d.ts",
-    "version": "4.0.0"
+    "version": "3.0.1"
 }
