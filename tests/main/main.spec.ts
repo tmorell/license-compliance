@@ -218,6 +218,7 @@ function getMockConfiguration(overrideConfiguration?: Partial<Configuration>): C
     return Object.assign(
         {
             allow: [],
+            config: true,
             development: false,
             direct: false,
             exclude: [],

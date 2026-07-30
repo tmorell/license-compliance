@@ -10,6 +10,7 @@ export function readJson(path: string): unknown {
 export function getDefaultConfiguration(): Configuration {
     return {
         allow: [],
+        config: true,
         development: false,
         direct: false,
         exclude: [],

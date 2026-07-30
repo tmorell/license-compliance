@@ -6,6 +6,7 @@ import sinon from "sinon";
 import { getConfiguration as getConfigurationFunc } from "../../src/configuration.js";
 import { Format, Report } from "../../src/enumerations.js";
 import { Configuration } from "../../src/interfaces.js";
+import { getDefaultConfiguration } from "../util.js";
 
 const NODE_MODULES = "node_modules";
 
@@ -73,6 +74,7 @@ test.serial("Command args success", async (t): Promise<void> => {
                     direct: true,
                     exclude: [/@acme/],
                     format: Format.json,
+                    config: false,
                     production: true,
                     query: [],
                     report: Report.detailed,
@@ -482,7 +484,7 @@ test.serial("Hierarchy overwrite extended <- args", async (t): Promise<void> => 
     const { getConfiguration } = await esmock("../../src/configuration.js", {
         "../../src/program.js": {
             processArgs: (): Configuration => {
-                return { ...getDefaultConfig(), ...{ allow: ["MIT"] } };
+                return { ...getDefaultConfiguration(), ...{ allow: ["MIT"] } };
             },
         },
     });
@@ -508,7 +510,7 @@ test.serial("Hierarchy overwrite inline <- args", async (t): Promise<void> => {
     const { getConfiguration } = await esmock("../../src/configuration.js", {
         "../../src/program.js": {
             processArgs: (): Configuration => {
-                return { ...getDefaultConfig(), ...{ allow: ["MIT"] } };
+                return { ...getDefaultConfiguration(), ...{ allow: ["MIT"] } };
             },
         },
     });
@@ -544,7 +546,7 @@ test.serial("Hierarchy overwrite extended <- inline <- args", async (t): Promise
     const { getConfiguration } = await esmock("../../src/configuration.js", {
         "../../src/program.js": {
             processArgs: (): Configuration => {
-                return { ...getDefaultConfig(), ...{ allow: ["MIT"] } };
+                return { ...getDefaultConfiguration(), ...{ allow: ["MIT"] } };
             },
         },
     });
@@ -554,6 +556,50 @@ test.serial("Hierarchy overwrite extended <- inline <- args", async (t): Promise
     t.not(config, null);
     t.is(config?.allow.length, 1);
     t.is(config?.allow[0], "MIT");
+});
+
+// No config
+test.serial("No config", async (t): Promise<void> => {
+    const explorer: Explorer = createExplorer();
+    sinon.stub(cosmiconfig, "cosmiconfig").returns(explorer);
+    sinon.stub(explorer, "search").returns(
+        Promise.resolve({
+            config: {
+                extends: "@acme/license-policy",
+                report: Report.detailed,
+            },
+            filepath: "path",
+        }),
+    );
+    sinon.stub(explorer, "load").returns(
+        Promise.resolve({
+            config: {
+                format: Format.json,
+            },
+            filepath: "path",
+            isEmpty: false,
+        }),
+    );
+    const { getConfiguration } = await esmock("../../src/configuration.js", {
+        "../../src/program.js": {
+            processArgs: (): Partial<Configuration> => {
+                return {
+                    allow: ["MIT"],
+                    config: false,
+                    showConfig: true,
+                };
+            },
+        },
+    });
+
+    const config = await getConfiguration(NODE_MODULES);
+
+    t.not(config, null);
+    t.is(config?.allow.length, 1);
+    t.is(config?.allow[0], "MIT");
+    // Default values due to `no-config` discarding inline and extend
+    t.is(config?.format, Format.text);
+    t.is(config?.report, Report.summary);
 });
 
 // Utils
@@ -577,6 +623,7 @@ function createExplorer(): Explorer {
 function assertDefaultConfig(t: ExecutionContext<unknown>, config: Configuration | null): void {
     t.not(config, null);
     t.is(config?.allow.length, 0);
+    t.true(config?.config);
     t.false(config?.development);
     t.false(config?.direct);
     t.is(config?.exclude.length, 0);
@@ -585,18 +632,4 @@ function assertDefaultConfig(t: ExecutionContext<unknown>, config: Configuration
     t.is(config?.query.length, 0);
     t.is(config?.report, Report.summary);
     t.is(config?.showConfig, false);
-}
-
-function getDefaultConfig(): Configuration {
-    return {
-        allow: [],
-        development: false,
-        direct: false,
-        exclude: [],
-        format: Format.text,
-        production: false,
-        query: [],
-        report: Report.summary,
-        showConfig: false,
-    };
 }

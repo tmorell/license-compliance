@@ -2,6 +2,7 @@ import { Format, LicenseStatus, Report } from "./enumerations.js";
 
 export interface Configuration {
     allow: Array<string>;
+    config: boolean;
     development: boolean;
     direct: boolean;
     exclude: Array<string | RegExp>;

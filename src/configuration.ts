@@ -13,14 +13,13 @@ import { isPathTraversalSafe } from "./util.js";
 const packageName = "license-compliance";
 
 export async function getConfiguration(nodeModulesPath: string): Promise<Configuration | null> {
-    let configExtended: Partial<Configuration> = {};
-
     // Get inline configuration
     const explorer = cosmiconfigPkg.cosmiconfig(packageName, { searchStrategy: "global" });
     const configResult = await explorer.search();
-    const configInline = <ExtendableConfiguration>configResult?.config;
+    let configInline = <ExtendableConfiguration>configResult?.config;
 
     // Get extended configuration
+    let configExtended: Partial<Configuration> = {};
     const extendsPath = configInline?.extends;
     if (extendsPath) {
         try {
@@ -34,7 +33,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
             }
 
             const c = await explorer.load(confPath);
-            configExtended = <Partial<Configuration>>c?.config || {};
+            configExtended = <Configuration>c?.config || {};
             delete configInline.extends;
         } catch (error: unknown) {
             if (error instanceof Error && "code" in error && error.code === "ENOENT") {
@@ -60,6 +59,12 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
         return null;
     }
 
+    // Discard inline and extended configuration if `no-config` in args.
+    if (!configArgs.config) {
+        configInline = {};
+        configExtended = {};
+    }
+
     // Allow and query mutual overrides
     if (configArgs.allow) {
         if (configExtended) {
@@ -79,9 +84,10 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     }
 
     // Merge configurations: args > inline > extended
-    const mergedConfiguration = { ...configExtended, ...(<Partial<Configuration>>configInline), ...configArgs };
+    const mergedConfiguration = { ...configExtended, ...(<Configuration>configInline), ...configArgs };
     const configuration = {
         allow: mergedConfiguration.allow || [],
+        config: mergedConfiguration.config,
         development: mergedConfiguration.development,
         direct: mergedConfiguration.direct,
         exclude: mergedConfiguration.exclude || [],
@@ -96,6 +102,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     const result = joi
         .object({
             allow: joiLicense("allow"),
+            config: joi.boolean().strict(),
             development: joi.boolean().strict(),
             direct: joi.boolean().strict(),
             exclude: joi.array(),
@@ -130,7 +137,7 @@ export async function getConfiguration(nodeModulesPath: string): Promise<Configu
     configuration.showConfig = !!configuration.showConfig;
 
     if (configuration.showConfig) {
-        showConfig(configExtended, <Partial<Configuration>>configInline, configArgs, configuration);
+        showConfig(configExtended, <Configuration>configInline, configArgs, configuration);
     }
 
     return configuration;
