@@ -24,7 +24,7 @@
         "@eslint/js": "10.0.1",
         "@stylistic/eslint-plugin": "5.10.0",
         "@types/debug": "4.1.13",
-        "@types/node": "26.1.1",
+        "@types/node": "26.2.0",
         "@types/sinon": "22.0.0",
         "@types/spdx-expression-parse": "4.0.0",
         "@types/spdx-satisfies": "6.0.0",
