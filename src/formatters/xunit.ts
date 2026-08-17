@@ -1,4 +1,4 @@
-import xmlbuilder from "xmlbuilder";
+import { create } from "xmlbuilder2";
 
 import { Package } from "../interfaces.js";
 import { Formatter } from "./formatter.js";
@@ -120,25 +120,8 @@ export class Xunit implements Formatter {
     }
 
     private serializeObjectToXml(object: Record<string, RecursiveXmlValue | XUnitTestSuites>): string {
-        return xmlbuilder
-            .create(object, {
-                stringify: {
-                    attEscape: this.escapeString,
-                    textEscape: this.escapeString,
-                },
-            })
-            .dec("1.0", "UTF-8")
-            .end({
-                pretty: true,
-            });
-    }
-
-    private escapeString(text: string): string {
-        return text
-            .replaceAll("&", "&amp;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&apos;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;");
+        return create({ version: "1.0", encoding: "UTF-8" }, object).end({
+            prettyPrint: true,
+        });
     }
 }
