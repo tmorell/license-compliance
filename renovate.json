@@ -1,3 +1,57 @@
 {
-    "extends": ["config:base"]
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": ["config:recommended"],
+    "labels": ["dependencies"],
+    "lockFileMaintenance": {
+        "enabled": true,
+        "schedule": ["before 4am on Monday"]
+    },
+    "minimumReleaseAge": "3 days",
+    "packageRules": [
+        {
+            "dependencyDashboardApproval": true,
+            "description": "Dependencies",
+            "matchDepTypes": ["dependencies"],
+            "matchUpdateTypes": ["major"]
+        },
+        {
+            "description": "Linter and code style dependencies",
+            "groupName": "linters and formatters",
+            "matchPackageNames": ["eslint", "prettier"],
+            "matchPackagePatterns": ["^@eslint/", "^@stylistic/", "^@typescript-eslint/", "^eslint-", "^prettier-"]
+        },
+        {
+            "description": "Testing dependencies",
+            "groupName": "testing dependencies",
+            "matchPackageNames": ["ava", "c8", "sinon", "esmock", "eslint-plugin-ava"],
+            "matchPackagePatterns": ["^@types/sinon"]
+        },
+        {
+            "description": "TypeScript and type definitions",
+            "groupName": "typescript dependencies",
+            "matchPackageNames": ["typescript", "ts-node", "tsc-watch"],
+            "matchPackagePatterns": ["^@types/"]
+        },
+        {
+            "description": "GitHub Actions workflow updates",
+            "groupName": "github actions",
+            "matchManagers": ["github-actions"],
+            "pinDigests": true
+        },
+        {
+            "automerge": false,
+            "description": "Automerge patch updates for devDependencies when CI succeeds",
+            "groupName": "dev dependencies (non-major)",
+            "matchDepTypes": ["devDependencies"],
+            "matchUpdateTypes": ["patch"]
+        }
+    ],
+    "postUpdateOptions": ["npmDedupe"],
+    "schedule": ["before 4am on monday"],
+    "timezone": "UTC",
+    "vulnerabilityAlerts": {
+        "enabled": true,
+        "labels": ["security"],
+        "schedule": ["at any time"]
+    }
 }
