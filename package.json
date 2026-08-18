@@ -14,7 +14,7 @@
         "joi": "18.2.3",
         "spdx-expression-parse": "5.0.0",
         "spdx-satisfies": "6.0.0",
-        "xmlbuilder": "15.1.1"
+        "xmlbuilder2": "4.0.3"
     },
     "description": "License compliance checker",
     "devDependencies": {
