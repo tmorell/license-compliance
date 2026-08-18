@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# ANSI color codes
+RED='\033[0;31m'
+RESET='\033[0m'
+YELLOW='\033[0;33m'
+
+# $1 arg temp file path with commit message
+msg_file="$1"
+msg=$(cat "$msg_file")
+
+# 1. Run Commitlint convention check
+npx --no -- commitlint --edit "$msg_file"
+commitlint_status=$?
+
+if [ $commitlint_status -ne 0 ]; then
+    exit $commitlint_status
+fi
+
+# 2. Run Spell check if aspell is available
+if ! command -v aspell &> /dev/null; then
+    printf "${YELLOW}Warning${RESET}: 'aspell' is not installed. Skipping spell check.\n"
+    exit 0
+fi
+
+errors=$(aspell -a <<< "$msg" 2>/dev/null | awk '/^&/ {print $2}' | sort -u)
+if [ -n "$errors" ]; then
+    printf "${RED}Error${RESET}: There are misspelled words in the commit message.\n"
+    printf "Fix the typos or add them to your dictionary (typically '~/.aspell.en.pws').\n"
+    while read -r word; do
+        if [ -n "$word" ]; then
+            printf "  * %s\n" "$word"
+        fi
+    done <<< "$errors"
+    exit 1
+fi
