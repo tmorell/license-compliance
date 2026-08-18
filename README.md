@@ -1,6 +1,7 @@
 [![GitHub Actions](https://github.com/tmorell/license-compliance/actions/workflows/ci.yaml/badge.svg)](https://github.com/tmorell/license-compliance/actions/workflows/ci.yaml)
 [![Known Vulnerabilities](https://snyk.io/test/github/tmorell/license-compliance/badge.svg)](https://snyk.io/test/github/tmorell/license-compliance)
 [![Socket Security](https://socket.dev/api/badge/npm/package/license-compliance)](https://socket.dev/npm/package/license-compliance)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/tmorell/license-compliance/badge)](https://scorecard.dev/viewer/?uri=github.com/tmorell/license-compliance)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tmorell_license-compliance&metric=alert_status)](https://sonarcloud.io/dashboard?id=tmorell_license-compliance)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tmorell_license-compliance&metric=coverage)](https://sonarcloud.io/dashboard?id=tmorell_license-compliance)
 
