@@ -35,6 +35,7 @@
         "eslint-config-prettier": "10.1.8",
         "eslint-plugin-ava": "16.0.1",
         "esmock": "2.7.6",
+        "fast-check": "4.9.0",
         "madge": "8.0.0",
         "prettier": "3.9.6",
         "prettier-plugin-organize-imports": "4.3.0",
@@ -75,7 +76,7 @@
         "url": "git+https://github.com/tmorell/license-compliance.git"
     },
     "scripts": {
-        "all": "npm run build && npm run circular && npm run lint && npm run prettier && npm run test:ci",
+        "all": "npm run build && npm run circular && npm run lint && npm run prettier && npm run test:fuzz && npm run test:ci",
         "build": "npm run cleanup && tsc -p tsconfig.build.json",
         "c8": "c8 ava",
         "circular": "madge --extensions ts --circular src",
@@ -87,6 +88,7 @@
         "prettier": "prettier --check .",
         "test": "npm run typecheck && ava",
         "test:ci": "npm run typecheck && npm run c8",
+        "test:fuzz": "npm run typecheck && ava tests/fuzz/*.spec.ts",
         "test:watch": "ava --watch",
         "typecheck": "tsc --noEmit"
     },

@@ -1,0 +1,55 @@
+name: Release Provenance & Signing
+
+on:
+  release:
+    types:
+      - published
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: read
+
+jobs:
+  generate-provenance:
+    name: Generate Provenance & Assets
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package tarball
+        run: npm pack
+
+      - name: Generate release checksums
+        run: |
+          sha256sum *.tgz > checksums.txt
+
+      - name: Generate build provenance attestation
+        uses: actions/attest-build-provenance@c074443f1a5f4a0a9057b545f4ec28205dbd4e5f # v2.2.3
+        with:
+          subject-path: "license-compliance-*.tgz"
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@c95fe0f26ba6177893aef4c9fb641a9ff6969507 # v2.2.1
+        with:
+          files: |
+            checksums.txt
+            license-compliance-*.tgz
