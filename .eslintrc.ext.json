@@ -1,4 +1,5 @@
 {
+    "files": ["*.ts", "*.tsx", "*.mts"],
     "rules": {
         "@stylistic/brace-style": "error",
         "@stylistic/comma-spacing": "error",
