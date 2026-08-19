@@ -67,9 +67,21 @@
     ],
     "homepage": "https://github.com/tmorell/license-compliance#readme",
     "keywords": [
+        "audit",
+        "ci",
         "cli",
         "compliance",
-        "license"
+        "dependencies",
+        "dependency-audit",
+        "legal",
+        "license",
+        "license-audit",
+        "license-checker",
+        "license-compliance",
+        "license-scanner",
+        "policy",
+        "spdx",
+        "xunit"
     ],
     "license": "MIT",
     "main": "./lib/index.js",
