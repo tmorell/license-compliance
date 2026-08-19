@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process";
+import { execFileSync, execSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -35,5 +35,5 @@ pkg.contributors = contributors;
 await fs.writeFile(packageJsonPath, JSON.stringify(pkg, null, 4), "utf-8");
 
 // Run prettier on package.json to format properly
-execSync(`npx prettier --write ${packageJsonPath}`);
+execFileSync("npx", ["prettier", "--write", packageJsonPath], { stdio: "inherit" });
 console.log(`Updated package.json with ${contributors.length} contributors.`);
