@@ -4,6 +4,7 @@ import stylistic from "@stylistic/eslint-plugin";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import avaPlugin from "eslint-plugin-ava";
+import globals from "globals";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,7 +18,7 @@ const compat = new FlatCompat({
 
 export default [
     {
-        ignores: ["**/*.js", "**/docs", "**/layers", "**/lib", "**/node_modules", "tests/mock-packages"],
+        ignores: ["**/docs", "**/layers", "**/lib", "**/node_modules", "tests/mock-packages"],
     },
     ...compat.extends(
         "eslint:recommended",
@@ -33,6 +34,20 @@ export default [
         },
         languageOptions: {
             parser: tsParser,
+        },
+    },
+    {
+        files: ["**/*.mjs", "**/*.js"],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+        },
+        rules: {
+            "@typescript-eslint/explicit-function-return-type": "off",
+            "@typescript-eslint/explicit-member-accessibility": "off",
+            "@typescript-eslint/consistent-type-assertions": "off",
+            "@typescript-eslint/no-require-imports": "off",
         },
     },
 ];

@@ -7,7 +7,6 @@ import { isLicenseValid, onlyAllow, spdxToArray } from "../../src/license.js";
 const numRuns = process.env.FUZZ_RUNS ? parseInt(process.env.FUZZ_RUNS, 10) : 100;
 
 test("fuzz test: isLicenseValid should never throw uncaught exception on arbitrary string input", (t): void => {
-    console.log(numRuns);
     t.notThrows((): void => {
         fc.assert(
             fc.property(fc.string(), (inputString: string): boolean => {

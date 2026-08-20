@@ -6,6 +6,11 @@
     "bugs": {
         "url": "https://github.com/tmorell/license-compliance/issues"
     },
+    "contributors": [
+        "Alex <32290337+ahoisl@users.noreply.github.com>",
+        "Florent SCHILDKNECHT <1577155+flo-sch@users.noreply.github.com>",
+        "Mark Vayngrib <mvayngrib@gmail.com>"
+    ],
     "dependencies": {
         "chalk": "5.6.2",
         "commander": "14.0.3",
@@ -62,9 +67,21 @@
     ],
     "homepage": "https://github.com/tmorell/license-compliance#readme",
     "keywords": [
+        "audit",
+        "ci",
         "cli",
         "compliance",
-        "license"
+        "dependencies",
+        "dependency-audit",
+        "legal",
+        "license",
+        "license-audit",
+        "license-checker",
+        "license-compliance",
+        "license-scanner",
+        "policy",
+        "spdx",
+        "xunit"
     ],
     "license": "MIT",
     "main": "./lib/index.js",
@@ -84,6 +101,7 @@
         "c8": "c8 ava",
         "circular": "madge --extensions ts --circular src",
         "cleanup": "rm -rf ./lib ./coverage",
+        "contrib": "node scripts/contrib.mjs",
         "coverage": "c8 report --reporter=html && npx open-cli ./coverage/index.html ",
         "coverage:ci": "c8 report --reporter=lcov",
         "debug:watch": "DEBUG=license-compliance:* DEBUG_COLORS=true tsc-watch --onSuccess 'node ./lib/index.js'",
