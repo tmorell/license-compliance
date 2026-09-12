@@ -43,12 +43,12 @@ jobs:
           sha256sum *.tgz > checksums.txt
 
       - name: Generate build provenance attestation
-        uses: actions/attest-build-provenance@c074443f1a5f4a0a9057b545f4ec28205dbd4e5f # v2.2.3
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
         with:
           subject-path: "license-compliance-*.tgz"
 
       - name: Upload release assets
-        uses: softprops/action-gh-release@c95fe0f26ba6177893aef4c9fb641a9ff6969507 # v2.2.1
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
         with:
           files: |
             checksums.txt
